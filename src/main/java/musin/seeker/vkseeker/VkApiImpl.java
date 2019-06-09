@@ -4,17 +4,21 @@ import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import lombok.SneakyThrows;
+import lombok.Synchronized;
 import musin.seeker.vkseeker.db.RelationChange;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.vk.api.sdk.client.Lang.EN;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
-import static musin.seeker.vkseeker.RelationType.*;
+import static musin.seeker.vkseeker.RelationType.FOLLOWER;
+import static musin.seeker.vkseeker.RelationType.FRIEND;
 
 @Service
 public class VkApiImpl implements VkApi {
@@ -39,6 +43,7 @@ public class VkApiImpl implements VkApi {
 
     @Override
     @SneakyThrows
+    @Synchronized
     public List<Integer> loadFriends(int userId) {
         sleep();
         return vkApi.friends()
@@ -51,6 +56,7 @@ public class VkApiImpl implements VkApi {
 
     @Override
     @SneakyThrows
+    @Synchronized
     public List<Integer> loadFollowers(int userId) {
         sleep();
         return vkApi.users()
@@ -76,14 +82,15 @@ public class VkApiImpl implements VkApi {
                 .collect(toList());
     }
     @SneakyThrows
+    @Synchronized
     private void loadUsersToCache(List<Integer> userIds) {
-        userIds = new ArrayList<>(userIds);
-        userIds.removeIf(usersCache::containsKey);
-        if (userIds.isEmpty()) return;
-        sleep();
         List<String> asString = userIds.stream()
+                .filter(id -> !usersCache.containsKey(id))
+                .distinct()
                 .map(Object::toString)
                 .collect(toList());
+        if (asString.isEmpty()) return;
+        sleep();
         vkApi.users()
                 .get(userActor)
                 .userIds(asString)
@@ -96,7 +103,7 @@ public class VkApiImpl implements VkApi {
     }
 
     @Override
-    public List<RelationChange> buildChanges(int userId) {
+    public List<RelationChange> buildChangesForNewUser(int userId) {
         final List<Integer> friends = loadFriends(userId);
         final List<Integer> followers = loadFollowers(userId);
         final RelationList list = new RelationList(userId);

@@ -16,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
+import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -46,20 +48,26 @@ public class MainController {
 
     @RequestMapping("/seekers/{owner}/changes")
     public ModelAndView changes(@PathVariable("owner") int owner) {
-        List<RelationChangeDto> changes = relationChangeService.findAllByOwner(owner).stream()
+        List<RelationChange> changes = relationChangeService.findAllByOwner(owner).stream()
                 .filter(rc -> !rc.isHidden())
+                .collect(toList());
+        List<Integer> userIds = changes.stream()
+                .map(RelationChange::getTarget)
+                .collect(toList());
+        vkApi.loadUsers(userIds);
+        List<RelationChangeDto> changeDtos = changes.stream()
                 .map(this::relationChangeDtoFromDb)
-                .sorted(Comparator.comparingInt(RelationChangeDto::getId).reversed())
+                .sorted(comparingInt(RelationChangeDto::getId).reversed())
                 .collect(toList());
         return new ModelAndView("changes", "model", new FullSeekerDto(
                 seekerFromDb(owner),
-                changes
+                changeDtos
         ));
     }
 
     @RequestMapping(value = "/seekers", method = POST)
     public String registerSeeker(@ModelAttribute NewSeekerDto newSeeker) {
-        final List<RelationChange> changes = vkApi.buildChanges(newSeeker.userId);
+        final List<RelationChange> changes = vkApi.buildChangesForNewUser(newSeeker.userId);
         seekerService.create(newSeeker.getUserId(), changes);
         return "redirect:/seekers";
     }

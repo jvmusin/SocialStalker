@@ -13,5 +13,5 @@ public interface VkApi {
 
     List<SimpleVkUser> loadUsers(List<Integer> userIds);
 
-    List<RelationChange> buildChanges(int usedId);
+    List<RelationChange> buildChangesForNewUser(int usedId);
 }
