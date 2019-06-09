@@ -11,6 +11,10 @@ public class RelationChangeServiceImpl implements RelationChangeService {
 
     private final RelationChangeRepository repo;
 
+    @Override
+    public List<RelationChange> findAll() {
+        return repo.findAllByOrderById();
+    }
 
     @Override
     public List<RelationChange> findAllByOwner(int owner) {

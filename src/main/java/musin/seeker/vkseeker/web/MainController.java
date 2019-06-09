@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toList;
@@ -63,6 +61,26 @@ public class MainController {
                 seekerFromDb(owner),
                 changeDtos
         ));
+    }
+
+    @RequestMapping("/seekers/all_changes")
+    public String allChanges(Model model) {
+        List<RelationChange> changes = relationChangeService.findAll().stream()
+                .filter(rc -> !rc.isHidden())
+                .collect(toList());
+        List<Integer> userIds = changes.stream()
+                .map(RelationChange::getTarget)
+                .collect(toList());
+        vkApi.loadUsers(userIds);
+        List<RelationChangeDto> changeDtos = changes.stream()
+                .map(this::relationChangeDtoFromDb)
+                .sorted(comparingInt(RelationChangeDto::getId).reversed())
+                .collect(toList());
+        model.addAttribute("model", new FullSeekerDto(
+                new SeekerDto(-1, "All"),
+                changeDtos
+        ));
+        return "changes";
     }
 
     @RequestMapping(value = "/seekers", method = POST)
