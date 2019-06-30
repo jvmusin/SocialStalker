@@ -3,15 +3,11 @@ package musin.seeker.vkseeker.api;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
-import com.vk.api.sdk.httpclient.HttpTransportClient;
 import lombok.SneakyThrows;
-import lombok.Synchronized;
 import musin.seeker.vkseeker.RelationList;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,27 +23,16 @@ public class VkApiImpl implements VkApi {
 
     private final VkApiClient vkApi;
     private final UserActor userActor;
-    private LocalDateTime lastRequest = LocalDateTime.now();
-    private static final int DELAY = 400;
+    private final Map<Integer, SimpleVkUser> usersCache = new HashMap<>();
 
     public VkApiImpl(TransportClient transportClient) {
         vkApi = new VkApiClient(transportClient);
         userActor = new MusinUserActor();
     }
 
-    @SneakyThrows
-    private void sleep() {
-        long dist = Duration.between(lastRequest, LocalDateTime.now()).toMillis();
-        long wait = DELAY - dist;
-        if (wait > 0) Thread.sleep(wait);
-        lastRequest = LocalDateTime.now();
-    }
-
     @Override
     @SneakyThrows
-    @Synchronized
     public List<Integer> loadFriends(int userId) {
-        sleep();
         return vkApi.friends()
                 .get(userActor)
                 .userId(userId)
@@ -58,9 +43,7 @@ public class VkApiImpl implements VkApi {
 
     @Override
     @SneakyThrows
-    @Synchronized
     public List<Integer> loadFollowers(int userId) {
-        sleep();
         return vkApi.users()
                 .getFollowers(userActor)
                 .count(1000)
@@ -70,7 +53,6 @@ public class VkApiImpl implements VkApi {
                 .getItems();
     }
 
-    private final Map<Integer, SimpleVkUser> usersCache = new HashMap<>();
     @Override
     public SimpleVkUser loadUser(int userId) {
         return loadUsers(singletonList(userId)).get(0);
@@ -83,8 +65,8 @@ public class VkApiImpl implements VkApi {
                 .map(usersCache::get)
                 .collect(toList());
     }
+
     @SneakyThrows
-    @Synchronized
     private void loadUsersToCache(List<Integer> userIds) {
         List<String> asString = userIds.stream()
                 .filter(id -> !usersCache.containsKey(id))
@@ -92,7 +74,6 @@ public class VkApiImpl implements VkApi {
                 .map(Object::toString)
                 .collect(toList());
         if (asString.isEmpty()) return;
-        sleep();
         vkApi.users()
                 .get(userActor)
                 .userIds(asString)

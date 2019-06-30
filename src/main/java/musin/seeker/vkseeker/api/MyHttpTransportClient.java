@@ -19,7 +19,7 @@ public class MyHttpTransportClient extends HttpTransportClient {
     private LocalDateTime lastTimeUsed = now();
     private Duration minDelay = Duration.ofMillis(400);
     private ReentrantLock lock = new ReentrantLock(true);
-    
+
     public MyHttpTransportClient() {
     }
 
