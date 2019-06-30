@@ -20,7 +20,7 @@ public class ScheduledSeeker {
     private final RelationChangeService relationChangeService;
     private final VkApi vkApi;
 
-    @Scheduled(fixedDelay = 10_000)
+    @Scheduled(fixedDelay = 1000)
     public void run() {
         seekerService.findAll().forEach(seeker -> run(seeker.getOwner()));
     }
