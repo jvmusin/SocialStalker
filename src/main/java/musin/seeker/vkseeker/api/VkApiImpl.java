@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.vk.api.sdk.client.Lang.EN;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static musin.seeker.vkseeker.db.model.RelationType.FOLLOWER;
@@ -20,6 +21,8 @@ import static musin.seeker.vkseeker.db.model.RelationType.FRIEND;
 
 @Service
 public class VkApiImpl implements VkApi {
+
+    private static final int LOAD_FOLLOERS_TRIES = 3;
 
     private final VkApiClient vkApi;
     private final UserActor userActor;
@@ -44,6 +47,15 @@ public class VkApiImpl implements VkApi {
     @Override
     @SneakyThrows
     public List<Integer> loadFollowers(int userId) {
+        for (int i = 0; i < LOAD_FOLLOERS_TRIES; i++) {
+            List<Integer> followers = loadFollowers0(userId);
+            if (!followers.isEmpty()) return followers;
+        }
+        return emptyList();
+    }
+
+    @SneakyThrows
+    private List<Integer> loadFollowers0(int userId) {
         return vkApi.users()
                 .getFollowers(userActor)
                 .count(1000)
@@ -51,6 +63,7 @@ public class VkApiImpl implements VkApi {
                 .lang(EN)
                 .execute()
                 .getItems();
+
     }
 
     @Override
