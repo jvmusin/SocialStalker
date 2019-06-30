@@ -1,6 +1,6 @@
 package musin.seeker.vkseeker.db;
 
-import org.springframework.data.jpa.repository.Query;
+import musin.seeker.vkseeker.db.model.RelationChange;
 
 import java.util.List;
 

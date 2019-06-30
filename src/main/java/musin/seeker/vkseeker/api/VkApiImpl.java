@@ -1,11 +1,13 @@
-package musin.seeker.vkseeker;
+package musin.seeker.vkseeker.api;
 
+import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import lombok.SneakyThrows;
 import lombok.Synchronized;
-import musin.seeker.vkseeker.db.RelationChange;
+import musin.seeker.vkseeker.RelationList;
+import musin.seeker.vkseeker.db.model.RelationChange;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -17,8 +19,8 @@ import java.util.Map;
 import static com.vk.api.sdk.client.Lang.EN;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
-import static musin.seeker.vkseeker.RelationType.FOLLOWER;
-import static musin.seeker.vkseeker.RelationType.FRIEND;
+import static musin.seeker.vkseeker.db.model.RelationType.FOLLOWER;
+import static musin.seeker.vkseeker.db.model.RelationType.FRIEND;
 
 @Service
 public class VkApiImpl implements VkApi {
@@ -28,8 +30,8 @@ public class VkApiImpl implements VkApi {
     private LocalDateTime lastRequest = LocalDateTime.now();
     private static final int DELAY = 400;
 
-    public VkApiImpl() {
-        vkApi = new VkApiClient(new HttpTransportClient());
+    public VkApiImpl(TransportClient transportClient) {
+        vkApi = new VkApiClient(transportClient);
         userActor = new MusinUserActor();
     }
 

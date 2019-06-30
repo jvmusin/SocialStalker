@@ -1,11 +1,11 @@
 package musin.seeker.vkseeker.web;
 
 import lombok.AllArgsConstructor;
-import musin.seeker.vkseeker.SimpleVkUser;
-import musin.seeker.vkseeker.VkApi;
-import musin.seeker.vkseeker.db.RelationChange;
+import musin.seeker.vkseeker.api.SimpleVkUser;
+import musin.seeker.vkseeker.api.VkApi;
+import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.db.RelationChangeService;
-import musin.seeker.vkseeker.db.Seeker;
+import musin.seeker.vkseeker.db.model.Seeker;
 import musin.seeker.vkseeker.db.SeekerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

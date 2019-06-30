@@ -1,6 +1,7 @@
 package musin.seeker.vkseeker.db;
 
 import lombok.AllArgsConstructor;
+import musin.seeker.vkseeker.db.model.RelationChange;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

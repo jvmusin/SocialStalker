@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker;
+package musin.seeker.vkseeker.api;
 
 import com.vk.api.sdk.client.actors.UserActor;
 

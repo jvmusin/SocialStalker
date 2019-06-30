@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker;
+package musin.seeker.vkseeker.db.model;
 
 import lombok.experimental.UtilityClass;
 

@@ -1,7 +1,6 @@
-package musin.seeker.vkseeker;
+package musin.seeker.vkseeker.api;
 
-import com.vk.api.sdk.objects.users.UserXtrCounters;
-import musin.seeker.vkseeker.db.RelationChange;
+import musin.seeker.vkseeker.db.model.RelationChange;
 
 import java.util.List;
 

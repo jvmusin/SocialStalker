@@ -1,12 +1,12 @@
 package musin.seeker.vkseeker;
 
 import lombok.AllArgsConstructor;
-import musin.seeker.vkseeker.db.RelationChange;
+import musin.seeker.vkseeker.db.model.RelationChange;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static musin.seeker.vkseeker.RelationType.*;
+import static musin.seeker.vkseeker.db.model.RelationType.*;
 
 @AllArgsConstructor
 public class RelationList {

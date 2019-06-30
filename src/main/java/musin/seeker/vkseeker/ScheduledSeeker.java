@@ -1,7 +1,8 @@
 package musin.seeker.vkseeker;
 
 import lombok.AllArgsConstructor;
-import musin.seeker.vkseeker.db.RelationChange;
+import musin.seeker.vkseeker.api.VkApi;
+import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.SeekerService;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static musin.seeker.vkseeker.RelationType.*;
+import static musin.seeker.vkseeker.db.model.RelationType.*;
 
 @Service
 @AllArgsConstructor

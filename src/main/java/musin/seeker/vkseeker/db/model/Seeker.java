@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.db;
+package musin.seeker.vkseeker.db.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,24 +9,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @Entity
-@Table(name = "relation_change", schema = "public")
+@Table(name = "seeker", schema = "public")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RelationChange {
+public class Seeker {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     Integer id;
+
     int owner;
-    int target;
-    String prevType;
-    String curType;
-    LocalDateTime time;
-    boolean hidden;
 }
