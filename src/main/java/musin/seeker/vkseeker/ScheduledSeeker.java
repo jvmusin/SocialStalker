@@ -5,6 +5,7 @@ import musin.seeker.vkseeker.api.VkApi;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.SeekerService;
+import musin.seeker.vkseeker.telegram.ChangesSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,14 @@ public class ScheduledSeeker {
     private final SeekerService seekerService;
     private final RelationChangeService relationChangeService;
     private final VkApi vkApi;
+    private final ChangesSender changesSender;
 
     @Scheduled(fixedDelay = 1000)
     public void run() {
         seekerService.findAll().forEach(seeker -> run(seeker.getOwner()));
     }
 
-    public void run(int owner) {
+    private void run(int owner) {
         final List<RelationChange> changes = relationChangeService.findAllByOwner(owner);
         final RelationList was = new RelationList(owner);
         was.applyChanges(changes);
@@ -38,5 +40,6 @@ public class ScheduledSeeker {
 
         final List<RelationChange> difference = was.getDifference(now);
         difference.forEach(relationChangeService::save);
+        difference.forEach(changesSender::sendMessage);
     }
 }

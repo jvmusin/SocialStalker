@@ -54,6 +54,13 @@
             <artifactId>sdk</artifactId>
             <version>1.0.2</version>
         </dependency>
+
+        <!-- Telegram API-->
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambotsextensions</artifactId>
+            <version>4.3.1</version>
+        </dependency>
     </dependencies>
 
     <build>

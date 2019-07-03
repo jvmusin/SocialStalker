@@ -7,6 +7,7 @@ import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.model.Seeker;
 import musin.seeker.vkseeker.db.SeekerService;
+import musin.seeker.vkseeker.dto.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,7 +38,7 @@ public class MainController {
     public String seekers(Model model) {
         List<SeekerDto> seekers = seekerService.findAll().stream()
                 .map(Seeker::getOwner)
-                .map(this::seekerFromDb)
+                .map(this::createSeekerDto)
                 .collect(toList());
         model.addAttribute("model", new SeekerListDto(seekers));
         model.addAttribute("newSeeker", new NewSeekerDto());
@@ -54,11 +55,11 @@ public class MainController {
                 .collect(toList());
         vkApi.loadUsers(userIds);
         List<RelationChangeDto> changeDtos = changes.stream()
-                .map(this::relationChangeDtoFromDb)
+                .map(this::createRelationChangeDto)
                 .sorted(comparingInt(RelationChangeDto::getId).reversed())
                 .collect(toList());
         return new ModelAndView("changes", "model", new FullSeekerDto(
-                seekerFromDb(owner),
+                createSeekerDto(owner),
                 changeDtos
         ));
     }
@@ -73,7 +74,7 @@ public class MainController {
                 .collect(toList());
         vkApi.loadUsers(userIds);
         List<RelationChangeDto> changeDtos = changes.stream()
-                .map(this::relationChangeDtoFromDb)
+                .map(this::createRelationChangeDto)
                 .sorted(comparingInt(RelationChangeDto::getId).reversed())
                 .collect(toList());
         model.addAttribute("model", new FullSeekerDto(
@@ -90,18 +91,18 @@ public class MainController {
         return "redirect:/seekers";
     }
 
-    private RelationChangeDto relationChangeDtoFromDb(RelationChange rc) {
+    private RelationChangeDto createRelationChangeDto(RelationChange rc) {
         return new RelationChangeDto(
                 rc.getId(),
                 rc.getTime(),
-                seekerFromDb(rc.getOwner()),
-                seekerFromDb(rc.getTarget()),
+                createSeekerDto(rc.getOwner()),
+                createSeekerDto(rc.getTarget()),
                 rc.getPrevType(),
                 rc.getCurType()
         );
     }
 
-    private SeekerDto seekerFromDb(int owner) {
+    private SeekerDto createSeekerDto(int owner) {
         SimpleVkUser user = vkApi.loadUser(owner);
         String name = String.format("%s %s", user.getFirstName(), user.getLastName());
         return new SeekerDto(owner, name);

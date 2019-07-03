@@ -11,4 +11,9 @@ public class SimpleVkUser {
     int userId;
     String firstName;
     String lastName;
+
+    @Override
+    public String toString() {
+        return String.format("%d: %s %s", userId, firstName, lastName);
+    }
 }
