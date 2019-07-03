@@ -9,6 +9,10 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
 @Component
 public class ChangesSenderImpl extends TelegramLongPollingBot implements ChangesSender {
 
@@ -44,22 +48,32 @@ public class ChangesSenderImpl extends TelegramLongPollingBot implements Changes
         SimpleVkUser owner = vkApi.loadUser(relationChange.getOwner());
         SimpleVkUser target = vkApi.loadUser(relationChange.getTarget());
         String s = String.format("" +
-                "Id: %s\n" +
-                "Time: %s\n" +
-                "Owner: %s\n" +
-                "Target: %s\n" +
-                "Change: %s to %s",
+                        "Change id: %s\n" +
+                        "Time: %s\n" +
+                        "Owner: %s\n" +
+                        "Target: %s\n" +
+                        "Change: %s to %s",
                 relationChange.getId(),
-                relationChange.getTime(),
-                owner,
-                target,
+                relationChange.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).withZone(ZoneId.systemDefault())),
+                userLink(owner),
+                userLink(target),
                 relationChange.getPrevType(),
                 relationChange.getCurType());
-        SendMessage m = new SendMessage(MusinUID, s);
         try {
+            SendMessage m = new SendMessage(MusinUID, s);
+            m.setParseMode("HTML");
             execute(m);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private String userLink(SimpleVkUser user) {
+        return formatLink(user.toString(), user.link());
+    }
+
+    private String formatLink(String name, String url) {
+        return String.format("<a href='%s'>%s</a>", url, name);
     }
 
     @Override

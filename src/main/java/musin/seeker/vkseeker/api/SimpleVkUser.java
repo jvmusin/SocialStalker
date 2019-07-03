@@ -16,4 +16,8 @@ public class SimpleVkUser {
     public String toString() {
         return String.format("%d: %s %s", userId, firstName, lastName);
     }
+
+    public String link() {
+        return "https://vk.com/id" + userId;
+    }
 }
