@@ -4,44 +4,30 @@ import musin.seeker.vkseeker.api.SimpleVkUser;
 import musin.seeker.vkseeker.api.VkApi;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.bots.TelegramWebhookBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
 @Component
-public class ChangesSenderImpl extends TelegramWebhookBot implements ChangesSender {
+public class ChangesSenderImpl implements ChangesSender {
 
-    private static final long MusinUID = 124275139L;
+    private static final long MUSIN_UID = 124275139L;
+    private static final String BOT_TOKEN = "809103789:AAFReBbzwDxrpVCFLJ2JZv2EKcaaAJuqP6o";
 
     private final VkApi vkApi;
+    private final RestTemplate restTemplate;
 
-    public ChangesSenderImpl(VkApi vkApi) {
-        super(buildOptions());
+    public ChangesSenderImpl(VkApi vkApi, RestTemplate restTemplate) {
         this.vkApi = vkApi;
+        this.restTemplate = restTemplate;
     }
 
-    private static DefaultBotOptions buildOptions() {
-        DefaultBotOptions opt = new DefaultBotOptions();
-        opt.setProxyType(DefaultBotOptions.ProxyType.HTTP);
-        opt.setProxyHost("191.252.185.161");
-        opt.setProxyPort(8090);
-        return opt;
-    }
-
-    @Override
-    public String getBotUsername() {
-        return "VkSeekerBot";
-    }
-
-    @Override
-    public String getBotToken() {
-        return "809103789:AAFReBbzwDxrpVCFLJ2JZv2EKcaaAJuqP6o";
+    private String getMethodUrl(String methodName) {
+        return String.format("https://api.telegram.org/bot%s/%s", BOT_TOKEN, methodName);
     }
 
     @Override
@@ -61,9 +47,9 @@ public class ChangesSenderImpl extends TelegramWebhookBot implements ChangesSend
                 relationChange.getPrevType(),
                 relationChange.getCurType());
         try {
-            SendMessage m = new SendMessage(MusinUID, s);
-            m.setParseMode("HTML");
-            execute(m);
+            SendMessage m = new SendMessage(MUSIN_UID, s);
+            m.setParseMode("Markdown");
+            restTemplate.postForEntity(getMethodUrl("sendMessage"), m, Message.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,16 +60,6 @@ public class ChangesSenderImpl extends TelegramWebhookBot implements ChangesSend
     }
 
     private String formatLink(String name, String url) {
-        return String.format("<a href='%s'>%s</a>", url, name);
-    }
-
-    @Override
-    public BotApiMethod onWebhookUpdateReceived(Update update) {
-        return new SendMessage(update.getMessage().getChatId(), "Hello, I'm not sleeping.");
-    }
-
-    @Override
-    public String getBotPath() {
-        return getBotUsername();
+        return String.format("[%s](%s)", name, url);
     }
 }

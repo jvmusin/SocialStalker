@@ -5,6 +5,6 @@ import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.meta.generics.WebhookBot;
 
-public interface ChangesSender extends WebhookBot {
+public interface ChangesSender {
     void sendMessage(RelationChange relationChange);
 }
