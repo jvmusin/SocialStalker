@@ -22,7 +22,7 @@ import static musin.seeker.vkseeker.db.model.RelationType.FRIEND;
 @Service
 public class VkApiImpl implements VkApi {
 
-    private static final int LOAD_FOLLOERS_TRIES = 3;
+    private static final int LOAD_FOLLOWERS_TRIES = 3;
 
     private final VkApiClient vkApi;
     private final UserActor userActor;
@@ -47,7 +47,7 @@ public class VkApiImpl implements VkApi {
     @Override
     @SneakyThrows
     public List<Integer> loadFollowers(int userId) {
-        for (int i = 0; i < LOAD_FOLLOERS_TRIES; i++) {
+        for (int i = 0; i < LOAD_FOLLOWERS_TRIES; i++) {
             List<Integer> followers = loadFollowers0(userId);
             if (!followers.isEmpty()) return followers;
         }
