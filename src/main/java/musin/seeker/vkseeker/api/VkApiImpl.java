@@ -45,7 +45,6 @@ public class VkApiImpl implements VkApi {
     }
 
     @Override
-    @SneakyThrows
     public List<Integer> loadFollowers(int userId) {
         for (int i = 0; i < LOAD_FOLLOWERS_TRIES; i++) {
             List<Integer> followers = loadFollowers0(userId);
@@ -63,7 +62,6 @@ public class VkApiImpl implements VkApi {
                 .lang(EN)
                 .execute()
                 .getItems();
-
     }
 
     @Override
