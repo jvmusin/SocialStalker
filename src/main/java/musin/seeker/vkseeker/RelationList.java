@@ -2,6 +2,7 @@ package musin.seeker.vkseeker;
 
 import lombok.AllArgsConstructor;
 import musin.seeker.vkseeker.db.model.RelationChange;
+import musin.seeker.vkseeker.db.model.RelationType;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,22 +14,21 @@ import static musin.seeker.vkseeker.db.model.RelationType.*;
 @AllArgsConstructor
 public class RelationList {
     private final int owner;
-    private final Map<String, Set<Integer>> relationTypeToId;
+    private final Map<RelationType, Set<Integer>> relationTypeToId;
 
     public RelationList(int owner) {
         this.owner = owner;
-        relationTypeToId = new HashMap<>();
-        relationTypeToId.put(FRIEND, new TreeSet<>());
-        relationTypeToId.put(FOLLOWER, new TreeSet<>());
+        relationTypeToId = new EnumMap<>(RelationType.class);
+        for (RelationType type : values()) relationTypeToId.put(type, new TreeSet<>());
     }
 
     public void applyChange(RelationChange change) {
         int id = change.getTarget();
 
-        String prevType = change.getPrevType();
+        RelationType prevType = getType(id);
         relationTypeToId.get(prevType).remove(id);
 
-        String curType = change.getCurType();
+        RelationType curType = change.getCurType();
         relationTypeToId.get(curType).add(id);
     }
 
@@ -46,13 +46,14 @@ public class RelationList {
                         .curType(other.getType(id))
                         .time(time)
                         .build())
-                .filter(r -> !r.getPrevType().equals(r.getCurType()))
+                .filter(r -> r.getPrevType() != r.getCurType())
                 .collect(Collectors.toList());
     }
 
     private static Stream<Integer> getAllIds(RelationList... lists) {
         return Arrays.stream(lists)
-                .flatMap(RelationList::getIds);
+                .flatMap(RelationList::getIds)
+                .distinct();
     }
 
     private Stream<Integer> getIds() {
@@ -60,8 +61,8 @@ public class RelationList {
                 .flatMap(Collection::stream);
     }
 
-    private String getType(int id) {
-        for (Map.Entry<String, Set<Integer>> e : relationTypeToId.entrySet())
+    private RelationType getType(int id) {
+        for (Map.Entry<RelationType, Set<Integer>> e : relationTypeToId.entrySet())
             if (e.getValue().contains(id))
                 return e.getKey();
         return NONE;

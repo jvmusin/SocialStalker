@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -25,8 +22,10 @@ public class RelationChange {
     Integer id;
     int owner;
     int target;
-    String prevType;
-    String curType;
+    @Enumerated(EnumType.STRING)
+    RelationType prevType;
+    @Enumerated(EnumType.STRING)
+    RelationType curType;
     LocalDateTime time;
     boolean hidden;
 }

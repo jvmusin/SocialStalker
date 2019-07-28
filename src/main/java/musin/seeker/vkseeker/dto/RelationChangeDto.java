@@ -3,6 +3,7 @@ package musin.seeker.vkseeker.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import musin.seeker.vkseeker.db.model.RelationType;
 
 import java.time.LocalDateTime;
 
@@ -14,8 +15,8 @@ public class RelationChangeDto {
     LocalDateTime time;
     SeekerDto owner;
     SeekerDto target;
-    String prevType;
-    String curType;
+    RelationType prevType;
+    RelationType curType;
 
     public String getTypeTransfer() {
         return prevType + "->" + curType;
