@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
 @Component
-public class ChangesSenderImpl implements ChangesSender {
+public class ChangesNotifierImpl implements ChangesNotifier {
 
     private static final long MUSIN_UID = 124275139L;
     private static final String BOT_TOKEN = "809103789:AAFReBbzwDxrpVCFLJ2JZv2EKcaaAJuqP6o";
@@ -21,7 +21,7 @@ public class ChangesSenderImpl implements ChangesSender {
     private final VkApi vkApi;
     private final RestTemplate restTemplate;
 
-    public ChangesSenderImpl(VkApi vkApi, RestTemplate restTemplate) {
+    public ChangesNotifierImpl(VkApi vkApi, RestTemplate restTemplate) {
         this.vkApi = vkApi;
         this.restTemplate = restTemplate;
     }
