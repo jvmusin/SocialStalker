@@ -6,5 +6,7 @@ import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import org.telegram.telegrambots.meta.generics.WebhookBot;
 
 public interface ChangesNotifier {
-    void sendMessage(RelationChange relationChange);
+    void notify(RelationChange relationChange);
+    void sendMessage(String message);
+    void sendMessage(String message, long uid);
 }

@@ -28,7 +28,7 @@ public class VkseekerApplication {
     public RestTemplate proxyRestTemplate() {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
 
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("191.252.185.161", 8090));
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("185.33.113.202\t", 443));
         requestFactory.setProxy(proxy);
 
         return new RestTemplate(requestFactory);

@@ -15,7 +15,7 @@ import java.time.format.FormatStyle;
 @Component
 public class ChangesNotifierImpl implements ChangesNotifier {
 
-    private static final long MUSIN_UID = 124275139L;
+    private static final long MUSIN_UID = 124275139;
     private static final String BOT_TOKEN = "809103789:AAFReBbzwDxrpVCFLJ2JZv2EKcaaAJuqP6o";
 
     private final VkApi vkApi;
@@ -31,7 +31,7 @@ public class ChangesNotifierImpl implements ChangesNotifier {
     }
 
     @Override
-    public void sendMessage(RelationChange relationChange) {
+    public void notify(RelationChange relationChange) {
         SimpleVkUser owner = vkApi.loadUser(relationChange.getOwner());
         SimpleVkUser target = vkApi.loadUser(relationChange.getTarget());
         String s = String.format("" +
@@ -53,6 +53,18 @@ public class ChangesNotifierImpl implements ChangesNotifier {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void sendMessage(String message) {
+        sendMessage(message, MUSIN_UID);
+    }
+
+    @Override
+    public void sendMessage(String message, long uid) {
+        SendMessage m = new SendMessage(uid, message);
+        m.setParseMode("Markdown");
+        restTemplate.postForEntity(getMethodUrl("sendMessage"), m, Message.class);
     }
 
     private String userLink(SimpleVkUser user) {

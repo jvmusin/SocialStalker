@@ -40,6 +40,6 @@ public class ScheduledSeeker {
 
         final List<RelationChange> difference = was.getDifference(now);
         difference.forEach(relationChangeService::save);
-        difference.forEach(changesNotifier::sendMessage);
+        difference.forEach(changesNotifier::notify);
     }
 }
