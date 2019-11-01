@@ -26,4 +26,9 @@ public class RelationChangeServiceImpl implements RelationChangeService {
     public RelationChange save(RelationChange relationChange) {
         return repo.save(relationChange);
     }
+
+    @Override
+    public List<RelationChange> saveAll(List<RelationChange> relationChange) {
+        return repo.saveAll(relationChange);
+    }
 }

@@ -8,4 +8,5 @@ public interface RelationChangeService {
     List<RelationChange> findAll();
     List<RelationChange> findAllByOwner(int owner);
     RelationChange save(RelationChange relationChange);
+    List<RelationChange> saveAll(List<RelationChange> relationChange);
 }

@@ -39,7 +39,7 @@ public class ScheduledSeeker {
         followers.forEach(id -> now.applyChange(RelationChange.builder().curType(FOLLOWER).target(id).build()));
 
         final List<RelationChange> difference = was.getDifference(now);
-        difference.forEach(relationChangeService::save);
-        difference.forEach(changesNotifier::notify);
+        relationChangeService.saveAll(difference);
+        changesNotifier.notify(difference);
     }
 }
