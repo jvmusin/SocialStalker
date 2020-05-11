@@ -17,8 +17,8 @@ import static java.time.LocalDateTime.now;
 public class MyHttpTransportClient extends HttpTransportClient {
 
     private LocalDateTime lastTimeUsed = now();
-    private Duration minDelay = Duration.ofMillis(400);
-    private ReentrantLock lock = new ReentrantLock(true);
+    private final Duration minDelay = Duration.ofMillis(1000);
+    private final ReentrantLock lock = new ReentrantLock(true);
 
     public MyHttpTransportClient() {
     }
