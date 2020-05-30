@@ -22,7 +22,7 @@ public class ScheduledSeeker {
     private final VkApi vkApi;
     private final ChangesNotifier changesNotifier;
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 1000L * 60 * 10)
     public void run() {
         seekerService.findAll().forEach(seeker -> run(seeker.getOwner()));
     }
