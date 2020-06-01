@@ -11,6 +11,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ForkJoinPool;
+import java.util.stream.Collectors;
 
 import static musin.seeker.vkseeker.db.model.RelationType.FOLLOWER;
 import static musin.seeker.vkseeker.db.model.RelationType.FRIEND;
@@ -24,12 +27,20 @@ public class ScheduledSeeker {
   private final VkApi vkApi;
   private final ChangesNotifier changesNotifier;
 
-  @Scheduled(fixedDelay = 1000L * 60 * 10)
+  private static Callable<Void> toCallable(Runnable task) {
+    return () -> {
+      task.run();
+      return null;
+    };
+  }
+
+  @Scheduled(fixedDelay = 1000L * 60 * 5)
   public void run() {
-    seekerService.findAll().stream()
-        .parallel()
+    List<Callable<Void>> tasks = seekerService.findAll().stream()
         .map(Seeker::getOwner)
-        .forEach(this::run);
+        .map(owner -> toCallable(() -> run(owner)))
+        .collect(Collectors.toList());
+    ForkJoinPool.commonPool().invokeAll(tasks);
   }
 
   private void run(int owner) {
