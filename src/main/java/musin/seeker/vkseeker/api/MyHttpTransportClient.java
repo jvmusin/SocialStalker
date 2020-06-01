@@ -9,7 +9,6 @@ import java.io.File;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class MyHttpTransportClient extends HttpTransportClient {
@@ -31,8 +30,15 @@ public class MyHttpTransportClient extends HttpTransportClient {
       availableRequestsSemaphore.acquireUninterruptibly();
       return work.call();
     } finally {
-      CompletableFuture.delayedExecutor(DELAY_BETWEEN_REQUESTS_MILLIS, TimeUnit.MILLISECONDS)
-          .execute(availableRequestsSemaphore::release);
+      CompletableFuture.runAsync(() -> {
+        try {
+          Thread.sleep(1000);
+          availableRequestsSemaphore.release();
+        } catch (Exception ignored) {
+        }
+      });
+//      CompletableFuture.delayedExecutor(DELAY_BETWEEN_REQUESTS_MILLIS, TimeUnit.MILLISECONDS)
+//          .execute(availableRequestsSemaphore::release);
     }
   }
 
