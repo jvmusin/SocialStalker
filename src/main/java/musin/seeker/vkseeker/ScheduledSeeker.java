@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 
@@ -27,18 +28,11 @@ public class ScheduledSeeker {
   private final VkApi vkApi;
   private final ChangesNotifier changesNotifier;
 
-  private static Callable<Void> toCallable(Runnable task) {
-    return () -> {
-      task.run();
-      return null;
-    };
-  }
-
   @Scheduled(fixedDelay = 1000L * 60 * 5)
   public void run() {
-    List<Callable<Void>> tasks = seekerService.findAll().stream()
+    List<Callable<Object>> tasks = seekerService.findAll().stream()
         .map(Seeker::getOwner)
-        .map(owner -> toCallable(() -> run(owner)))
+        .map(owner -> Executors.callable(() -> run(owner)))
         .collect(Collectors.toList());
     ForkJoinPool.commonPool().invokeAll(tasks);
   }
