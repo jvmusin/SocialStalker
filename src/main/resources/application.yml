@@ -7,5 +7,6 @@ spring:
     properties:
       hibernate:
         temp.use_jdbc_metadata_defaults: false
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
 server:
-  port: 80
+  port: 8080
