@@ -1,5 +1,6 @@
 package musin.seeker.vkseeker;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -20,30 +21,30 @@ import java.util.concurrent.ForkJoinPool;
 @SpringBootApplication
 public class VkseekerApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(VkseekerApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(VkseekerApplication.class, args);
+  }
 
-    @Bean
-    @Profile("tgproxy")
-    public RestTemplate proxyRestTemplate() {
-        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+  @Bean
+  @Profile("tgproxy")
+  public RestTemplate proxyRestTemplate() {
+    SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
 
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("185.33.113.202\t", 443));
-        requestFactory.setProxy(proxy);
+    Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("185.33.113.202\t", 443));
+    requestFactory.setProxy(proxy);
 
-        return new RestTemplate(requestFactory);
-    }
+    return new RestTemplate(requestFactory);
+  }
 
-    @Bean
-    @Profile("default")
-    public RestTemplate defaultRestTemplate() {
-        return new RestTemplate();
-    }
+  @Bean
+  @Profile("default")
+  public RestTemplate defaultRestTemplate() {
+    return new RestTemplate();
+  }
 
-    @PostConstruct
-    public void init() {
-        System.err.println("FJP parallelism is " + ForkJoinPool.getCommonPoolParallelism());
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Samara"));
-    }
+  @PostConstruct
+  public void init() {
+    LogManager.getLogger(VkseekerApplication.class).info("FJP parallelism is " + ForkJoinPool.getCommonPoolParallelism());
+    TimeZone.setDefault(TimeZone.getTimeZone("Europe/Samara"));
+  }
 }
