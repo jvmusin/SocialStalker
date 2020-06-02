@@ -66,10 +66,11 @@ public class RelationList {
     }
 
     private RelationType getType(int id) {
-        for (Map.Entry<RelationType, Set<Integer>> e : relationTypeToId.entrySet())
-            if (e.getValue().contains(id))
-                return e.getKey();
-        return RelationType.NONE;
+        return relationTypeToId.entrySet().stream()
+            .filter(e -> e.getValue().contains(id))
+            .findAny()
+            .map(Map.Entry::getKey)
+            .orElse(RelationType.NONE);
     }
 
     public List<RelationChange> getActiveChanges() {
