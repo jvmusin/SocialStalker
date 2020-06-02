@@ -7,12 +7,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import static java.util.concurrent.CompletableFuture.delayedExecutor;
-import static java.util.concurrent.Executors.newFixedThreadPool;
+import static java.util.concurrent.Executors.newScheduledThreadPool;
 
 @Component
 public class MyHttpTransportClient extends HttpTransportClient {
@@ -21,7 +20,7 @@ public class MyHttpTransportClient extends HttpTransportClient {
   private static final int REQUESTS_PER_SECOND = 3;
 
   private final Semaphore availableRequestsSemaphore = new Semaphore(REQUESTS_PER_SECOND, true);
-  private final Executor executor = delayedExecutor(DELAY_BETWEEN_REQUESTS_MILLIS, TimeUnit.MILLISECONDS, newFixedThreadPool(REQUESTS_PER_SECOND));
+  private final ScheduledExecutorService executor = newScheduledThreadPool(REQUESTS_PER_SECOND);
 
   public MyHttpTransportClient() {
   }
@@ -36,7 +35,7 @@ public class MyHttpTransportClient extends HttpTransportClient {
       availableRequestsSemaphore.acquireUninterruptibly();
       return work.call();
     } finally {
-      executor.execute(availableRequestsSemaphore::release);
+      executor.schedule((Runnable) availableRequestsSemaphore::release, DELAY_BETWEEN_REQUESTS_MILLIS, TimeUnit.MILLISECONDS);
     }
   }
 
