@@ -6,10 +6,9 @@ import musin.seeker.vkseeker.db.model.RelationType;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static musin.seeker.vkseeker.db.model.RelationType.*;
+import static java.util.stream.Collectors.toList;
 
 @AllArgsConstructor
 public class RelationList {
@@ -19,7 +18,12 @@ public class RelationList {
     public RelationList(int owner) {
         this.owner = owner;
         relationTypeToId = new EnumMap<>(RelationType.class);
-        for (RelationType type : values()) relationTypeToId.put(type, new TreeSet<>());
+        for (RelationType type : RelationType.values()) relationTypeToId.put(type, new TreeSet<>());
+    }
+
+    public RelationList(int owner, Iterable<RelationChange> changes) {
+        this(owner);
+        applyChanges(changes);
     }
 
     public void applyChange(RelationChange change) {
@@ -36,7 +40,7 @@ public class RelationList {
         changes.forEach(this::applyChange);
     }
 
-    public List<RelationChange> getDifference(RelationList other) {
+    public List<RelationChange> getDifferences(RelationList other) {
         LocalDateTime time = LocalDateTime.now();
         return getAllIds(this, other)
                 .map(id -> RelationChange.builder()
@@ -47,7 +51,7 @@ public class RelationList {
                         .time(time)
                         .build())
                 .filter(r -> r.getPrevType() != r.getCurType())
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     private static Stream<Integer> getAllIds(RelationList... lists) {
@@ -65,10 +69,10 @@ public class RelationList {
         for (Map.Entry<RelationType, Set<Integer>> e : relationTypeToId.entrySet())
             if (e.getValue().contains(id))
                 return e.getKey();
-        return NONE;
+        return RelationType.NONE;
     }
 
     public List<RelationChange> getActiveChanges() {
-        return new RelationList(owner).getDifference(this);
+        return new RelationList(owner).getDifferences(this);
     }
 }
