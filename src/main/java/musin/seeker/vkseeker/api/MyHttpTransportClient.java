@@ -18,7 +18,8 @@ import static java.util.concurrent.Executors.newFixedThreadPool;
 public class MyHttpTransportClient extends HttpTransportClient {
 
   private static final int DELAY_BETWEEN_REQUESTS_MILLIS = 1000;
-  private static final int REQUESTS_PER_SECOND = 5;
+  private static final int REQUESTS_PER_SECOND = 3;
+
   private final Semaphore availableRequestsSemaphore = new Semaphore(REQUESTS_PER_SECOND, true);
   private final Executor executor = delayedExecutor(DELAY_BETWEEN_REQUESTS_MILLIS, TimeUnit.MILLISECONDS, newFixedThreadPool(REQUESTS_PER_SECOND));
 
