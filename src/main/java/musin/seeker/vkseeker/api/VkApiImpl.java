@@ -96,11 +96,6 @@ public class VkApiImpl implements VkApi {
   }
 
   @Override
-  public List<RelationChange> buildChangesForNewUser(int userId) {
-    return loadRelations(userId).getActiveChanges();
-  }
-
-  @Override
   public CompletableFuture<List<Integer>> loadFriendsAsync(int userId) {
     return CompletableFuture.supplyAsync(() -> loadFriends(userId), executor);
   }
@@ -118,11 +113,6 @@ public class VkApiImpl implements VkApi {
   @Override
   public CompletableFuture<List<SimpleVkUser>> loadUsersAsync(List<Integer> userIds) {
     return CompletableFuture.supplyAsync(() -> loadUsers(userIds), executor);
-  }
-
-  @Override
-  public CompletableFuture<List<RelationChange>> buildChangesForNewUserAsync(int userId) {
-    return CompletableFuture.supplyAsync(() -> buildChangesForNewUser(userId), executor);
   }
 
   @Override
