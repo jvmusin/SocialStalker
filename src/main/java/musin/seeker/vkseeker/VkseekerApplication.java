@@ -34,7 +34,7 @@ public class VkseekerApplication {
   @Bean
   @Profile("!dev")
   public ScheduledFuture<?> scheduleUpdates(TaskScheduler taskScheduler, ScheduledSeeker scheduledSeeker) {
-    return taskScheduler.scheduleWithFixedDelay(scheduledSeeker::run, Duration.ofMinutes(5));
+    return taskScheduler.scheduleWithFixedDelay(scheduledSeeker::run, Duration.ofMinutes(2));
   }
 
   @Bean
