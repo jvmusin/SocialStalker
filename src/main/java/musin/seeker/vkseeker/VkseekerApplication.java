@@ -32,12 +32,6 @@ public class VkseekerApplication {
   }
 
   @Bean
-  @Profile("default")
-  public RestTemplate defaultRestTemplate() {
-    return new RestTemplate();
-  }
-
-  @Bean
   @Profile("!dev")
   public ScheduledFuture<?> scheduleUpdates(TaskScheduler taskScheduler, ScheduledSeeker scheduledSeeker) {
     return taskScheduler.scheduleWithFixedDelay(scheduledSeeker::run, Duration.ofMinutes(5));

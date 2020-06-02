@@ -8,16 +8,16 @@ import musin.seeker.vkseeker.RelationList;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import static com.vk.api.sdk.client.Lang.EN;
 import static java.util.Collections.singletonList;
 import static java.util.concurrent.CompletableFuture.allOf;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.stream.Collectors.toList;
 import static musin.seeker.vkseeker.db.model.RelationType.FOLLOWER;
 import static musin.seeker.vkseeker.db.model.RelationType.FRIEND;
@@ -27,8 +27,8 @@ public class VkApiImpl implements VkApi {
 
   private final VkApiClient vkApi;
   private final UserActor userActor;
-  private final Map<Integer, SimpleVkUser> usersCache = new HashMap<>();
-  private final Executor executor = Executors.newFixedThreadPool(10);
+  private final Map<Integer, SimpleVkUser> usersCache = new ConcurrentHashMap<>();
+  private final Executor executor = newFixedThreadPool(10);
 
   public VkApiImpl(TransportClient transportClient) {
     vkApi = new VkApiClient(transportClient);

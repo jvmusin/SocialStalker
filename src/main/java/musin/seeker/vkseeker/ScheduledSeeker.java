@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+
+import static java.util.concurrent.Executors.newFixedThreadPool;
 
 @Service
 @AllArgsConstructor
@@ -22,7 +23,7 @@ public class ScheduledSeeker {
   private final RelationChangeService relationChangeService;
   private final VkApi vkApi;
   private final List<ChangesNotifier> notifiers;
-  private final Executor executor = Executors.newFixedThreadPool(5);
+  private final Executor executor = newFixedThreadPool(5);
 
   public void run() {
     for (Seeker seeker : seekerService.findAll())
