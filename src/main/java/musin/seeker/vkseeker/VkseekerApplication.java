@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.TimeZone;
+import java.util.concurrent.ForkJoinPool;
 
 @EnableJpaRepositories
 @EnableScheduling
@@ -42,6 +43,7 @@ public class VkseekerApplication {
 
     @PostConstruct
     public void init() {
+        System.err.println("FJP parallelism is " + ForkJoinPool.getCommonPoolParallelism());
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Samara"));
     }
 }

@@ -11,13 +11,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ForkJoinPool;
-import java.util.stream.Collectors;
-
-import static musin.seeker.vkseeker.db.model.RelationType.FOLLOWER;
-import static musin.seeker.vkseeker.db.model.RelationType.FRIEND;
 
 @Service
 @AllArgsConstructor
@@ -27,28 +23,19 @@ public class ScheduledSeeker {
   private final RelationChangeService relationChangeService;
   private final VkApi vkApi;
   private final ChangesNotifier changesNotifier;
+  private final Executor executor = Executors.newFixedThreadPool(5);
 
   @Scheduled(fixedDelay = 1000L * 60 * 5)
   public void run() {
-    List<Callable<Object>> tasks = seekerService.findAll().stream()
-        .map(Seeker::getOwner)
-        .map(owner -> Executors.callable(() -> run(owner)))
-        .collect(Collectors.toList());
-    ForkJoinPool.commonPool().invokeAll(tasks);
+    for (Seeker seeker : seekerService.findAll())
+      CompletableFuture.runAsync(() -> run(seeker.getOwner()), executor);
   }
 
   private void run(int owner) {
-    List<RelationChange> changes = relationChangeService.findAllByOwner(owner);
-    RelationList was = new RelationList(owner);
-    was.applyChanges(changes);
+    CompletableFuture<RelationList> now = vkApi.loadRelationsAsync(owner);
+    RelationList was = new RelationList(owner, relationChangeService.findAllByOwner(owner));
 
-    List<Integer> friends = vkApi.loadFriends(owner);
-    List<Integer> followers = vkApi.loadFollowers(owner);
-    RelationList now = new RelationList(owner);
-    friends.forEach(id -> now.applyChange(RelationChange.builder().curType(FRIEND).target(id).build()));
-    followers.forEach(id -> now.applyChange(RelationChange.builder().curType(FOLLOWER).target(id).build()));
-
-    List<RelationChange> difference = was.getDifference(now);
+    List<RelationChange> difference = was.getDifferences(now.join());
     relationChangeService.saveAll(difference);
     changesNotifier.notify(difference);
   }
