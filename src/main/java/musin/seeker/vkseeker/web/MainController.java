@@ -89,7 +89,8 @@ public class MainController {
   public String registerSeeker(@ModelAttribute NewSeekerDto newSeeker) {
     vkApi.loadRelationsAsync(newSeeker.userId)
         .thenApply(RelationList::getActiveChanges)
-        .thenAccept(changes -> seekerService.create(newSeeker.getUserId(), changes));
+        .thenAccept(changes -> seekerService.create(newSeeker.getUserId(), changes))
+        .join();  // wait for the creation to show /seekers page with added seeker
     return "redirect:/seekers";
   }
 
