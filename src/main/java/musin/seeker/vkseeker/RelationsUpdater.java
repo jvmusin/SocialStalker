@@ -16,7 +16,7 @@ import static java.util.concurrent.CompletableFuture.runAsync;
 
 @Service
 @AllArgsConstructor
-public class ScheduledSeeker {
+public class RelationsUpdater {
 
   private final SeekerService seekerService;
   private final RelationChangeService relationChangeService;

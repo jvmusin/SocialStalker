@@ -1,6 +1,6 @@
 package musin.seeker.vkseeker.config;
 
-import musin.seeker.vkseeker.ScheduledSeeker;
+import musin.seeker.vkseeker.RelationsUpdater;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -14,13 +14,13 @@ public class ScheduledSeekerConfig {
 
   @Bean
   @Profile("!dev")
-  public ScheduledFuture<?> scheduleUpdates(TaskScheduler taskScheduler, ScheduledSeeker scheduledSeeker) {
-    return taskScheduler.scheduleWithFixedDelay(scheduledSeeker::run, Duration.ofMinutes(2));
+  public ScheduledFuture<?> scheduleUpdates(TaskScheduler taskScheduler, RelationsUpdater relationsUpdater) {
+    return taskScheduler.scheduleWithFixedDelay(relationsUpdater::run, Duration.ofMinutes(2));
   }
 
   @Bean
   @Profile("dev")
-  public ScheduledFuture<?> scheduleUpdatesDev(TaskScheduler taskScheduler, ScheduledSeeker scheduledSeeker) {
-    return taskScheduler.scheduleWithFixedDelay(scheduledSeeker::run, Duration.ofSeconds(10));
+  public ScheduledFuture<?> scheduleUpdatesDev(TaskScheduler taskScheduler, RelationsUpdater relationsUpdater) {
+    return taskScheduler.scheduleWithFixedDelay(relationsUpdater::run, Duration.ofSeconds(10));
   }
 }
