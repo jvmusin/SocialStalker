@@ -1,10 +1,10 @@
 package musin.seeker.vkseeker.telegram;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import musin.seeker.vkseeker.api.SimpleVkUser;
 import musin.seeker.vkseeker.api.VkApi;
 import musin.seeker.vkseeker.db.model.RelationChange;
-import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Component;
 
 import java.time.ZoneId;
@@ -15,6 +15,7 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
+@Log4j2
 public class ConsoleChangesNotifier implements ChangesNotifier {
 
   private final VkApi vkApi;
@@ -72,12 +73,11 @@ public class ConsoleChangesNotifier implements ChangesNotifier {
 
   @Override
   public void sendMessage(String message) {
-    LogManager.getLogger(ConsoleChangesNotifier.class).info(message);
+    log.info(message);
   }
 
   @Override
   public void sendMessage(String message, long uid) {
-    LogManager.getLogger(ConsoleChangesNotifier.class).info("Message to " + uid);
-    LogManager.getLogger(ConsoleChangesNotifier.class).info(message);
+    log.info("Message to " + uid + ":\n" + message);
   }
 }
