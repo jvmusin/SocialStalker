@@ -1,33 +1,38 @@
 package musin.seeker.vkseeker;
 
-import lombok.AllArgsConstructor;
 import musin.seeker.vkseeker.api.VkApi;
 import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.SeekerService;
 import musin.seeker.vkseeker.db.model.RelationChange;
-import musin.seeker.vkseeker.db.model.Seeker;
 import musin.seeker.vkseeker.telegram.ChangesNotifier;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
-import static java.util.concurrent.Executors.newFixedThreadPool;
+import static java.util.concurrent.CompletableFuture.runAsync;
 
 @Service
-@AllArgsConstructor
 public class ScheduledSeeker {
 
   private final SeekerService seekerService;
   private final RelationChangeService relationChangeService;
   private final VkApi vkApi;
   private final List<ChangesNotifier> notifiers;
-  private final Executor executor = newFixedThreadPool(5);
+  private final Executor executor;
+
+  public ScheduledSeeker(SeekerService seekerService, RelationChangeService relationChangeService, VkApi vkApi, List<ChangesNotifier> notifiers, @Qualifier("MyTaskExecutor") Executor executor) {
+    this.seekerService = seekerService;
+    this.relationChangeService = relationChangeService;
+    this.vkApi = vkApi;
+    this.notifiers = notifiers;
+    this.executor = executor;
+  }
 
   public void run() {
-    for (Seeker seeker : seekerService.findAll())
-      CompletableFuture.runAsync(() -> run(seeker.getOwner()), executor);
+    seekerService.findAll().forEach(s -> runAsync(() -> run(s.getOwner()), executor));
   }
 
   private void run(int owner) {

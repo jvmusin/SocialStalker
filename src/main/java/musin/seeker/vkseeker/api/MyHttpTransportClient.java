@@ -3,15 +3,14 @@ package musin.seeker.vkseeker.api;
 import com.vk.api.sdk.client.ClientResponse;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-
-import static java.util.concurrent.Executors.newScheduledThreadPool;
 
 @Component
 public class MyHttpTransportClient extends HttpTransportClient {
@@ -20,13 +19,10 @@ public class MyHttpTransportClient extends HttpTransportClient {
   private static final int REQUESTS_PER_SECOND = 3;
 
   private final Semaphore availableRequestsSemaphore = new Semaphore(REQUESTS_PER_SECOND, true);
-  private final ScheduledExecutorService executor = newScheduledThreadPool(REQUESTS_PER_SECOND);
+  private final TaskScheduler scheduler;
 
-  public MyHttpTransportClient() {
-  }
-
-  public MyHttpTransportClient(int retryAttemptsNetworkErrorCount, int retryAttemptsInvalidStatusCount) {
-    super(retryAttemptsNetworkErrorCount, retryAttemptsInvalidStatusCount);
+  public MyHttpTransportClient(@Qualifier("MyTaskScheduler") TaskScheduler scheduler) {
+    this.scheduler = scheduler;
   }
 
   @SneakyThrows
@@ -35,7 +31,7 @@ public class MyHttpTransportClient extends HttpTransportClient {
       availableRequestsSemaphore.acquireUninterruptibly();
       return work.call();
     } finally {
-      executor.schedule((Runnable) availableRequestsSemaphore::release, DELAY_BETWEEN_REQUESTS_MILLIS, TimeUnit.MILLISECONDS);
+      scheduler.schedule(availableRequestsSemaphore::release, Instant.now().plusMillis(DELAY_BETWEEN_REQUESTS_MILLIS));
     }
   }
 

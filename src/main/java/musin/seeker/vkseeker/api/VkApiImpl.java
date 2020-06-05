@@ -6,6 +6,8 @@ import com.vk.api.sdk.client.actors.UserActor;
 import lombok.SneakyThrows;
 import musin.seeker.vkseeker.RelationList;
 import musin.seeker.vkseeker.db.model.RelationChange;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.concurrent.Executor;
 import static com.vk.api.sdk.client.Lang.EN;
 import static java.util.Collections.singletonList;
 import static java.util.concurrent.CompletableFuture.allOf;
-import static java.util.concurrent.Executors.newFixedThreadPool;
+import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toList;
 import static musin.seeker.vkseeker.db.model.RelationType.FOLLOWER;
 import static musin.seeker.vkseeker.db.model.RelationType.FRIEND;
@@ -28,11 +30,12 @@ public class VkApiImpl implements VkApi {
   private final VkApiClient vkApi;
   private final UserActor userActor;
   private final Map<Integer, SimpleVkUser> usersCache = new ConcurrentHashMap<>();
-  private final Executor executor = newFixedThreadPool(10);
+  private final Executor executor;
 
-  public VkApiImpl(TransportClient transportClient) {
+  public VkApiImpl(TransportClient transportClient, @Qualifier("MyTaskExecutor") TaskExecutor executor) {
     vkApi = new VkApiClient(transportClient);
     userActor = new MusinUserActor();
+    this.executor = executor;
   }
 
   @Override
@@ -97,22 +100,22 @@ public class VkApiImpl implements VkApi {
 
   @Override
   public CompletableFuture<List<Integer>> loadFriendsAsync(int userId) {
-    return CompletableFuture.supplyAsync(() -> loadFriends(userId), executor);
+    return supplyAsync(() -> loadFriends(userId), executor);
   }
 
   @Override
   public CompletableFuture<List<Integer>> loadFollowersAsync(int userId) {
-    return CompletableFuture.supplyAsync(() -> loadFollowers(userId), executor);
+    return supplyAsync(() -> loadFollowers(userId), executor);
   }
 
   @Override
   public CompletableFuture<SimpleVkUser> loadUserAsync(int userId) {
-    return CompletableFuture.supplyAsync(() -> loadUser(userId), executor);
+    return supplyAsync(() -> loadUser(userId), executor);
   }
 
   @Override
   public CompletableFuture<List<SimpleVkUser>> loadUsersAsync(List<Integer> userIds) {
-    return CompletableFuture.supplyAsync(() -> loadUsers(userIds), executor);
+    return supplyAsync(() -> loadUsers(userIds), executor);
   }
 
   @Override
