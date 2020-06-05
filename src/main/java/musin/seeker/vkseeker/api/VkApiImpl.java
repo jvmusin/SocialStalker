@@ -7,7 +7,6 @@ import lombok.SneakyThrows;
 import musin.seeker.vkseeker.RelationList;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class VkApiImpl implements VkApi {
   private final Map<Integer, SimpleVkUser> usersCache = new ConcurrentHashMap<>();
   private final Executor executor;
 
-  public VkApiImpl(TransportClient transportClient, @Qualifier("MyTaskExecutor") TaskExecutor executor) {
+  public VkApiImpl(TransportClient transportClient, @Qualifier("MyTaskExecutor") Executor executor) {
     vkApi = new VkApiClient(transportClient);
     userActor = new MusinUserActor();
     this.executor = executor;
