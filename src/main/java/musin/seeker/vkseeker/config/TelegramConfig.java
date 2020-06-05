@@ -14,6 +14,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 
 @Configuration
+@Profile("tg")
 public class TelegramConfig {
 
   @Bean("tgRestTemplate")
@@ -34,7 +35,6 @@ public class TelegramConfig {
   }
 
   @Bean
-  @Profile("tg")
   public ChangesNotifier telegramChangesNotifier(VkApi vkApi, @Qualifier("tgRestTemplate") RestTemplate restTemplate) {
     return new TelegramChangesNotifier(vkApi, restTemplate);
   }

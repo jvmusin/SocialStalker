@@ -1,19 +1,18 @@
 package musin.seeker.vkseeker.api;
 
-import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import musin.seeker.vkseeker.RelationList;
 import musin.seeker.vkseeker.db.model.RelationChange;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executor;
 
 import static com.vk.api.sdk.client.Lang.EN;
 import static java.util.Collections.singletonList;
@@ -24,23 +23,18 @@ import static musin.seeker.vkseeker.db.model.RelationType.FOLLOWER;
 import static musin.seeker.vkseeker.db.model.RelationType.FRIEND;
 
 @Service
+@AllArgsConstructor
 public class VkApiImpl implements VkApi {
 
-  private final VkApiClient vkApi;
+  private final VkApiClient vkApiClient;
   private final UserActor userActor;
+  private final TaskExecutor taskExecutor;
   private final Map<Integer, SimpleVkUser> usersCache = new ConcurrentHashMap<>();
-  private final Executor executor;
-
-  public VkApiImpl(TransportClient transportClient, @Qualifier("MyTaskExecutor") Executor executor) {
-    vkApi = new VkApiClient(transportClient);
-    userActor = new MusinUserActor();
-    this.executor = executor;
-  }
 
   @Override
   @SneakyThrows
   public List<Integer> loadFriends(int userId) {
-    return vkApi.friends()
+    return vkApiClient.friends()
         .get(userActor)
         .userId(userId)
         .lang(EN)
@@ -51,7 +45,7 @@ public class VkApiImpl implements VkApi {
   @SneakyThrows
   @Override
   public List<Integer> loadFollowers(int userId) {
-    return vkApi.users()
+    return vkApiClient.users()
         .getFollowers(userActor)
         .count(1000)
         .userId(userId)
@@ -81,7 +75,7 @@ public class VkApiImpl implements VkApi {
         .map(Object::toString)
         .collect(toList());
     if (asString.isEmpty()) return;
-    vkApi.users()
+    vkApiClient.users()
         .get(userActor)
         .userIds(asString)
         .lang(EN)
@@ -99,22 +93,22 @@ public class VkApiImpl implements VkApi {
 
   @Override
   public CompletableFuture<List<Integer>> loadFriendsAsync(int userId) {
-    return supplyAsync(() -> loadFriends(userId), executor);
+    return supplyAsync(() -> loadFriends(userId), taskExecutor);
   }
 
   @Override
   public CompletableFuture<List<Integer>> loadFollowersAsync(int userId) {
-    return supplyAsync(() -> loadFollowers(userId), executor);
+    return supplyAsync(() -> loadFollowers(userId), taskExecutor);
   }
 
   @Override
   public CompletableFuture<SimpleVkUser> loadUserAsync(int userId) {
-    return supplyAsync(() -> loadUser(userId), executor);
+    return supplyAsync(() -> loadUser(userId), taskExecutor);
   }
 
   @Override
   public CompletableFuture<List<SimpleVkUser>> loadUsersAsync(List<Integer> userIds) {
-    return supplyAsync(() -> loadUsers(userIds), executor);
+    return supplyAsync(() -> loadUsers(userIds), taskExecutor);
   }
 
   @Override
