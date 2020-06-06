@@ -9,6 +9,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @AllArgsConstructor
@@ -25,11 +26,10 @@ public class RelationsUpdater {
   }
 
   private void run(int owner) {
-    //todo make it async
-    RelationList was = new RelationList(owner, relationChangeService.findAllByOwner(owner));
-
-    vkApi.loadRelationsAsync(owner)
-        .thenApply(was::getDifferences)
+    CompletableFuture<RelationList> was = relationChangeService.findAllByOwner(owner)
+        .thenApply(changes -> new RelationList(owner, changes));
+    CompletableFuture<RelationList> now = vkApi.loadRelationsAsync(owner);
+    was.thenCombine(now, RelationList::getDifferences)
         .thenApply(relationChangeService::saveAll)
         .thenAccept(differences -> notifiers.forEach(notifier -> notifier.notify(differences)));
   }
