@@ -8,8 +8,6 @@ spring:
       hibernate:
         temp.use_jdbc_metadata_defaults: false
     database-platform: org.hibernate.dialect.PostgreSQL95Dialect
-  lifecycle:
-    timeout-per-shutdown-phase: 10s
 server:
   port: 8080
   shutdown: graceful
