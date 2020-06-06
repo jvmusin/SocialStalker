@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.dto;
+package musin.seeker.vkseeker.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

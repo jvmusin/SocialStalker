@@ -8,7 +8,7 @@ import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.SeekerService;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.db.model.Seeker;
-import musin.seeker.vkseeker.dto.*;
+import musin.seeker.vkseeker.web.dto.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
