@@ -16,7 +16,7 @@ public class VkConfig {
   }
 
   @Bean
-  public UserActor musinUserActor() {
+  public UserActor defaultUserActor() {
     return new MusinUserActor();
   }
 }
