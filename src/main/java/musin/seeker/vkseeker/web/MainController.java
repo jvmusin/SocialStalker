@@ -48,7 +48,7 @@ public class MainController {
 
   @RequestMapping("/seekers/{owner}/changes")
   public ModelAndView changes(@PathVariable("owner") int owner) {
-    List<RelationChange> changes = relationChangeService.findAllByOwner(owner).stream()
+    List<RelationChange> changes = relationChangeService.findAllByOwner(owner).join().stream()
         .filter(rc -> !rc.isHidden())
         .collect(toList());
     List<Integer> userIds = changes.stream()
