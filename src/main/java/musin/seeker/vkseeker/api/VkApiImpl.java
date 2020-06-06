@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import musin.seeker.vkseeker.RelationList;
 import musin.seeker.vkseeker.db.model.RelationChange;
-import org.springframework.core.task.TaskExecutor;
+import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import static com.vk.api.sdk.client.Lang.EN;
 import static java.util.Collections.singletonList;
 import static java.util.concurrent.CompletableFuture.allOf;
-import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toList;
 import static musin.seeker.vkseeker.db.model.RelationType.FOLLOWER;
 import static musin.seeker.vkseeker.db.model.RelationType.FRIEND;
@@ -28,7 +27,7 @@ public class VkApiImpl implements VkApi {
 
   private final VkApiClient vkApiClient;
   private final UserActor userActor;
-  private final TaskExecutor taskExecutor;
+  private final AsyncListenableTaskExecutor taskExecutor;
   private final Map<Integer, SimpleVkUser> usersCache = new ConcurrentHashMap<>();
 
   @Override
@@ -93,22 +92,22 @@ public class VkApiImpl implements VkApi {
 
   @Override
   public CompletableFuture<List<Integer>> loadFriendsAsync(int userId) {
-    return supplyAsync(() -> loadFriends(userId), taskExecutor);
+    return taskExecutor.submitListenable(() -> loadFriends(userId)).completable();
   }
 
   @Override
   public CompletableFuture<List<Integer>> loadFollowersAsync(int userId) {
-    return supplyAsync(() -> loadFollowers(userId), taskExecutor);
+    return taskExecutor.submitListenable(() -> loadFollowers(userId)).completable();
   }
 
   @Override
   public CompletableFuture<SimpleVkUser> loadUserAsync(int userId) {
-    return supplyAsync(() -> loadUser(userId), taskExecutor);
+    return taskExecutor.submitListenable(() -> loadUser(userId)).completable();
   }
 
   @Override
   public CompletableFuture<List<SimpleVkUser>> loadUsersAsync(List<Integer> userIds) {
-    return supplyAsync(() -> loadUsers(userIds), taskExecutor);
+    return taskExecutor.submitListenable(() -> loadUsers(userIds)).completable();
   }
 
   @Override

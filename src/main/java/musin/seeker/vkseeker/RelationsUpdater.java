@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static java.util.concurrent.CompletableFuture.runAsync;
-
 @Service
 @AllArgsConstructor
 public class RelationsUpdater {
@@ -25,7 +23,7 @@ public class RelationsUpdater {
   private final TaskExecutor taskExecutor;
 
   public void run() {
-    seekerService.findAll().forEach(s -> runAsync(() -> run(s.getOwner()), taskExecutor));
+    seekerService.findAll().forEach(s -> taskExecutor.execute(() -> run(s.getOwner())));
   }
 
   private void run(int owner) {
