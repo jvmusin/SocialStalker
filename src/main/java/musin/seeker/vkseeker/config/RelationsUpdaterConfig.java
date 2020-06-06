@@ -15,7 +15,7 @@ public class RelationsUpdaterConfig {
   @Bean
   @Profile("!dev")
   public ScheduledFuture<?> scheduleUpdates(TaskScheduler taskScheduler, RelationsUpdater relationsUpdater) {
-    return taskScheduler.scheduleWithFixedDelay(relationsUpdater::run, Duration.ofMinutes(2));
+    return taskScheduler.scheduleWithFixedDelay(relationsUpdater::run, Duration.ofMinutes(5));
   }
 
   @Bean
