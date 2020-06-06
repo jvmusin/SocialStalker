@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import musin.seeker.vkseeker.api.VkApi;
 import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.SeekerService;
-import musin.seeker.vkseeker.db.model.RelationChange;
-import musin.seeker.vkseeker.telegram.ChangesNotifier;
+import musin.seeker.vkseeker.notifiers.ChangesNotifier;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @AllArgsConstructor
@@ -27,11 +25,12 @@ public class RelationsUpdater {
   }
 
   private void run(int owner) {
-    CompletableFuture<RelationList> now = vkApi.loadRelationsAsync(owner);
+    //todo make it async
     RelationList was = new RelationList(owner, relationChangeService.findAllByOwner(owner));
 
-    List<RelationChange> difference = was.getDifferences(now.join());
-    relationChangeService.saveAll(difference);
-    for (ChangesNotifier notifier : notifiers) notifier.notify(difference);
+    vkApi.loadRelationsAsync(owner)
+        .thenApply(was::getDifferences)
+        .thenApply(relationChangeService::saveAll)
+        .thenAccept(differences -> notifiers.forEach(notifier -> notifier.notify(differences)));
   }
 }
