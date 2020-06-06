@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.util.concurrent.ScheduledFuture;
 
 @Configuration
-public class ScheduledSeekerConfig {
+public class RelationsUpdaterConfig {
 
   @Bean
   @Profile("!dev")
@@ -21,6 +21,6 @@ public class ScheduledSeekerConfig {
   @Bean
   @Profile("dev")
   public ScheduledFuture<?> scheduleUpdatesDev(TaskScheduler taskScheduler, RelationsUpdater relationsUpdater) {
-    return taskScheduler.scheduleWithFixedDelay(relationsUpdater::run, Duration.ofSeconds(10));
+    return taskScheduler.scheduleWithFixedDelay(relationsUpdater::run, Duration.ofSeconds(30));
   }
 }
