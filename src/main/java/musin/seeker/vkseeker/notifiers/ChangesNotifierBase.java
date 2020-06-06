@@ -1,7 +1,6 @@
 package musin.seeker.vkseeker.notifiers;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import musin.seeker.vkseeker.api.SimpleVkUser;
 import musin.seeker.vkseeker.api.VkApi;
 import musin.seeker.vkseeker.db.model.RelationChange;
@@ -17,7 +16,6 @@ import java.util.StringJoiner;
 import static java.util.Arrays.asList;
 
 @AllArgsConstructor
-@Log4j2
 public abstract class ChangesNotifierBase implements ChangesNotifier {
 
   private static final DateTimeFormatter DATE_TIME_FORMATTER =
@@ -54,7 +52,6 @@ public abstract class ChangesNotifierBase implements ChangesNotifier {
   @Override
   @Async
   public void notify(RelationChange change) {
-    log.warn("in ChangesNotifierBase.notify(change) " + Thread.currentThread());
     vkApi.loadUsersAsync(asList(change.getOwner(), change.getTarget()))
         .thenApply(u -> buildMessage(change, u.get(0), u.get(1)))
         .thenAccept(this::sendMessage);
@@ -63,7 +60,6 @@ public abstract class ChangesNotifierBase implements ChangesNotifier {
   @Override
   @Async
   public void notify(List<RelationChange> changes) {
-    log.warn("in ChangesNotifierBase.notify(changes) " + Thread.currentThread());
     if (changes.size() > 10) notifyABunchOfChanges(changes);
     else changes.forEach(this::notify);
   }
