@@ -13,7 +13,7 @@ public class ConsoleChangesNotifier extends ChangesNotifierBase {
   }
 
   @Override
-  public void sendMessage(String message) {
+  protected void sendMessage(String message) {
     log.info(message);
   }
 }
