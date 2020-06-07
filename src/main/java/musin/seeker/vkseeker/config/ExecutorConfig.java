@@ -17,7 +17,6 @@ public class ExecutorConfig {
     return executor -> {
       executor.setQueueCapacity(0);
       executor.setCorePoolSize(0);
-      executor.setKeepAliveSeconds(60 * 2);
       executor.setThreadNamePrefix("my-task-executor");
     };
   }
