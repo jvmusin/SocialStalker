@@ -21,7 +21,7 @@ public class TelegramProxyConfig {
 
   @Bean("tgRestTemplate")
   @Profile("tgProxy")
-  public RestTemplate tgRestTemplateProxy(TelegramConfigurationProperties config) {
+  public RestTemplate tgRestTemplateProxy(TelegramProxyConfigurationProperties config) {
     SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
 
     Proxy proxy = new Proxy(config.getType(), new InetSocketAddress(config.getHostname(), config.getPort()));
