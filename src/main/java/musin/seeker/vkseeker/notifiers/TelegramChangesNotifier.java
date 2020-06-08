@@ -3,9 +3,7 @@ package musin.seeker.vkseeker.notifiers;
 import lombok.SneakyThrows;
 import musin.seeker.vkseeker.api.VkApi;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
-import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -15,8 +13,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-@Component
-@Profile("tg")
 public class TelegramChangesNotifier extends ChangesNotifierBase {
 
   private static final long MUSIN_UID = 124275139;
