@@ -21,10 +21,10 @@ public class TelegramProxyConfig {
 
   @Bean("tgRestTemplate")
   @Profile("tgProxy")
-  public RestTemplate tgRestTemplateProxy() {
+  public RestTemplate tgRestTemplateProxy(TelegramConfigurationProperties config) {
     SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
 
-    Proxy proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("95.110.194.245", 26518));
+    Proxy proxy = new Proxy(config.getType(), new InetSocketAddress(config.getHostname(), config.getPort()));
     factory.setProxy(proxy);
 
     return new RestTemplate(factory);

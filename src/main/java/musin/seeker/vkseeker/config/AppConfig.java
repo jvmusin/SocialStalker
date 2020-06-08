@@ -1,14 +1,16 @@
 package musin.seeker.vkseeker.config;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 import java.util.concurrent.ForkJoinPool;
 
-@Configuration
 @Log4j2
+@Configuration
+@EnableConfigurationProperties
 public class AppConfig {
 
   @PostConstruct
