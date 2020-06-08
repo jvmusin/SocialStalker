@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker;
+package musin.seeker.vkseeker.core;
 
 import lombok.AllArgsConstructor;
 import musin.seeker.vkseeker.db.model.RelationChange;

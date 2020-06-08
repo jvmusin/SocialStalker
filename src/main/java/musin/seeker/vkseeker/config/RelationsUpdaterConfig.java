@@ -1,6 +1,6 @@
 package musin.seeker.vkseeker.config;
 
-import musin.seeker.vkseeker.RelationsUpdater;
+import musin.seeker.vkseeker.core.RelationsUpdater;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

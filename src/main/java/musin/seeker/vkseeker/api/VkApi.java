@@ -1,7 +1,6 @@
 package musin.seeker.vkseeker.api;
 
-import musin.seeker.vkseeker.RelationList;
-import musin.seeker.vkseeker.db.model.RelationChange;
+import musin.seeker.vkseeker.core.RelationList;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
