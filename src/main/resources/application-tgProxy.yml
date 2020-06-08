@@ -1,5 +1,6 @@
 telegram:
   proxy:
+    enabled: true
     type: SOCKS
     hostname: '95.110.194.245'
     port: 26518

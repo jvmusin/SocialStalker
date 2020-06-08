@@ -10,6 +10,7 @@ import java.net.Proxy;
 @Configuration
 @ConfigurationProperties(prefix = "telegram.proxy")
 public class TelegramProxyConfigurationProperties {
+  private boolean enabled;
   private Proxy.Type type;
   private String hostname;
   private int port;

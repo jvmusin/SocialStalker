@@ -16,25 +16,19 @@ import java.net.Proxy;
 @Profile("tg")
 public class TelegramProxyConfig {
 
-  @Bean("tgRestTemplate")
-  @Profile("!tgProxy")
-  public RestTemplate tgRestTemplate() {
-    return new RestTemplate();
-  }
+  public RestTemplate createRestTemplate(TelegramProxyConfigurationProperties proxyConfig) {
+    if (!proxyConfig.isEnabled()) return new RestTemplate();
 
-  @Bean("tgRestTemplate")
-  @Profile("tgProxy")
-  public RestTemplate tgRestTemplateProxy(TelegramProxyConfigurationProperties config) {
     SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
 
-    Proxy proxy = new Proxy(config.getType(), new InetSocketAddress(config.getHostname(), config.getPort()));
+    Proxy proxy = new Proxy(proxyConfig.getType(), new InetSocketAddress(proxyConfig.getHostname(), proxyConfig.getPort()));
     factory.setProxy(proxy);
 
     return new RestTemplate(factory);
   }
 
   @Bean
-  public TelegramChangesNotifier telegramChangesNotifier(VkApi vkApi, RestTemplate restTemplate, AsyncListenableTaskExecutor taskExecutor) {
-    return new TelegramChangesNotifier(vkApi, restTemplate, taskExecutor);
+  public TelegramChangesNotifier telegramChangesNotifier(VkApi vkApi, AsyncListenableTaskExecutor taskExecutor, TelegramProxyConfigurationProperties proxyConfig) {
+    return new TelegramChangesNotifier(vkApi, createRestTemplate(proxyConfig), taskExecutor);
   }
 }
