@@ -16,6 +16,3 @@ management:
     web:
       exposure:
         include: '*'
-
-relations-updater:
-  period: 5m

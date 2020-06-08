@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    include: telegram
+relations-updater:
+  period: 5m

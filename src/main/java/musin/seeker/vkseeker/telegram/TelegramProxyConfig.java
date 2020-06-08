@@ -1,7 +1,6 @@
-package musin.seeker.vkseeker.config;
+package musin.seeker.vkseeker.telegram;
 
 import musin.seeker.vkseeker.api.VkApi;
-import musin.seeker.vkseeker.notifiers.TelegramChangesNotifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,7 +12,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 
 @Configuration
-@Profile("tg")
+@Profile("telegram")
 public class TelegramProxyConfig {
 
   public RestTemplate createRestTemplate(TelegramProxyConfigurationProperties proxyConfig) {
@@ -28,7 +27,7 @@ public class TelegramProxyConfig {
   }
 
   @Bean
-  public TelegramChangesNotifier telegramChangesNotifier(VkApi vkApi, AsyncListenableTaskExecutor taskExecutor, TelegramProxyConfigurationProperties proxyConfig) {
-    return new TelegramChangesNotifier(vkApi, createRestTemplate(proxyConfig), taskExecutor);
+  public TelegramChangesNotifier telegramChangesNotifier(VkApi vkApi, AsyncListenableTaskExecutor taskExecutor, TelegramConfigurationProperties config) {
+    return new TelegramChangesNotifier(vkApi, createRestTemplate(config.getProxy()), taskExecutor);
   }
 }

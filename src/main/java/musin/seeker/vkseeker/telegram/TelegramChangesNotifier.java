@@ -1,8 +1,8 @@
-package musin.seeker.vkseeker.notifiers;
+package musin.seeker.vkseeker.telegram;
 
 import lombok.SneakyThrows;
 import musin.seeker.vkseeker.api.VkApi;
-import org.springframework.beans.factory.annotation.Qualifier;
+import musin.seeker.vkseeker.notifiers.ChangesNotifierBase;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.client.RestClientException;
@@ -21,7 +21,7 @@ public class TelegramChangesNotifier extends ChangesNotifierBase {
   private final RestTemplate restTemplate;
   private final AsyncListenableTaskExecutor taskExecutor;
 
-  public TelegramChangesNotifier(VkApi vkApi, @Qualifier("tgRestTemplate") RestTemplate restTemplate, AsyncListenableTaskExecutor taskExecutor) {
+  public TelegramChangesNotifier(VkApi vkApi, RestTemplate restTemplate, AsyncListenableTaskExecutor taskExecutor) {
     super(vkApi);
     this.restTemplate = restTemplate;
     this.taskExecutor = taskExecutor;
