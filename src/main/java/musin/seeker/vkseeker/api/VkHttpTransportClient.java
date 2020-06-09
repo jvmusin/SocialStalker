@@ -2,8 +2,8 @@ package musin.seeker.vkseeker.api;
 
 import com.vk.api.sdk.client.ClientResponse;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import musin.seeker.vkseeker.config.VkConfigurationProperties;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
 
@@ -13,14 +13,17 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Semaphore;
 
 @Component
-@AllArgsConstructor
-public class MyHttpTransportClient extends HttpTransportClient {
+public class VkHttpTransportClient extends HttpTransportClient {
 
-  private static final int DELAY_BETWEEN_REQUESTS_MILLIS = 1000;
-  private static final int REQUESTS_PER_SECOND = 3;
-
-  private final Semaphore availableRequestsSemaphore = new Semaphore(REQUESTS_PER_SECOND, true);
   private final TaskScheduler taskScheduler;
+  private final long delayBetweenRequestsMillis;
+  private final Semaphore availableRequestsSemaphore;
+
+  public VkHttpTransportClient(TaskScheduler taskScheduler, VkConfigurationProperties config) {
+    this.taskScheduler = taskScheduler;
+    this.delayBetweenRequestsMillis = config.getDelayBetweenRequests().toMillis();
+    this.availableRequestsSemaphore = new Semaphore(config.getRequestsPerSecond(), true);
+  }
 
   @SneakyThrows
   private <T> T execute(Callable<T> work) {
@@ -28,7 +31,7 @@ public class MyHttpTransportClient extends HttpTransportClient {
       availableRequestsSemaphore.acquireUninterruptibly();
       return work.call();
     } finally {
-      taskScheduler.schedule(availableRequestsSemaphore::release, Instant.now().plusMillis(DELAY_BETWEEN_REQUESTS_MILLIS));
+      taskScheduler.schedule(availableRequestsSemaphore::release, Instant.now().plusMillis(delayBetweenRequestsMillis));
     }
   }
 

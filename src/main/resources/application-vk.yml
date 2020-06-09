@@ -1,0 +1,3 @@
+vk:
+  delay-between-requests: 1s
+  requests-per-second: 3

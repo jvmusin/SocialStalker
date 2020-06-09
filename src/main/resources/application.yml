@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: vk
   datasource:
     username: postgres
     password: postgres
