@@ -3,6 +3,7 @@ package musin.seeker.vkseeker.updater;
 import lombok.AllArgsConstructor;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.db.model.RelationType;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -14,6 +15,7 @@ import static java.util.stream.Collectors.toList;
 public class RelationList {
   private final int owner;
   private final Map<RelationType, Set<Integer>> relationTypeToIds;
+  private LocalDateTime creationTime = LocalDateTime.now();
 
   public RelationList(int owner) {
     this.owner = owner;
@@ -46,14 +48,14 @@ public class RelationList {
     changes.forEach(this::applyChange);
   }
 
-  public List<RelationChange> getUpdates(RelationList other) {
-    return getAllIds(this, other)
+  public List<RelationChange> getUpdates(RelationList newer) {
+    return getAllIds(this, newer)
         .map(id -> RelationChange.builder()
             .owner(owner)
             .target(id)
             .prevType(getType(id))
-            .curType(other.getType(id))
-            .time(time)
+            .curType(newer.getType(id))
+            .time(newer.creationTime)
             .build())
         .filter(r -> r.getPrevType() != r.getCurType())
         .collect(toList());
@@ -74,5 +76,14 @@ public class RelationList {
 
   public List<RelationChange> getActiveChanges() {
     return new RelationList(owner).getUpdates(this);
+  }
+
+  public LocalDateTime getCreationTime() {
+    return creationTime;
+  }
+
+  public void setCreationTime(LocalDateTime creationTime) {
+    Assert.notNull(creationTime, "Creation time can't be null");
+    this.creationTime = creationTime;
   }
 }
