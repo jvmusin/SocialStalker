@@ -17,7 +17,7 @@ import java.net.Proxy;
 public class TelegramProxyConfig {
 
   public RestTemplate createRestTemplate(ProxyConfigurationProperties proxyConfig) {
-    if (!proxyConfig.isEnabled()) return new RestTemplate();
+    if (proxyConfig == null || !proxyConfig.isEnabled()) return new RestTemplate();
 
     SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
 

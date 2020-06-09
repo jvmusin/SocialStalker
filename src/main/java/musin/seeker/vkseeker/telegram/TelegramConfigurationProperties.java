@@ -12,5 +12,5 @@ import org.springframework.context.annotation.Configuration;
 public class TelegramConfigurationProperties {
   private boolean enabled;
   @NestedConfigurationProperty
-  private ProxyConfigurationProperties proxy = new ProxyConfigurationProperties();
+  private ProxyConfigurationProperties proxy;
 }
