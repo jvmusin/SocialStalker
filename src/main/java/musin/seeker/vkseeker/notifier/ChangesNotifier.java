@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.notifiers;
+package musin.seeker.vkseeker.notifier;
 
 import musin.seeker.vkseeker.db.model.RelationChange;
 

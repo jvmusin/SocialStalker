@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.notifiers;
+package musin.seeker.vkseeker.notifier;
 
 import lombok.AllArgsConstructor;
 import musin.seeker.vkseeker.vk.SimpleVkUser;

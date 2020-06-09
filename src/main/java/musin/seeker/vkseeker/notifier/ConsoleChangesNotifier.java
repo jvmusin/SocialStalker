@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.notifiers;
+package musin.seeker.vkseeker.notifier;
 
 import lombok.extern.log4j.Log4j2;
 import musin.seeker.vkseeker.vk.VkApi;

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import musin.seeker.vkseeker.vk.VkApi;
 import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.SeekerService;
-import musin.seeker.vkseeker.notifiers.ChangesNotifier;
+import musin.seeker.vkseeker.notifier.ChangesNotifier;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 

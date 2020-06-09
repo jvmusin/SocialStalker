@@ -2,7 +2,7 @@ package musin.seeker.vkseeker.telegram;
 
 import lombok.SneakyThrows;
 import musin.seeker.vkseeker.vk.VkApi;
-import musin.seeker.vkseeker.notifiers.ChangesNotifierBase;
+import musin.seeker.vkseeker.notifier.ChangesNotifierBase;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.client.RestClientException;
