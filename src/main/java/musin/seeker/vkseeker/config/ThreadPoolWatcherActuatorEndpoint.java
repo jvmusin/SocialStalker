@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Endpoint(id = "executors")
 @AllArgsConstructor
-public class CustomEndpoint {
+public class ThreadPoolWatcherActuatorEndpoint {
   private final ThreadPoolTaskExecutor taskExecutor;
   private final ThreadPoolTaskScheduler taskScheduler;
 
