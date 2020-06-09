@@ -3,7 +3,6 @@ package musin.seeker.vkseeker.vk;
 import com.vk.api.sdk.client.ClientResponse;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import lombok.SneakyThrows;
-import musin.seeker.vkseeker.config.VkConfigurationProperties;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
 

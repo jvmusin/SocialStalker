@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.config;
+package musin.seeker.vkseeker.vk;
 
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
