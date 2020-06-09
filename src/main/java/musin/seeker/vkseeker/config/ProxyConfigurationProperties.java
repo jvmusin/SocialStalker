@@ -1,11 +1,11 @@
-package musin.seeker.vkseeker.telegram;
+package musin.seeker.vkseeker.config;
 
 import lombok.Data;
 
 import java.net.Proxy;
 
 @Data
-public class TelegramProxyConfigurationProperties {
+public class ProxyConfigurationProperties {
   private boolean enabled;
   private Proxy.Type type;
   private String hostname;

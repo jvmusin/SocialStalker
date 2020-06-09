@@ -1,6 +1,7 @@
 package musin.seeker.vkseeker.telegram;
 
 import musin.seeker.vkseeker.api.VkApi;
+import musin.seeker.vkseeker.config.ProxyConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,7 +16,7 @@ import java.net.Proxy;
 @Profile("telegram")
 public class TelegramProxyConfig {
 
-  public RestTemplate createRestTemplate(TelegramProxyConfigurationProperties proxyConfig) {
+  public RestTemplate createRestTemplate(ProxyConfigurationProperties proxyConfig) {
     if (!proxyConfig.isEnabled()) return new RestTemplate();
 
     SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();

@@ -1,6 +1,7 @@
 package musin.seeker.vkseeker.telegram;
 
 import lombok.Data;
+import musin.seeker.vkseeker.config.ProxyConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Configuration;
@@ -11,5 +12,5 @@ import org.springframework.context.annotation.Configuration;
 public class TelegramConfigurationProperties {
   private boolean enabled;
   @NestedConfigurationProperty
-  private TelegramProxyConfigurationProperties proxy = new TelegramProxyConfigurationProperties();
+  private ProxyConfigurationProperties proxy = new ProxyConfigurationProperties();
 }
