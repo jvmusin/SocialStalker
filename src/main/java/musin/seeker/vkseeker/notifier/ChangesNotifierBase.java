@@ -1,10 +1,9 @@
 package musin.seeker.vkseeker.notifier;
 
 import lombok.AllArgsConstructor;
+import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.vk.SimpleVkUser;
 import musin.seeker.vkseeker.vk.VkApi;
-import musin.seeker.vkseeker.db.model.RelationChange;
-import org.springframework.scheduling.annotation.Async;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -50,7 +49,6 @@ public abstract class ChangesNotifierBase implements ChangesNotifier {
   }
 
   @Override
-  @Async
   public void notify(RelationChange change) {
     vkApi.loadUsersAsync(asList(change.getOwner(), change.getTarget()))
         .thenApply(u -> buildMessage(change, u.get(0), u.get(1)))
@@ -58,7 +56,6 @@ public abstract class ChangesNotifierBase implements ChangesNotifier {
   }
 
   @Override
-  @Async
   public void notify(List<RelationChange> changes) {
     if (changes.size() > 10) notifyABunchOfChanges(changes);
     else changes.forEach(this::notify);
