@@ -4,9 +4,9 @@ import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import musin.seeker.vkseeker.core.RelationList;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.db.model.RelationType;
+import musin.seeker.vkseeker.updater.RelationList;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Service;
 

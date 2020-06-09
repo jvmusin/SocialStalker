@@ -1,7 +1,7 @@
 package musin.seeker.vkseeker.web;
 
 import lombok.AllArgsConstructor;
-import musin.seeker.vkseeker.core.RelationList;
+import musin.seeker.vkseeker.updater.RelationList;
 import musin.seeker.vkseeker.vk.SimpleVkUser;
 import musin.seeker.vkseeker.vk.VkApi;
 import musin.seeker.vkseeker.db.RelationChangeService;

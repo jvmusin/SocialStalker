@@ -1,6 +1,5 @@
-package musin.seeker.vkseeker.config;
+package musin.seeker.vkseeker.updater;
 
-import musin.seeker.vkseeker.core.RelationsUpdater;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.TaskScheduler;

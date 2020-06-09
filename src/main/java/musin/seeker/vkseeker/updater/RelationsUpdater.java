@@ -1,10 +1,10 @@
-package musin.seeker.vkseeker.core;
+package musin.seeker.vkseeker.updater;
 
 import lombok.AllArgsConstructor;
-import musin.seeker.vkseeker.vk.VkApi;
 import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.SeekerService;
 import musin.seeker.vkseeker.notifier.ChangesNotifier;
+import musin.seeker.vkseeker.vk.VkApi;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
