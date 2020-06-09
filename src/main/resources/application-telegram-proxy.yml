@@ -1,3 +1,6 @@
+spring:
+  profiles:
+    include: telegram
 telegram:
   proxy:
     enabled: true
