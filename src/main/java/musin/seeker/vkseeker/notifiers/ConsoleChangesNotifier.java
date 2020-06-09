@@ -1,7 +1,7 @@
 package musin.seeker.vkseeker.notifiers;
 
 import lombok.extern.log4j.Log4j2;
-import musin.seeker.vkseeker.api.VkApi;
+import musin.seeker.vkseeker.vk.VkApi;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,7 +1,7 @@
 package musin.seeker.vkseeker.core;
 
 import lombok.AllArgsConstructor;
-import musin.seeker.vkseeker.api.VkApi;
+import musin.seeker.vkseeker.vk.VkApi;
 import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.SeekerService;
 import musin.seeker.vkseeker.notifiers.ChangesNotifier;

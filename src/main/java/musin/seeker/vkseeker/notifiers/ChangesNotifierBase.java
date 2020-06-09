@@ -1,8 +1,8 @@
 package musin.seeker.vkseeker.notifiers;
 
 import lombok.AllArgsConstructor;
-import musin.seeker.vkseeker.api.SimpleVkUser;
-import musin.seeker.vkseeker.api.VkApi;
+import musin.seeker.vkseeker.vk.SimpleVkUser;
+import musin.seeker.vkseeker.vk.VkApi;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import org.springframework.scheduling.annotation.Async;
 

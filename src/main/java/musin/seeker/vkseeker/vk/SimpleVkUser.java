@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.api;
+package musin.seeker.vkseeker.vk;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

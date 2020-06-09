@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.api;
+package musin.seeker.vkseeker.vk;
 
 import musin.seeker.vkseeker.core.RelationList;
 

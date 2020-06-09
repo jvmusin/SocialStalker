@@ -1,6 +1,6 @@
 package musin.seeker.vkseeker.telegram;
 
-import musin.seeker.vkseeker.api.VkApi;
+import musin.seeker.vkseeker.vk.VkApi;
 import musin.seeker.vkseeker.config.ProxyConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
