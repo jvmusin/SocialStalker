@@ -13,4 +13,6 @@ public class TelegramConfigurationProperties {
   private boolean enabled;
   @NestedConfigurationProperty
   private ProxyConfigurationProperties proxy;
+  private String botToken;
+  private int receiverUid;
 }

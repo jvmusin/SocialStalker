@@ -1,8 +1,8 @@
 package musin.seeker.vkseeker.telegram;
 
 import lombok.SneakyThrows;
-import musin.seeker.vkseeker.vk.VkApi;
 import musin.seeker.vkseeker.notifier.ChangesNotifierBase;
+import musin.seeker.vkseeker.vk.VkApi;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.client.RestClientException;
@@ -15,14 +15,16 @@ import javax.annotation.PreDestroy;
 
 public class TelegramChangesNotifier extends ChangesNotifierBase {
 
-  private static final long MUSIN_UID = 124275139;
-  private static final String BOT_TOKEN = "809103789:AAFReBbzwDxrpVCFLJ2JZv2EKcaaAJuqP6o";
+  private final long receiverUid;
+  private final String botToken;
 
   private final RestTemplate restTemplate;
   private final AsyncListenableTaskExecutor taskExecutor;
 
-  public TelegramChangesNotifier(VkApi vkApi, RestTemplate restTemplate, AsyncListenableTaskExecutor taskExecutor) {
+  public TelegramChangesNotifier(VkApi vkApi, long receiverUid, String botToken, RestTemplate restTemplate, AsyncListenableTaskExecutor taskExecutor) {
     super(vkApi);
+    this.receiverUid = receiverUid;
+    this.botToken = botToken;
     this.restTemplate = restTemplate;
     this.taskExecutor = taskExecutor;
   }
@@ -35,9 +37,9 @@ public class TelegramChangesNotifier extends ChangesNotifierBase {
   @SneakyThrows
   private void sendMessageAsync(String message, boolean waitForExecutionEnd) {
     ListenableFuture<?> task = taskExecutor.submitListenable(() -> {
-      SendMessage m = new SendMessage(MUSIN_UID, message);
+      SendMessage m = new SendMessage(receiverUid, message);
       m.setParseMode("Markdown");
-      String url = String.format("https://api.telegram.org/bot%s/sendMessage", BOT_TOKEN);
+      String url = String.format("https://api.telegram.org/bot%s/sendMessage", botToken);
       try {
         restTemplate.postForEntity(url, m, Message.class);
       } catch (RestClientException e) {
