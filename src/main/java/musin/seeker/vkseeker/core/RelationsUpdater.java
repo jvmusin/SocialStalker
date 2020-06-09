@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 @AllArgsConstructor
-public class RelationsUpdater {
+public class RelationsUpdater implements Runnable {
 
   private final SeekerService seekerService;
   private final RelationChangeService relationChangeService;
@@ -21,6 +21,7 @@ public class RelationsUpdater {
   private final List<ChangesNotifier> notifiers;
   private final TaskExecutor taskExecutor;
 
+  @Override
   public void run() {
     seekerService.findAll().forEach(s -> taskExecutor.execute(() -> run(s.getOwner())));
   }

@@ -12,6 +12,6 @@ public class RelationsUpdaterConfig {
 
   @Bean
   public ScheduledFuture<?> scheduleUpdates(TaskScheduler taskScheduler, RelationsUpdater relationsUpdater, RelationsUpdaterConfigurationProperties config) {
-    return taskScheduler.scheduleWithFixedDelay(relationsUpdater::run, config.getPeriod());
+    return taskScheduler.scheduleWithFixedDelay(relationsUpdater, config.getPeriod());
   }
 }
