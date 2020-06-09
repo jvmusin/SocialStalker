@@ -46,8 +46,7 @@ public class RelationList {
     changes.forEach(this::applyChange);
   }
 
-  public List<RelationChange> getDifferences(RelationList other) {
-    LocalDateTime time = LocalDateTime.now();
+  public List<RelationChange> getUpdates(RelationList other) {
     return getAllIds(this, other)
         .map(id -> RelationChange.builder()
             .owner(owner)
@@ -74,6 +73,6 @@ public class RelationList {
   }
 
   public List<RelationChange> getActiveChanges() {
-    return new RelationList(owner).getDifferences(this);
+    return new RelationList(owner).getUpdates(this);
   }
 }

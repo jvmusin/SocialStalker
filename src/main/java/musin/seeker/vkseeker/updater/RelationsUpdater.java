@@ -30,7 +30,7 @@ public class RelationsUpdater implements Runnable {
     CompletableFuture<RelationList> was = relationChangeService.findAllByOwner(owner)
         .thenApply(changes -> new RelationList(owner, changes));
     CompletableFuture<RelationList> now = vkApi.loadRelationsAsync(owner);
-    was.thenCombine(now, RelationList::getDifferences)
+    was.thenCombine(now, RelationList::getUpdates)
         .thenApply(relationChangeService::saveAll)
         .thenAccept(differences -> notifiers.forEach(notifier -> notifier.notify(differences)));
   }
