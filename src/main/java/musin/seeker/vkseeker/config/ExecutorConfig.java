@@ -23,7 +23,6 @@ public class ExecutorConfig {
 
   @Bean
   public TaskSchedulerCustomizer taskSchedulerCustomizer() {
-    //todo play with it
     return scheduler -> {
       scheduler.setPoolSize(10);
       scheduler.setThreadNamePrefix("my-task-scheduler");
