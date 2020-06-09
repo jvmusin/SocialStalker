@@ -12,4 +12,6 @@ import java.time.Duration;
 public class VkConfigurationProperties {
   private Duration delayBetweenRequests;
   private int requestsPerSecond;
+  private int userId;
+  private String userAccessToken;
 }
