@@ -1,13 +1,13 @@
 package musin.seeker.vkseeker.web;
 
 import lombok.AllArgsConstructor;
-import musin.seeker.vkseeker.updater.RelationList;
-import musin.seeker.vkseeker.vk.SimpleVkUser;
-import musin.seeker.vkseeker.vk.VkApi;
 import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.SeekerService;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.db.model.Seeker;
+import musin.seeker.vkseeker.vk.SimpleVkUser;
+import musin.seeker.vkseeker.vk.VkApi;
+import musin.seeker.vkseeker.vk.relation.VkRelationUpdate;
 import musin.seeker.vkseeker.web.dto.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collection;
 import java.util.List;
 
 import static java.util.Comparator.comparingInt;
@@ -87,8 +88,12 @@ public class MainController {
 
   @RequestMapping(value = "/seekers", method = POST)
   public String registerSeeker(@ModelAttribute NewSeekerDto newSeeker) {
+    //todo prolly rewrite it like normal ppl
     vkApi.loadRelationsAsync(newSeeker.userId)
-        .thenApply(RelationList::getActiveChanges)
+        .thenApply(Collection::stream)
+        .thenApply(relations -> relations.map(relation -> new VkRelationUpdate(relation.getUser(), null, relation)))
+        .thenApply(updates -> updates.map(update -> update.toDb(newSeeker.userId)))
+        .thenApply(changes -> changes.collect(toList()))
         .thenAccept(changes -> seekerService.create(newSeeker.getUserId(), changes))
         .join();  // wait for the creation to show /seekers page with added seeker
     return "redirect:/seekers";
