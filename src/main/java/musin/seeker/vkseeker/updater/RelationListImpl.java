@@ -41,6 +41,7 @@ public abstract class RelationListImpl<TUser, TRelation extends Relation<TUser, 
   @Override
   public Stream<TRelationUpdate> updates(RelationList<TUser, TRelation, TRelationUpdate> newer) {
     return Stream.concat(users(), newer.users())
+        .distinct()
         .filter(u -> !Objects.equals(get(u), newer.get(u)))
         .map(u -> createUpdate(u, get(u), newer.get(u)));
   }
