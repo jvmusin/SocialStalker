@@ -11,7 +11,7 @@ public class VkRelationUpdate {
   private final VkRelation was;
   private final VkRelation now;
 
-  public RelationChange toDb(Integer owner) {
+  public RelationChange toDb(int owner) {
     return RelationChange.builder()
         .owner(owner)
         .target(user)
