@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.updater.v3;
+package musin.seeker.vkseeker.updater;
 
 import javax.annotation.Nonnull;
 import java.util.*;
