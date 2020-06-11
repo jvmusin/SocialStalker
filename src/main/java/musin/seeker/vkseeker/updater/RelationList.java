@@ -27,7 +27,7 @@ public interface RelationList<TUser, TRelation extends Relation<TUser, ?>, TRela
    * Otherwise adds or overrides (if already exists) a relation,
    * associated with a user taken from {@code relation.user}.
    *
-   * @param relation a relation to add
+   * @param relation a relation to add or remove
    * @return {@code true} if this list changed as a result of the call
    */
   @Override
