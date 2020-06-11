@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Stream;
 
-public abstract class RelationListImpl<TUser, TRelation extends Relation<TUser, ?>, TRelationUpdate>
+public abstract class RelationListBase<TUser, TRelation extends Relation<TUser, ?>, TRelationUpdate>
     extends AbstractCollection<TRelation>
     implements RelationList<TUser, TRelation, TRelationUpdate> {
 

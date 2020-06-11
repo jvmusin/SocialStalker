@@ -1,10 +1,10 @@
 package musin.seeker.vkseeker.vk.relation;
 
-import musin.seeker.vkseeker.updater.RelationListImpl;
+import musin.seeker.vkseeker.updater.RelationListBase;
 
 import java.util.stream.Stream;
 
-public class VkRelationList extends RelationListImpl<Integer, VkRelation, VkRelationUpdate> {
+public class VkRelationList extends RelationListBase<Integer, VkRelation, VkRelationUpdate> {
 
   public VkRelationList(Stream<VkRelation> relations) {
     relations.forEach(this::add);
