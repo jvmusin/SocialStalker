@@ -1,7 +1,7 @@
 package musin.seeker.vkseeker.relation;
 
-public interface Relation<User, Type> {
-  User getUser();
+public interface Relation<TUser, TRelationType> {
+  TUser getUser();
 
-  Type getType();
+  TRelationType getType();
 }
