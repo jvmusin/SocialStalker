@@ -1,11 +1,14 @@
-package musin.seeker.vkseeker.vk.relation;
+package musin.seeker.vkseeker.vk.updater;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.SeekerService;
 import musin.seeker.vkseeker.db.model.RelationChange;
-import musin.seeker.vkseeker.notifier.ChangesNotifier;
+import musin.seeker.vkseeker.notifier.UpdateNotifier;
 import musin.seeker.vkseeker.vk.VkApi;
+import musin.seeker.vkseeker.vk.relation.VkRelation;
+import musin.seeker.vkseeker.vk.relation.VkRelationList;
+import musin.seeker.vkseeker.vk.relation.VkRelationUpdate;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +19,15 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 @Service
-@AllArgsConstructor
-public class VkRelationsUpdater implements Runnable {
+@RequiredArgsConstructor
+public class VkUpdater implements Runnable {
 
   private final SeekerService seekerService;
   private final RelationChangeService relationChangeService;
   private final VkApi vkApi;
-  private final List<ChangesNotifier> notifiers;
+  private final List<UpdateNotifier<VkUpdate>> notifiers;
   private final TaskExecutor taskExecutor;
+  private final VkUpdateFactory vkUpdateFactory;
 
   private static List<RelationChange> toDbChanges(int owner, Stream<VkRelationUpdate> changes) {
     return changes.map(update -> update.toDb(owner)).collect(toList());
@@ -43,6 +47,13 @@ public class VkRelationsUpdater implements Runnable {
 
     was.thenCombine(now, VkRelationList::updates)
         .thenApply(updates -> relationChangeService.saveAll(toDbChanges(owner, updates)))
+        .thenApply(this::toVkUpdates)
         .thenAccept(differences -> notifiers.forEach(notifier -> notifier.notify(differences)));
+  }
+
+  private List<VkUpdate> toVkUpdates(List<RelationChange> changes) {
+    return changes.stream()
+        .map(vkUpdateFactory::createUpdate)
+        .collect(toList());
   }
 }

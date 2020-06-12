@@ -28,7 +28,7 @@ public class TelegramConfig {
   }
 
   @Bean
-  public TelegramChangesNotifier telegramChangesNotifier(VkApi vkApi, AsyncListenableTaskExecutor taskExecutor, TelegramConfigurationProperties config) {
-    return new TelegramChangesNotifier(vkApi, config.getReceiverUid(), config.getBotToken(), createRestTemplate(config.getProxy()), taskExecutor);
+  public TelegramMessageSender sender(AsyncListenableTaskExecutor taskExecutor, TelegramConfigurationProperties config) {
+    return new TelegramMessageSenderImpl(config.getReceiverUid(), config.getBotToken(), createRestTemplate(config.getProxy()), taskExecutor);
   }
 }

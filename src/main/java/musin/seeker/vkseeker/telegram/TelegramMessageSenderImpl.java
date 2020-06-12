@@ -1,8 +1,8 @@
 package musin.seeker.vkseeker.telegram;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import musin.seeker.vkseeker.notifier.ChangesNotifierBase;
-import musin.seeker.vkseeker.vk.VkApi;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.client.RestClientException;
@@ -10,10 +10,8 @@ import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-
-public class TelegramChangesNotifier extends ChangesNotifierBase {
+@RequiredArgsConstructor
+public class TelegramMessageSenderImpl implements TelegramMessageSender {
 
   private final long receiverUid;
   private final String botToken;
@@ -21,21 +19,9 @@ public class TelegramChangesNotifier extends ChangesNotifierBase {
   private final RestTemplate restTemplate;
   private final AsyncListenableTaskExecutor taskExecutor;
 
-  public TelegramChangesNotifier(VkApi vkApi, long receiverUid, String botToken, RestTemplate restTemplate, AsyncListenableTaskExecutor taskExecutor) {
-    super(vkApi);
-    this.receiverUid = receiverUid;
-    this.botToken = botToken;
-    this.restTemplate = restTemplate;
-    this.taskExecutor = taskExecutor;
-  }
-
   @Override
-  protected void sendMessage(String message) {
-    sendMessageAsync(message, false);
-  }
-
   @SneakyThrows
-  private void sendMessageAsync(String message, boolean waitForExecutionEnd) {
+  public void sendMessage(@NotNull String message, boolean waitForExecutionEnd) {
     ListenableFuture<?> task = taskExecutor.submitListenable(() -> {
       SendMessage m = new SendMessage(receiverUid, message);
       m.setParseMode("Markdown");
@@ -47,15 +33,5 @@ public class TelegramChangesNotifier extends ChangesNotifierBase {
       }
     });
     if (waitForExecutionEnd) task.get();
-  }
-
-  @PostConstruct
-  public void init() {
-    sendMessageAsync("I'm alive", false);
-  }
-
-  @PreDestroy
-  public void shutdown() {
-    sendMessageAsync("I'm shutting down", true);
   }
 }
