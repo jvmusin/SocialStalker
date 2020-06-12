@@ -1,5 +1,7 @@
 package musin.seeker.vkseeker.relation;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collection;
 import java.util.stream.Stream;
 
@@ -31,7 +33,7 @@ public interface RelationList<TUser, TRelation extends Relation<TUser, ?>, TRela
    * @return {@code true} if this list changed as a result of the call
    */
   @Override
-  boolean add(TRelation relation);
+  boolean add(@NotNull TRelation relation);
 
   /**
    * Returns a relation associated with a given {@code user}.
@@ -40,7 +42,7 @@ public interface RelationList<TUser, TRelation extends Relation<TUser, ?>, TRela
    * @return a relation associated with a given {@code user}
    * or {@code null} if a user is not presented in this list
    */
-  TRelation get(TUser user);
+  TRelation get(@NotNull TUser user);
 
   /**
    * Returns all updates between this list and the given {@code newer} list.
@@ -55,12 +57,14 @@ public interface RelationList<TUser, TRelation extends Relation<TUser, ?>, TRela
    * @param newer a newer relation list to check for updates
    * @return a stream of all updates between these two lists
    */
-  Stream<TRelationUpdate> updates(RelationList<TUser, TRelation, TRelationUpdate> newer);
+  @NotNull
+  Stream<TRelationUpdate> updates(@NotNull RelationList<TUser, TRelation, TRelationUpdate> newer);
 
   /**
    * Returns updates such that applying them on an empty list produces a list which is equal to this one.
    *
    * @return a stream of updates to build a list which is equal to this one
    */
+  @NotNull
   Stream<TRelationUpdate> asUpdates();
 }

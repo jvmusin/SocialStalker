@@ -1,6 +1,7 @@
 package musin.seeker.vkseeker.vk.relation;
 
 import musin.seeker.vkseeker.relation.TreeMapRelationList;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
@@ -11,7 +12,7 @@ public class VkRelationList extends TreeMapRelationList<Integer, VkRelation, VkR
   }
 
   @Override
-  protected VkRelationUpdate createUpdate(Integer user, VkRelation was, VkRelation now) {
+  protected VkRelationUpdate createUpdate(@NotNull Integer user, VkRelation was, VkRelation now) {
     return new VkRelationUpdate(user, was, now);
   }
 }

@@ -1,6 +1,7 @@
 package musin.seeker.vkseeker.relation;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -21,19 +22,19 @@ public abstract class TreeMapRelationList<TUser extends Comparable<TUser>, TRela
   private final Map<TUser, TRelation> userToRelation = new TreeMap<>();
 
   @Override
-  public boolean add(TRelation relation) {
+  public boolean add(@NotNull TRelation relation) {
     return relation.getType() == null
         ? userToRelation.remove(relation.getUser()) != null
         : !Objects.equals(relation, userToRelation.put(relation.getUser(), relation));
   }
 
   @Override
-  public TRelation get(TUser user) {
+  public TRelation get(@NotNull TUser user) {
     return userToRelation.get(user);
   }
 
+  @NotNull
   @Override
-  @Nonnull
   public Iterator<TRelation> iterator() {
     return new Itr();
   }
@@ -43,13 +44,15 @@ public abstract class TreeMapRelationList<TUser extends Comparable<TUser>, TRela
     return userToRelation.size();
   }
 
+  @NotNull
   @Override
   public Stream<TUser> users() {
     return userToRelation.keySet().stream();
   }
 
+  @NotNull
   @Override
-  public Stream<TRelationUpdate> updates(RelationList<TUser, TRelation, TRelationUpdate> newer) {
+  public Stream<TRelationUpdate> updates(@NotNull RelationList<TUser, TRelation, TRelationUpdate> newer) {
     return Stream.concat(users(), newer.users())
         .sorted()
         .distinct()
@@ -57,13 +60,14 @@ public abstract class TreeMapRelationList<TUser extends Comparable<TUser>, TRela
         .map(u -> createUpdate(u, get(u), newer.get(u)));
   }
 
+  @NotNull
   @Override
   public Stream<TRelationUpdate> asUpdates() {
     return userToRelation.entrySet().stream()
         .map(e -> createUpdate(e.getKey(), null, e.getValue()));
   }
 
-  protected abstract TRelationUpdate createUpdate(TUser user, TRelation was, TRelation now);
+  protected abstract TRelationUpdate createUpdate(@NotNull TUser user, TRelation was, TRelation now);
 
   private class Itr implements Iterator<TRelation> {
     private final Iterator<Map.Entry<TUser, TRelation>> iter = userToRelation.entrySet().iterator();
