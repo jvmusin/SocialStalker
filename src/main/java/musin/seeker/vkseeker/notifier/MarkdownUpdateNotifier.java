@@ -55,7 +55,7 @@ public abstract class MarkdownUpdateNotifier<
     StringJoiner sj = new StringJoiner("\n");
     sj.add(String.format("Too many updates (%d) for user %s", updates.size(), someUpdate.getOwner()));
     sj.add(String.format("Update ids: %d..%d", idStats.getMin(), idStats.getMax()));
-    sj.add(String.format("Type: %s to %s", someUpdate.getWas(), someUpdate.getNow()));
+    sj.add(String.format("Type: %s to %s", someUpdate.getWas().getType(), someUpdate.getNow().getType()));
     return sj.toString();
   }
 
