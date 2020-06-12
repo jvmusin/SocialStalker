@@ -8,10 +8,10 @@
         <version>2.3.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>musin.seeker</groupId>
-    <artifactId>vkseeker</artifactId>
+    <groupId>musin</groupId>
+    <artifactId>seeker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>vkseeker</name>
+    <name>seeker</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

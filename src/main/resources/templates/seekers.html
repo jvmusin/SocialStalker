@@ -3,7 +3,7 @@
 <head>
     <title>Seekers</title>
 </head>
-<!--/*@thymesVar id="model" type="musin.seeker.vkseeker.web.dto.SeekerListDto"*/-->
+<!--/*@thymesVar id="model" type="musin.seeker.web.dto.SeekerListDto"*/-->
 <body>
     <div>
         <h1>Seekers</h1>
@@ -30,7 +30,7 @@
 
     <a href="#" th:href="@{/seekers/all_changes}">All changes</a> <br/>
 
-    <!--/*@thymesVar id="newSeeker" type="musin.seeker.vkseeker.web.dto.NewSeekerDto"*/-->
+    <!--/*@thymesVar id="newSeeker" type="musin.seeker.web.dto.NewSeekerDto"*/-->
     <form method="post" th:action="@{/seekers}" th:object="${newSeeker}">
         <label for="newSeeker">New id to seek: </label>
         <input id="newSeeker" type="text" th:field="*{userId}"/>
