@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 /**
- * This class represents all relations between some root user and other users.
+ * This interface represents all relations between some root user and other users.
  *
  * @param <TUser>           type of users
  * @param <TRelation>       type of relations between users
@@ -23,11 +23,11 @@ public interface RelationList<TUser, TRelation extends Relation<TUser, ?>, TRela
   Stream<TUser> users();
 
   /**
-   * If a given {@code relation.type} is {@code null}, then removes a relation,
-   * associated with a user taken from {@code relation.user}.
+   * If a given {@link Relation#getType() relation.type} is {@code null}, then removes a relation,
+   * associated with a user obtained from {@link Relation#getUser() relation.user}.
    * <p>
-   * Otherwise adds or overrides (if already exists) a relation,
-   * associated with a user taken from {@code relation.user}.
+   * Otherwise adds (or overrides if already exists) a relation,
+   * associated with a user obtained from {@link Relation#getUser() relation.user}.
    *
    * @param relation a relation to add or remove
    * @return {@code true} if this list changed as a result of the call
