@@ -1,4 +1,6 @@
 language: java
+sudo: true
 dist: bionic
-jdk:
-  - openjdk11
+jdk: openjdk11
+before_install:
+  - chmod +x mvnw
