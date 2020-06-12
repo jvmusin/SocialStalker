@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.vk;
+package musin.seeker.vkseeker.vk.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

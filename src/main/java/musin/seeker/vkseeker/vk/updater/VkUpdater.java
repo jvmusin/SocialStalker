@@ -5,7 +5,7 @@ import musin.seeker.vkseeker.db.RelationChangeService;
 import musin.seeker.vkseeker.db.SeekerService;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.notifier.UpdateNotifier;
-import musin.seeker.vkseeker.vk.VkApi;
+import musin.seeker.vkseeker.vk.api.VkApi;
 import musin.seeker.vkseeker.vk.relation.VkRelation;
 import musin.seeker.vkseeker.vk.relation.VkRelationList;
 import musin.seeker.vkseeker.vk.relation.VkRelationUpdate;

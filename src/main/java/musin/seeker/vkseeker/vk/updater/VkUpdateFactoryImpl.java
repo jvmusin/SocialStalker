@@ -4,8 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.notifier.User;
-import musin.seeker.vkseeker.vk.SimpleVkUser;
-import musin.seeker.vkseeker.vk.VkApi;
+import musin.seeker.vkseeker.vk.api.VkApi;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -46,8 +45,7 @@ public class VkUpdateFactoryImpl implements VkUpdateFactory {
 
     @Override
     public String getName() {
-      SimpleVkUser user = vkApi.loadUser(id);
-      return String.format("%d: %s %s", id, user.getFirstName(), user.getLastName());
+      return vkApi.loadUser(id).toString();
     }
 
     @Override
