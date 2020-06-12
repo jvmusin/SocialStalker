@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.updater;
+package musin.seeker.vkseeker.relation;
 
 public interface Relation<User, Type> {
   User getUser();

@@ -3,7 +3,7 @@ package musin.seeker.vkseeker.vk.relation;
 import lombok.Data;
 import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.db.model.RelationType;
-import musin.seeker.vkseeker.updater.Relation;
+import musin.seeker.vkseeker.relation.Relation;
 
 @Data
 public class VkRelation implements Relation<Integer, RelationType> {

@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.updater;
+package musin.seeker.vkseeker.relation;
 
 import lombok.AllArgsConstructor;
 import musin.seeker.vkseeker.vk.relation.VkRelationsUpdater;

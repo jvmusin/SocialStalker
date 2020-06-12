@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.updater;
+package musin.seeker.vkseeker.relation;
 
 import java.util.Collection;
 import java.util.stream.Stream;

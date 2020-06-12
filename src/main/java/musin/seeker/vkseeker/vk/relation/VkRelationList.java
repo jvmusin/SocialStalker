@@ -1,6 +1,6 @@
 package musin.seeker.vkseeker.vk.relation;
 
-import musin.seeker.vkseeker.updater.RelationListBase;
+import musin.seeker.vkseeker.relation.RelationListBase;
 
 import java.util.stream.Stream;
 
