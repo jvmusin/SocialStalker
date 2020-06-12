@@ -7,6 +7,7 @@ import musin.seeker.vkseeker.db.model.RelationChange;
 import musin.seeker.vkseeker.db.model.Seeker;
 import musin.seeker.vkseeker.vk.SimpleVkUser;
 import musin.seeker.vkseeker.vk.VkApi;
+import musin.seeker.vkseeker.vk.relation.VkRelationList;
 import musin.seeker.vkseeker.vk.relation.VkRelationUpdate;
 import musin.seeker.vkseeker.web.dto.*;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
 import java.util.List;
 
 import static java.util.Comparator.comparingInt;
@@ -88,14 +88,12 @@ public class MainController {
 
   @RequestMapping(value = "/seekers", method = POST)
   public String registerSeeker(@ModelAttribute NewSeekerDto newSeeker) {
-    //todo prolly rewrite it like normal ppl
-    vkApi.loadRelationsAsync(newSeeker.userId)
-        .thenApply(Collection::stream)
-        .thenApply(relations -> relations.map(relation -> new VkRelationUpdate(relation.getUser(), null, relation)))
-        .thenApply(updates -> updates.map(update -> update.toDb(newSeeker.userId)))
-        .thenApply(changes -> changes.collect(toList()))
-        .thenAccept(changes -> seekerService.create(newSeeker.getUserId(), changes))
-        .join();  // wait for the creation to show /seekers page with added seeker
+    VkRelationList list = vkApi.loadRelationsAsync(newSeeker.userId).join();
+    List<RelationChange> changes = list.stream()
+        .map(relation -> new VkRelationUpdate(relation.getUser(), null, relation))
+        .map(update -> update.toDb(newSeeker.userId))
+        .collect(toList());
+    seekerService.create(newSeeker.getUserId(), changes);
     return "redirect:/seekers";
   }
 
