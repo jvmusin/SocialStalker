@@ -51,6 +51,7 @@ public abstract class TreeMapRelationList<TUser extends Comparable<TUser>, TRela
   @Override
   public Stream<TRelationUpdate> updates(RelationList<TUser, TRelation, TRelationUpdate> newer) {
     return Stream.concat(users(), newer.users())
+        .sorted()
         .distinct()
         .filter(u -> !Objects.equals(get(u), newer.get(u)))
         .map(u -> createUpdate(u, get(u), newer.get(u)));
