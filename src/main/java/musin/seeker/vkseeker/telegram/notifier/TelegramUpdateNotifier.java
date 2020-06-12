@@ -1,10 +1,11 @@
-package musin.seeker.vkseeker.telegram;
+package musin.seeker.vkseeker.telegram.notifier;
 
 import lombok.RequiredArgsConstructor;
 import musin.seeker.vkseeker.notifier.MarkdownUpdateNotifier;
 import musin.seeker.vkseeker.notifier.Update;
 import musin.seeker.vkseeker.notifier.User;
 import musin.seeker.vkseeker.relation.Relation;
+import musin.seeker.vkseeker.telegram.api.TelegramMessageSender;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.PostConstruct;

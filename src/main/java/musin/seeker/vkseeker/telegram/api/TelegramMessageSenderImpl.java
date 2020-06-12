@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.telegram;
+package musin.seeker.vkseeker.telegram.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

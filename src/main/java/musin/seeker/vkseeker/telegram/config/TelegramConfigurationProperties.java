@@ -1,4 +1,4 @@
-package musin.seeker.vkseeker.telegram;
+package musin.seeker.vkseeker.telegram.config;
 
 import lombok.Data;
 import musin.seeker.vkseeker.config.ProxyConfigurationProperties;

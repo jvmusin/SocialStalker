@@ -2,8 +2,8 @@ package musin.seeker.vkseeker.vk.notifier;
 
 import musin.seeker.vkseeker.notifier.ConsoleUpdateNotifier;
 import musin.seeker.vkseeker.notifier.UpdateNotifier;
-import musin.seeker.vkseeker.telegram.TelegramMessageSender;
-import musin.seeker.vkseeker.telegram.TelegramUpdateNotifier;
+import musin.seeker.vkseeker.telegram.api.TelegramMessageSender;
+import musin.seeker.vkseeker.telegram.notifier.TelegramUpdateNotifier;
 import musin.seeker.vkseeker.vk.updater.VkUpdate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

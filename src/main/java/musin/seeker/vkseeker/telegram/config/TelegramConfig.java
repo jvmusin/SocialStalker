@@ -1,6 +1,8 @@
-package musin.seeker.vkseeker.telegram;
+package musin.seeker.vkseeker.telegram.config;
 
 import musin.seeker.vkseeker.config.ProxyConfigurationProperties;
+import musin.seeker.vkseeker.telegram.api.TelegramMessageSender;
+import musin.seeker.vkseeker.telegram.api.TelegramMessageSenderImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
