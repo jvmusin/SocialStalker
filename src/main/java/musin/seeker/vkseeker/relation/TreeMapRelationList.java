@@ -57,6 +57,12 @@ public abstract class TreeMapRelationList<TUser extends Comparable<TUser>, TRela
         .map(u -> createUpdate(u, get(u), newer.get(u)));
   }
 
+  @Override
+  public Stream<TRelationUpdate> asUpdates() {
+    return userToRelation.entrySet().stream()
+        .map(e -> createUpdate(e.getKey(), null, e.getValue()));
+  }
+
   protected abstract TRelationUpdate createUpdate(TUser user, TRelation was, TRelation now);
 
   private class Itr implements Iterator<TRelation> {

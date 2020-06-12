@@ -56,4 +56,11 @@ public interface RelationList<TUser, TRelation extends Relation<TUser, ?>, TRela
    * @return a stream of all updates between these two lists
    */
   Stream<TRelationUpdate> updates(RelationList<TUser, TRelation, TRelationUpdate> newer);
+
+  /**
+   * Returns updates such that applying them on an empty list produces a list which is equal to this one.
+   *
+   * @return a stream of updates to build a list which is equal to this one
+   */
+  Stream<TRelationUpdate> asUpdates();
 }
