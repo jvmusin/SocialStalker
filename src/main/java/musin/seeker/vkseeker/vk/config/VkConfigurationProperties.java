@@ -10,8 +10,9 @@ import java.time.Duration;
 @Configuration
 @ConfigurationProperties(prefix = "vk")
 public class VkConfigurationProperties {
-  private Duration delayBetweenRequests;
+  private Duration minDelayBetweenRequests;
   private int requestsPerSecond;
   private int userId;
   private String userAccessToken;
+  private Duration periodBetweenUpdates;
 }

@@ -3,7 +3,6 @@ package musin.seeker.vkseeker.vk.config;
 import com.vk.api.sdk.client.ClientResponse;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import lombok.SneakyThrows;
-import musin.seeker.vkseeker.vk.config.VkConfigurationProperties;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,7 @@ public class VkHttpTransportClient extends HttpTransportClient {
 
   public VkHttpTransportClient(TaskScheduler taskScheduler, VkConfigurationProperties config) {
     this.taskScheduler = taskScheduler;
-    this.delayBetweenRequestsMillis = config.getDelayBetweenRequests().toMillis();
+    this.delayBetweenRequestsMillis = config.getMinDelayBetweenRequests().toMillis();
     this.availableRequestsSemaphore = new Semaphore(config.getRequestsPerSecond(), true);
   }
 

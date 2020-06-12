@@ -1,5 +1,5 @@
 spring:
   profiles:
     include: telegram
-relations-updater:
-  period: 5m
+vk:
+  period-between-updates: 5m

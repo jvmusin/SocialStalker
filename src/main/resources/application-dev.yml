@@ -1,2 +1,2 @@
-relations-updater:
-  period: 30s
+vk:
+  period-between-updates: 30s
