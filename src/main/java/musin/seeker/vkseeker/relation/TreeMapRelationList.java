@@ -5,12 +5,12 @@ import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * A {@link RelationList} implementation which uses {@link TreeMap}&lt;TUser, TRelation&gt; inside
+ * A {@link RelationList} implementation which uses {@link TreeMap}{@code <TUser, TRelation>} inside
  * and relies on {@code TUser.compareTo(TUser)}.
  * <p>
- * To make things work correctly {@code TUser} and {@code TRelation} should have working {@code equals} method.
+ * To make things work correctly {@code TUser} and {@code TRelation} should have working {@link Object#equals(Object)} method.
  *
- * @param <TUser>           type of user, should implement Comparable&lt;TUser&gt;
+ * @param <TUser>           type of user, should implement {@link Comparable}{@code <TUser>}
  * @param <TRelation>       type of relation
  * @param <TRelationUpdate> type of relation update
  */
