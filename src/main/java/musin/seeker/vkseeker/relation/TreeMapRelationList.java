@@ -4,11 +4,21 @@ import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Stream;
 
-public abstract class RelationListBase<TUser, TRelation extends Relation<TUser, ?>, TRelationUpdate>
+/**
+ * A {@link RelationList} implementation which uses {@link TreeMap}&lt;TUser, TRelation&gt; inside
+ * and relies on {@code TUser.compareTo(TUser)}.
+ * <p>
+ * To make things work correctly {@code TUser} and {@code TRelation} should have working {@code equals} method.
+ *
+ * @param <TUser>           type of user, should implement Comparable&lt;TUser&gt;
+ * @param <TRelation>       type of relation
+ * @param <TRelationUpdate> type of relation update
+ */
+public abstract class TreeMapRelationList<TUser extends Comparable<TUser>, TRelation extends Relation<TUser, ?>, TRelationUpdate>
     extends AbstractCollection<TRelation>
     implements RelationList<TUser, TRelation, TRelationUpdate> {
 
-  private final Map<TUser, TRelation> userToRelation = new HashMap<>();
+  private final Map<TUser, TRelation> userToRelation = new TreeMap<>();
 
   @Override
   public boolean add(TRelation relation) {
