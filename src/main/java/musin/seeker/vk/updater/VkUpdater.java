@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.db.RelationChangeService;
 import musin.seeker.db.SeekerService;
 import musin.seeker.db.model.RelationChange;
-import musin.seeker.notifier.UpdateNotifier;
 import musin.seeker.vk.api.VkApi;
+import musin.seeker.vk.notifier.VkUpdateNotifier;
 import musin.seeker.vk.relation.VkRelation;
 import musin.seeker.vk.relation.VkRelationList;
 import musin.seeker.vk.relation.VkRelationUpdate;
@@ -25,7 +25,7 @@ public class VkUpdater implements Runnable {
   private final SeekerService seekerService;
   private final RelationChangeService relationChangeService;
   private final VkApi vkApi;
-  private final List<UpdateNotifier<VkUpdate>> notifiers;
+  private final List<VkUpdateNotifier> notifiers;
   private final TaskExecutor taskExecutor;
   private final VkUpdateFactory vkUpdateFactory;
 
