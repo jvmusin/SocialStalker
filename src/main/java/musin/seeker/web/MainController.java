@@ -9,7 +9,7 @@ import musin.seeker.vk.api.SimpleVkUser;
 import musin.seeker.vk.api.VkApi;
 import musin.seeker.vk.relation.VkRelationList;
 import musin.seeker.vk.relation.VkRelationListFactory;
-import musin.seeker.vk.updater.VkUpdate;
+import musin.seeker.vk.relation.VkUpdate;
 import musin.seeker.web.dto.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

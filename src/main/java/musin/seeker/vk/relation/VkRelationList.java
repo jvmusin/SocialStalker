@@ -1,8 +1,6 @@
 package musin.seeker.vk.relation;
 
 import musin.seeker.relation.TreeMapRelationList;
-import musin.seeker.vk.updater.VkUpdate;
-import musin.seeker.vk.updater.VkUser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;

@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.db.model.RelationChange;
 import musin.seeker.vk.relation.VkRelation;
 import musin.seeker.vk.relation.VkRelationFactory;
-import musin.seeker.vk.updater.VkUser;
-import musin.seeker.vk.updater.VkUserFactory;
+import musin.seeker.vk.relation.VkUser;
+import musin.seeker.vk.relation.VkUserFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

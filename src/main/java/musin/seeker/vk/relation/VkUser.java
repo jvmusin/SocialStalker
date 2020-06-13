@@ -1,4 +1,4 @@
-package musin.seeker.vk.updater;
+package musin.seeker.vk.relation;
 
 import musin.seeker.notifier.User;
 import org.jetbrains.annotations.NotNull;

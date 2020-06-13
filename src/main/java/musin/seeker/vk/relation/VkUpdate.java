@@ -1,10 +1,9 @@
-package musin.seeker.vk.updater;
+package musin.seeker.vk.relation;
 
 import lombok.Data;
 import musin.seeker.db.model.RelationChange;
 import musin.seeker.notifier.User;
 import musin.seeker.relation.Update;
-import musin.seeker.vk.relation.VkRelation;
 
 import java.time.LocalDateTime;
 

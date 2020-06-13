@@ -1,4 +1,4 @@
-package musin.seeker.vk.updater;
+package musin.seeker.vk.relation;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

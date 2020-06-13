@@ -7,10 +7,7 @@ import musin.seeker.db.model.RelationChange;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
 import musin.seeker.vk.notifier.VkNotifiableUpdateFactory;
 import musin.seeker.vk.notifier.VkUpdateNotifier;
-import musin.seeker.vk.relation.VkRelation;
-import musin.seeker.vk.relation.VkRelationFactory;
-import musin.seeker.vk.relation.VkRelationList;
-import musin.seeker.vk.relation.VkRelationListFactory;
+import musin.seeker.vk.relation.*;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 

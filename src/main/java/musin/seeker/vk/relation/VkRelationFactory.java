@@ -3,8 +3,6 @@ package musin.seeker.vk.relation;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.model.RelationType;
-import musin.seeker.vk.updater.VkUser;
-import musin.seeker.vk.updater.VkUserFactory;
 import org.springframework.stereotype.Component;
 
 @Component
