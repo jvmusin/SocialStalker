@@ -25,7 +25,7 @@ public class VkUpdater implements Runnable {
   private final RelationChangeService relationChangeService;
   private final List<VkUpdateNotifier> notifiers;
   private final TaskExecutor taskExecutor;
-  private final VkRelationFactory vkRelationFactory;
+  private final VkUserFactory vkUserFactory;
   private final VkRelationListFactory vkRelationListFactory;
   private final VkNotifiableUpdateFactory vkNotifiableUpdateFactory;
 
@@ -53,7 +53,7 @@ public class VkUpdater implements Runnable {
 
   private Stream<VkRelation> toVkRelations(List<RelationChange> changes) {
     return changes.stream()
-        .map(c -> vkRelationFactory.create(c.getTarget(), c.getCurType()));
+        .map(c -> new VkRelation(vkUserFactory.create(c.getTarget()), c.getCurType()));
   }
 
   private List<VkNotifiableUpdate> toVkNotifiableUpdates(List<RelationChange> changes) {
