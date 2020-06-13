@@ -11,7 +11,7 @@ public class VkUserFactory {
 
   private final VkApi vkApi;
 
-  public VkUser createUser(int id) {
+  public VkUser create(int id) {
     return new VkUserImpl(id);
   }
 

@@ -2,9 +2,9 @@ package musin.seeker.vk.api;
 
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import musin.seeker.vk.relation.VkRelation;
+import musin.seeker.vk.relation.VkRelationFactory;
 import musin.seeker.vk.relation.VkRelationList;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -22,13 +22,14 @@ import static musin.seeker.db.model.RelationType.FOLLOWER;
 import static musin.seeker.db.model.RelationType.FRIEND;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class VkApiImpl implements VkApi {
 
   private final VkApiClient vkApiClient;
   private final UserActor userActor;
   private final AsyncListenableTaskExecutor taskExecutor;
   private final Map<Integer, SimpleVkUser> usersCache = new ConcurrentHashMap<>();
+  private final VkRelationFactory vkRelationFactory;
 
   @Override
   @SneakyThrows
@@ -107,8 +108,8 @@ public class VkApiImpl implements VkApi {
 
   @Override
   public CompletableFuture<VkRelationList> loadRelationsAsync(int userId) {
-    var friends = loadFriendsAsync(userId).thenApply(s -> s.stream().map(id -> new VkRelation(id, FRIEND)));
-    var followers = loadFollowersAsync(userId).thenApply(s -> s.stream().map(id -> new VkRelation(id, FOLLOWER)));
+    var friends = loadFriendsAsync(userId).thenApply(s -> s.stream().map(id -> vkRelationFactory.create(id, FRIEND)));
+    var followers = loadFollowersAsync(userId).thenApply(s -> s.stream().map(id -> vkRelationFactory.create(id, FOLLOWER)));
     return friends.thenCombine(followers, Stream::concat).thenApply(VkRelationList::new);
   }
 }

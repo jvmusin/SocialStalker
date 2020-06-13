@@ -4,7 +4,7 @@ import musin.seeker.relation.Relation;
 
 import java.time.LocalDateTime;
 
-public interface Update<TRelation extends Relation<User, ?>> {
+public interface Update<TRelation extends Relation<? extends User, ?>> {
   int getId();
 
   User getOwner();

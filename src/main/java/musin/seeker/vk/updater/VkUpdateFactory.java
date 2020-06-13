@@ -3,6 +3,8 @@ package musin.seeker.vk.updater;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.model.RelationChange;
+import musin.seeker.vk.relation.VkRelation;
+import musin.seeker.vk.relation.VkRelationFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -12,8 +14,9 @@ import java.time.LocalDateTime;
 public class VkUpdateFactory {
 
   private final VkUserFactory vkUserFactory;
+  private final VkRelationFactory vkRelationFactory;
 
-  public VkUpdate createUpdate(RelationChange change) {
+  public VkUpdate create(RelationChange change) {
     return new VkUpdateImpl(change);
   }
 
@@ -28,10 +31,10 @@ public class VkUpdateFactory {
 
     VkUpdateImpl(RelationChange change) {
       id = change.getId();
-      owner = vkUserFactory.createUser(change.getOwner());
-      target = vkUserFactory.createUser(change.getTarget());
-      was = new VkRelation(target, change.getPrevType());
-      now = new VkRelation(target, change.getCurType());
+      owner = vkUserFactory.create(change.getOwner());
+      target = vkUserFactory.create(change.getTarget());
+      was = vkRelationFactory.create(target, change.getPrevType());
+      now = vkRelationFactory.create(target, change.getCurType());
       time = change.getTime();
     }
   }

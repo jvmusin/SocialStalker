@@ -7,6 +7,7 @@ import musin.seeker.db.model.RelationChange;
 import musin.seeker.vk.api.VkApi;
 import musin.seeker.vk.notifier.VkUpdateNotifier;
 import musin.seeker.vk.relation.VkRelation;
+import musin.seeker.vk.relation.VkRelationFactory;
 import musin.seeker.vk.relation.VkRelationList;
 import musin.seeker.vk.relation.VkRelationUpdate;
 import org.springframework.core.task.TaskExecutor;
@@ -28,6 +29,7 @@ public class VkUpdater implements Runnable {
   private final List<VkUpdateNotifier> notifiers;
   private final TaskExecutor taskExecutor;
   private final VkUpdateFactory vkUpdateFactory;
+  private final VkRelationFactory vkRelationFactory;
 
   private static List<RelationChange> toDbChanges(int owner, Stream<VkRelationUpdate> changes) {
     return changes.map(update -> update.toDb(owner)).collect(toList());
@@ -40,7 +42,7 @@ public class VkUpdater implements Runnable {
 
   private void run(int owner) {
     CompletableFuture<VkRelationList> was = relationChangeService.findAllByOwner(owner)
-        .thenApply(changes -> changes.stream().map(VkRelation::fromDb))
+        .thenApply(this::toVkRelations)
         .thenApply(VkRelationList::new);
 
     CompletableFuture<VkRelationList> now = vkApi.loadRelationsAsync(owner);
@@ -51,9 +53,14 @@ public class VkUpdater implements Runnable {
         .thenAccept(differences -> notifiers.forEach(notifier -> notifier.notify(differences)));
   }
 
+  private Stream<VkRelation> toVkRelations(List<RelationChange> changes) {
+    return changes.stream()
+        .map(c -> vkRelationFactory.create(c.getTarget(), c.getCurType()));
+  }
+
   private List<VkUpdate> toVkUpdates(List<RelationChange> changes) {
     return changes.stream()
-        .map(vkUpdateFactory::createUpdate)
+        .map(vkUpdateFactory::create)
         .collect(toList());
   }
 }
