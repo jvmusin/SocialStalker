@@ -2,7 +2,6 @@ package musin.seeker.vk.updater;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import musin.seeker.notifier.User;
 import musin.seeker.vk.api.VkApi;
 import org.springframework.stereotype.Component;
 
@@ -12,12 +11,12 @@ public class VkUserFactory {
 
   private final VkApi vkApi;
 
-  public User createUser(int id) {
-    return new VkUser(id);
+  public VkUser createUser(int id) {
+    return new VkUserImpl(id);
   }
 
   @Data
-  private class VkUser implements User {
+  private class VkUserImpl implements VkUser {
     private final int id;
 
     @Override
