@@ -1,16 +1,18 @@
 CREATE TABLE seeker
 (
-    id    SERIAL NOT NULL PRIMARY KEY,
-    owner INT    NOT NULL
+    id       SERIAL NOT NULL PRIMARY KEY,
+    resource TEXT   NOT NULL,
+    owner    TEXT   NOT NULL
 );
 
-CREATE TABLE relation_change
+CREATE TABLE relation_update
 (
-    id        SERIAL    NOT NULL PRIMARY KEY,
-    owner     INT       NOT NULL,
-    target    INT       NOT NULL,
-    prev_type TEXT      NULL, -- can be null when just appeared
-    cur_type  TEXT      NULL, -- can be null when removed
-    time      TIMESTAMP NOT NULL,
-    hidden    BOOLEAN   NOT NULL
+    id       SERIAL    NOT NULL PRIMARY KEY,
+    resource TEXT      NOT NULL,
+    owner    TEXT      NOT NULL,
+    target   TEXT      NOT NULL,
+    was      TEXT      NULL,
+    now      TEXT      NULL,
+    time     TIMESTAMP NOT NULL,
+    hidden   BOOLEAN   NOT NULL
 );

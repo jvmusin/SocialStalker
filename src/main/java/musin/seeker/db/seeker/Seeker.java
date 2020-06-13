@@ -1,4 +1,4 @@
-package musin.seeker.db.model;
+package musin.seeker.db.seeker;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,9 +19,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Seeker {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    Integer id;
+  @Id
+  @GeneratedValue(strategy = IDENTITY)
+  Integer id;
 
-    int owner;
+  String resource;
+
+  String owner;
 }
