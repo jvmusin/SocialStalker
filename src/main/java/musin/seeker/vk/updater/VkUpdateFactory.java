@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.model.RelationChange;
 import musin.seeker.notifier.User;
-import musin.seeker.vk.api.VkApi;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class VkUpdateFactory {
 
-  private final VkApi vkApi;
+  private final VkUserFactory userFactory;
 
   public VkUpdate createUpdate(RelationChange change) {
     return new VkUpdateImpl(change);
@@ -22,34 +21,19 @@ public class VkUpdateFactory {
   @Data
   private class VkUpdateImpl implements VkUpdate {
     final int id;
-    final VkUser owner;
-    final VkUser target;
+    final User owner;
+    final User target;
     final VkRelation was;
     final VkRelation now;
     final LocalDateTime time;
 
     VkUpdateImpl(RelationChange change) {
       id = change.getId();
-      owner = new VkUser(change.getOwner());
-      target = new VkUser(change.getTarget());
+      owner = userFactory.createUser(change.getOwner());
+      target = userFactory.createUser(change.getTarget());
       was = new VkRelation(target, change.getPrevType());
       now = new VkRelation(target, change.getCurType());
       time = change.getTime();
-    }
-  }
-
-  @Data
-  private class VkUser implements User {
-    private final int id;
-
-    @Override
-    public String getName() {
-      return vkApi.loadUser(id).toString();
-    }
-
-    @Override
-    public String getLink() {
-      return "https://vk.com/id" + id;
     }
   }
 }
