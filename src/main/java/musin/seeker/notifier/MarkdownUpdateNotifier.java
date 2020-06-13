@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 public abstract class MarkdownUpdateNotifier<
-    TUpdate extends NotifiableUpdate<? extends Relation<?, ?>>>
+    TUpdate extends NotifiableUpdate<? extends User, ? extends Relation<?, ?>>>
     implements UpdateNotifier<TUpdate> {
 
   private static final DateTimeFormatter DATE_TIME_FORMATTER =

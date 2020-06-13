@@ -1,7 +1,7 @@
 package musin.seeker.notifier;
 
 public interface User {
-  int getId();
+  Integer getId();
 
   String getName();
 

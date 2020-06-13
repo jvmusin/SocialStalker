@@ -17,7 +17,7 @@ public class VkUserFactory {
 
   @Data
   private class VkUserImpl implements VkUser {
-    private final int id;
+    private final Integer id;
 
     @Override
     public String getName() {

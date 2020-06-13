@@ -2,14 +2,13 @@ package musin.seeker.vk.relation;
 
 import lombok.Data;
 import musin.seeker.db.model.RelationChange;
-import musin.seeker.notifier.User;
 import musin.seeker.relation.Update;
 
 import java.time.LocalDateTime;
 
 @Data
-public class VkUpdate implements Update<VkRelation> {
-  private final User target;
+public class VkUpdate implements Update<VkUser, VkRelation> {
+  private final VkUser target;
   private final VkRelation was;
   private final VkRelation now;
 
