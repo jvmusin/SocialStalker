@@ -1,7 +1,55 @@
 package musin.seeker.vk.updater;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import musin.seeker.db.model.RelationChange;
+import musin.seeker.notifier.User;
+import musin.seeker.vk.api.VkApi;
+import org.springframework.stereotype.Component;
 
-public interface VkUpdateFactory {
-  VkUpdate createUpdate(RelationChange change);
+import java.time.LocalDateTime;
+
+@Component
+@RequiredArgsConstructor
+public class VkUpdateFactory {
+
+  private final VkApi vkApi;
+
+  public VkUpdate createUpdate(RelationChange change) {
+    return new VkUpdateImpl(change);
+  }
+
+  @Data
+  private class VkUpdateImpl implements VkUpdate {
+    final int id;
+    final VkUser owner;
+    final VkUser target;
+    final VkRelation was;
+    final VkRelation now;
+    final LocalDateTime time;
+
+    VkUpdateImpl(RelationChange change) {
+      id = change.getId();
+      owner = new VkUser(change.getOwner());
+      target = new VkUser(change.getTarget());
+      was = new VkRelation(target, change.getPrevType());
+      now = new VkRelation(target, change.getCurType());
+      time = change.getTime();
+    }
+  }
+
+  @Data
+  private class VkUser implements User {
+    private final int id;
+
+    @Override
+    public String getName() {
+      return vkApi.loadUser(id).toString();
+    }
+
+    @Override
+    public String getLink() {
+      return "https://vk.com/id" + id;
+    }
+  }
 }
