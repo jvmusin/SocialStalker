@@ -23,6 +23,7 @@ public interface RelationList<
    *
    * @return a stream of all users in this list
    */
+  @NotNull
   Stream<TUser> users();
 
   /**
