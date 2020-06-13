@@ -16,7 +16,10 @@ import java.util.stream.Stream;
  * @param <TRelation>       type of relation
  * @param <TRelationUpdate> type of relation update
  */
-public abstract class TreeMapRelationList<TUser extends Comparable<TUser>, TRelation extends Relation<TUser, ?>, TRelationUpdate>
+public abstract class TreeMapRelationList<
+    TUser extends Comparable<? extends TUser>,
+    TRelation extends Relation<? extends TUser, ?>,
+    TRelationUpdate>
     extends AbstractCollection<TRelation>
     implements RelationList<TUser, TRelation, TRelationUpdate> {
 
@@ -53,7 +56,7 @@ public abstract class TreeMapRelationList<TUser extends Comparable<TUser>, TRela
 
   @NotNull
   @Override
-  public Stream<TRelationUpdate> updates(@NotNull RelationList<TUser, TRelation, TRelationUpdate> newer) {
+  public Stream<TRelationUpdate> updates(@NotNull RelationList<TUser, ? extends TRelation, ?> newer) {
     return Stream.concat(users(), newer.users())
         .sorted()
         .distinct()

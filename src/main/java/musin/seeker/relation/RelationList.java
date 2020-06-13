@@ -12,7 +12,10 @@ import java.util.stream.Stream;
  * @param <TRelation>       type of relations between users
  * @param <TRelationUpdate> type of relation updates
  */
-public interface RelationList<TUser, TRelation extends Relation<TUser, ?>, TRelationUpdate>
+public interface RelationList<
+    TUser,
+    TRelation extends Relation<? extends TUser, ?>,
+    TRelationUpdate>
     extends Collection<TRelation> {
 
   /**
@@ -58,7 +61,7 @@ public interface RelationList<TUser, TRelation extends Relation<TUser, ?>, TRela
    * @return a stream of all updates between these two lists
    */
   @NotNull
-  Stream<TRelationUpdate> updates(@NotNull RelationList<TUser, TRelation, TRelationUpdate> newer);
+  Stream<TRelationUpdate> updates(@NotNull RelationList<TUser, ? extends TRelation, ?> newer);
 
   /**
    * Returns updates such that applying them on an empty list produces a list which is equal to this one.
