@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.db.RelationChangeService;
 import musin.seeker.db.SeekerService;
 import musin.seeker.db.model.RelationChange;
-import musin.seeker.vk.api.VkApi;
+import musin.seeker.vk.api.VkRelationListFactory;
 import musin.seeker.vk.notifier.VkUpdateNotifier;
 import musin.seeker.vk.relation.VkRelation;
 import musin.seeker.vk.relation.VkRelationFactory;
@@ -25,11 +25,11 @@ public class VkUpdater implements Runnable {
 
   private final SeekerService seekerService;
   private final RelationChangeService relationChangeService;
-  private final VkApi vkApi;
   private final List<VkUpdateNotifier> notifiers;
   private final TaskExecutor taskExecutor;
   private final VkUpdateFactory vkUpdateFactory;
   private final VkRelationFactory vkRelationFactory;
+  private final VkRelationListFactory vkRelationListFactory;
 
   private static List<RelationChange> toDbChanges(int owner, Stream<VkRelationUpdate> changes) {
     return changes.map(update -> update.toDb(owner)).collect(toList());
@@ -45,7 +45,7 @@ public class VkUpdater implements Runnable {
         .thenApply(this::toVkRelations)
         .thenApply(VkRelationList::new);
 
-    CompletableFuture<VkRelationList> now = vkApi.loadRelationsAsync(owner);
+    CompletableFuture<VkRelationList> now = vkRelationListFactory.create(owner);
 
     was.thenCombine(now, VkRelationList::updates)
         .thenApply(updates -> relationChangeService.saveAll(toDbChanges(owner, updates)))

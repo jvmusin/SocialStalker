@@ -4,8 +4,6 @@ import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import musin.seeker.vk.relation.VkRelationFactory;
-import musin.seeker.vk.relation.VkRelationList;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 import static com.vk.api.sdk.client.Lang.EN;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
-import static musin.seeker.db.model.RelationType.FOLLOWER;
-import static musin.seeker.db.model.RelationType.FRIEND;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +24,6 @@ public class VkApiImpl implements VkApi {
   private final UserActor userActor;
   private final AsyncListenableTaskExecutor taskExecutor;
   private final Map<Integer, SimpleVkUser> usersCache = new ConcurrentHashMap<>();
-  private final VkRelationFactory vkRelationFactory;
 
   @Override
   @SneakyThrows
@@ -94,22 +88,5 @@ public class VkApiImpl implements VkApi {
   @Override
   public CompletableFuture<List<Integer>> loadFollowersAsync(int userId) {
     return taskExecutor.submitListenable(() -> loadFollowers(userId)).completable();
-  }
-
-  @Override
-  public CompletableFuture<SimpleVkUser> loadUserAsync(int userId) {
-    return taskExecutor.submitListenable(() -> loadUser(userId)).completable();
-  }
-
-  @Override
-  public CompletableFuture<List<SimpleVkUser>> loadUsersAsync(List<Integer> userIds) {
-    return taskExecutor.submitListenable(() -> loadUsers(userIds)).completable();
-  }
-
-  @Override
-  public CompletableFuture<VkRelationList> loadRelationsAsync(int userId) {
-    var friends = loadFriendsAsync(userId).thenApply(s -> s.stream().map(id -> vkRelationFactory.create(id, FRIEND)));
-    var followers = loadFollowersAsync(userId).thenApply(s -> s.stream().map(id -> vkRelationFactory.create(id, FOLLOWER)));
-    return friends.thenCombine(followers, Stream::concat).thenApply(VkRelationList::new);
   }
 }

@@ -1,12 +1,13 @@
 package musin.seeker.web;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import musin.seeker.db.RelationChangeService;
 import musin.seeker.db.SeekerService;
 import musin.seeker.db.model.RelationChange;
 import musin.seeker.db.model.Seeker;
 import musin.seeker.vk.api.SimpleVkUser;
 import musin.seeker.vk.api.VkApi;
+import musin.seeker.vk.api.VkRelationListFactory;
 import musin.seeker.vk.relation.VkRelationList;
 import musin.seeker.vk.relation.VkRelationUpdate;
 import musin.seeker.web.dto.*;
@@ -24,12 +25,13 @@ import static java.util.stream.Collectors.toList;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MainController {
 
   private final SeekerService seekerService;
   private final RelationChangeService relationChangeService;
   private final VkApi vkApi;
+  private final VkRelationListFactory vkRelationListFactory;
 
   @RequestMapping("/")
   public String index() {
@@ -88,7 +90,7 @@ public class MainController {
 
   @RequestMapping(value = "/seekers", method = POST)
   public String registerSeeker(@ModelAttribute NewSeekerDto newSeeker) {
-    VkRelationList list = vkApi.loadRelationsAsync(newSeeker.userId).join();
+    VkRelationList list = vkRelationListFactory.create(newSeeker.userId).join();
     List<RelationChange> changes = list.stream()
         .map(relation -> new VkRelationUpdate(relation.getUser(), null, relation))
         .map(update -> update.toDb(newSeeker.userId))
