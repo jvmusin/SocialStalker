@@ -1,4 +1,4 @@
-package musin.seeker.vk.updater;
+package musin.seeker.vk.config;
 
 import lombok.Data;
 import musin.seeker.updater.ScheduledUpdaterRule;
