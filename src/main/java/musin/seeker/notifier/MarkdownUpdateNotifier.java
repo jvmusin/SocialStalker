@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 public abstract class MarkdownUpdateNotifier<
-    TRelation extends Relation<? extends User, ?>,
-    TUpdate extends Update<? extends TRelation>>
+    TUpdate extends NotifiableUpdate<? extends Relation<?, ?>>>
     implements UpdateNotifier<TUpdate> {
 
   private static final DateTimeFormatter DATE_TIME_FORMATTER =
@@ -24,12 +23,12 @@ public abstract class MarkdownUpdateNotifier<
   }
 
   @Override
-  public void notify(List<TUpdate> updates) {
+  public void notify(List<? extends TUpdate> updates) {
     if (updates.size() >= getMinSizeForABunchOfChanges()) notifyABunchOfChanges(updates);
     else updates.forEach(this::notify);
   }
 
-  private void notifyABunchOfChanges(List<TUpdate> updates) {
+  private void notifyABunchOfChanges(List<? extends TUpdate> updates) {
     sendMessage(buildMessageForABunchOfUpdates(updates));
   }
 
@@ -47,9 +46,9 @@ public abstract class MarkdownUpdateNotifier<
     return sj.toString();
   }
 
-  private String buildMessageForABunchOfUpdates(List<TUpdate> updates) {
+  private String buildMessageForABunchOfUpdates(List<? extends TUpdate> updates) {
     IntSummaryStatistics idStats = updates.stream()
-        .mapToInt(Update::getId)
+        .mapToInt(NotifiableUpdate::getId)
         .summaryStatistics();
     TUpdate someUpdate = updates.get(0);
     StringJoiner sj = new StringJoiner("\n");

@@ -4,12 +4,13 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.db.RelationChangeService;
 import musin.seeker.db.SeekerService;
 import musin.seeker.db.model.RelationChange;
-import musin.seeker.vk.api.VkRelationListFactory;
+import musin.seeker.vk.notifier.VkNotifiableUpdate;
+import musin.seeker.vk.notifier.VkNotifiableUpdateFactory;
 import musin.seeker.vk.notifier.VkUpdateNotifier;
 import musin.seeker.vk.relation.VkRelation;
 import musin.seeker.vk.relation.VkRelationFactory;
 import musin.seeker.vk.relation.VkRelationList;
-import musin.seeker.vk.relation.VkRelationUpdate;
+import musin.seeker.vk.relation.VkRelationListFactory;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +28,12 @@ public class VkUpdater implements Runnable {
   private final RelationChangeService relationChangeService;
   private final List<VkUpdateNotifier> notifiers;
   private final TaskExecutor taskExecutor;
-  private final VkUpdateFactory vkUpdateFactory;
   private final VkRelationFactory vkRelationFactory;
   private final VkRelationListFactory vkRelationListFactory;
+  private final VkNotifiableUpdateFactory vkNotifiableUpdateFactory;
 
-  private static List<RelationChange> toDbChanges(int owner, Stream<VkRelationUpdate> changes) {
-    return changes.map(update -> update.toDb(owner)).collect(toList());
+  private static List<RelationChange> toRelationChanges(int owner, Stream<VkUpdate> updates) {
+    return updates.map(update -> update.toRelationChange(owner)).collect(toList());
   }
 
   @Override
@@ -43,13 +44,13 @@ public class VkUpdater implements Runnable {
   private void run(int owner) {
     CompletableFuture<VkRelationList> was = relationChangeService.findAllByOwner(owner)
         .thenApply(this::toVkRelations)
-        .thenApply(VkRelationList::new);
+        .thenApply(vkRelationListFactory::create);
 
-    CompletableFuture<VkRelationList> now = vkRelationListFactory.create(owner);
+    CompletableFuture<VkRelationList> now = vkRelationListFactory.queryFromVk(owner);
 
     was.thenCombine(now, VkRelationList::updates)
-        .thenApply(updates -> relationChangeService.saveAll(toDbChanges(owner, updates)))
-        .thenApply(this::toVkUpdates)
+        .thenApply(updates -> relationChangeService.saveAll(toRelationChanges(owner, updates)))
+        .thenApply(this::toVkNotifiableUpdates)
         .thenAccept(differences -> notifiers.forEach(notifier -> notifier.notify(differences)));
   }
 
@@ -58,9 +59,9 @@ public class VkUpdater implements Runnable {
         .map(c -> vkRelationFactory.create(c.getTarget(), c.getCurType()));
   }
 
-  private List<VkUpdate> toVkUpdates(List<RelationChange> changes) {
+  private List<VkNotifiableUpdate> toVkNotifiableUpdates(List<RelationChange> changes) {
     return changes.stream()
-        .map(vkUpdateFactory::create)
+        .map(vkNotifiableUpdateFactory::create)
         .collect(toList());
   }
 }

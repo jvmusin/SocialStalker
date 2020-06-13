@@ -1,19 +1,20 @@
 package musin.seeker.vk.relation;
 
 import musin.seeker.relation.TreeMapRelationList;
+import musin.seeker.vk.updater.VkUpdate;
 import musin.seeker.vk.updater.VkUser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-public class VkRelationList extends TreeMapRelationList<VkUser, VkRelation, VkRelationUpdate> {
+public class VkRelationList extends TreeMapRelationList<VkUser, VkRelation, VkUpdate> {
 
   public VkRelationList(Stream<VkRelation> relations) {
     relations.forEach(this::add);
   }
 
   @Override
-  protected VkRelationUpdate createUpdate(@NotNull VkUser user, VkRelation was, VkRelation now) {
-    return new VkRelationUpdate(user, was, now);
+  protected VkUpdate createUpdate(@NotNull VkUser target, VkRelation was, VkRelation now) {
+    return new VkUpdate(target, was, now);
   }
 }

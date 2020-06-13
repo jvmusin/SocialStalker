@@ -7,9 +7,9 @@ import musin.seeker.db.model.RelationChange;
 import musin.seeker.db.model.Seeker;
 import musin.seeker.vk.api.SimpleVkUser;
 import musin.seeker.vk.api.VkApi;
-import musin.seeker.vk.api.VkRelationListFactory;
 import musin.seeker.vk.relation.VkRelationList;
-import musin.seeker.vk.relation.VkRelationUpdate;
+import musin.seeker.vk.relation.VkRelationListFactory;
+import musin.seeker.vk.updater.VkUpdate;
 import musin.seeker.web.dto.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -90,10 +90,10 @@ public class MainController {
 
   @RequestMapping(value = "/seekers", method = POST)
   public String registerSeeker(@ModelAttribute NewSeekerDto newSeeker) {
-    VkRelationList list = vkRelationListFactory.create(newSeeker.userId).join();
+    VkRelationList list = vkRelationListFactory.queryFromVk(newSeeker.userId).join();
     List<RelationChange> changes = list.stream()
-        .map(relation -> new VkRelationUpdate(relation.getUser(), null, relation))
-        .map(update -> update.toDb(newSeeker.userId))
+        .map(relation -> new VkUpdate(relation.getUser(), null, relation))
+        .map(update -> update.toRelationChange(newSeeker.userId))
         .collect(toList());
     seekerService.create(newSeeker.getUserId(), changes);
     return "redirect:/seekers";

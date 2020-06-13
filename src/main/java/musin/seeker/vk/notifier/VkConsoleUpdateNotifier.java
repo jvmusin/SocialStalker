@@ -1,8 +1,6 @@
 package musin.seeker.vk.notifier;
 
 import musin.seeker.notifier.ConsoleUpdateNotifier;
-import musin.seeker.vk.relation.VkRelation;
-import musin.seeker.vk.updater.VkUpdate;
 
-public class VkConsoleUpdateNotifier extends ConsoleUpdateNotifier<VkRelation, VkUpdate> implements VkUpdateNotifier {
+public class VkConsoleUpdateNotifier extends ConsoleUpdateNotifier<VkNotifiableUpdate> implements VkUpdateNotifier {
 }

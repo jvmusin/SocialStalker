@@ -1,27 +1,28 @@
-package musin.seeker.vk.updater;
+package musin.seeker.vk.notifier;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.model.RelationChange;
 import musin.seeker.vk.relation.VkRelation;
 import musin.seeker.vk.relation.VkRelationFactory;
+import musin.seeker.vk.updater.VkUser;
+import musin.seeker.vk.updater.VkUserFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
-public class VkUpdateFactory {
-
+public class VkNotifiableUpdateFactory {
   private final VkUserFactory vkUserFactory;
   private final VkRelationFactory vkRelationFactory;
 
-  public VkUpdate create(RelationChange change) {
-    return new VkUpdateImpl(change);
+  public VkNotifiableUpdate create(RelationChange change) {
+    return new VkNotifiableUpdateImpl(change);
   }
 
   @Data
-  private class VkUpdateImpl implements VkUpdate {
+  private class VkNotifiableUpdateImpl implements VkNotifiableUpdate {
     final int id;
     final VkUser owner;
     final VkUser target;
@@ -29,7 +30,7 @@ public class VkUpdateFactory {
     final VkRelation now;
     final LocalDateTime time;
 
-    VkUpdateImpl(RelationChange change) {
+    VkNotifiableUpdateImpl(RelationChange change) {
       id = change.getId();
       owner = vkUserFactory.create(change.getOwner());
       target = vkUserFactory.create(change.getTarget());

@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  */
 public interface RelationList<
     TUser,
-    TRelation extends Relation<? extends TUser, ?>,
+    TRelation,
     TRelationUpdate>
     extends Collection<TRelation> {
 

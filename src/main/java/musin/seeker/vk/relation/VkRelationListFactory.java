@@ -1,8 +1,7 @@
-package musin.seeker.vk.api;
+package musin.seeker.vk.relation;
 
 import lombok.RequiredArgsConstructor;
-import musin.seeker.vk.relation.VkRelationFactory;
-import musin.seeker.vk.relation.VkRelationList;
+import musin.seeker.vk.api.VkApi;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
@@ -18,9 +17,13 @@ public class VkRelationListFactory {
   private final VkApi vkApi;
   private final VkRelationFactory vkRelationFactory;
 
-  public CompletableFuture<VkRelationList> create(int userId) {
+  public CompletableFuture<VkRelationList> queryFromVk(int userId) {
     var friends = vkApi.loadFriendsAsync(userId).thenApply(s -> s.stream().map(id -> vkRelationFactory.create(id, FRIEND)));
     var followers = vkApi.loadFollowersAsync(userId).thenApply(s -> s.stream().map(id -> vkRelationFactory.create(id, FOLLOWER)));
     return friends.thenCombine(followers, Stream::concat).thenApply(VkRelationList::new);
+  }
+
+  public VkRelationList create(Stream<VkRelation> relations) {
+    return new VkRelationList(relations);
   }
 }

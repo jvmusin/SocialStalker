@@ -6,8 +6,8 @@ import org.jetbrains.annotations.NotNull;
 
 @Log4j2
 public class ConsoleUpdateNotifier<
-    TRelation extends Relation<? extends User, ?>,
-    TUpdate extends Update<? extends TRelation>> extends MarkdownUpdateNotifier<TRelation, TUpdate> {
+    TUpdate extends NotifiableUpdate<? extends Relation<?, ?>>>
+    extends MarkdownUpdateNotifier<TUpdate> {
 
   @Override
   protected void sendMessage(@NotNull String message) {
