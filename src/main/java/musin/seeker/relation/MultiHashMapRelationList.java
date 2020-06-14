@@ -16,11 +16,11 @@ public abstract class MultiHashMapRelationList<
     TUser extends User,
     TRelationType,
     TRelation extends Relation<? extends TUser, TRelationType>,
-    TRelationUpdate extends RelationUpdate<? extends TUser, TRelationType>>
-    extends HashMapRelationList<TUser, TRelationType, TRelation, TRelationUpdate> {
+    TUpdate extends Update<? extends TUser, TRelationType>>
+    extends HashMapRelationList<TUser, TRelationType, TRelation, TUpdate> {
 
   @Override
-  public void apply(@NotNull TRelationUpdate update) {
+  public void apply(@NotNull TUpdate update) {
     validateUpdate(update);
 
     if ((update.getWas() == null) == (update.getNow() == null))
@@ -41,7 +41,7 @@ public abstract class MultiHashMapRelationList<
   }
 
   @Override
-  public @NotNull Stream<TRelationUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, TRelationUpdate> newer) {
+  public @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, TUpdate> newer) {
     List<TRelation> thisRelations = relations().collect(toList());
     List<TRelation> newerRelations = newer.relations().collect(toList());
     Collection<TRelation> same = intersection(thisRelations, newerRelations);

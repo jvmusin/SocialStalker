@@ -35,24 +35,24 @@ public class SingleHashMapRelationListTests implements EmptyRelationListTests<Te
         new TestRelation("user2", "follower"),
         new TestRelation("user5", "nobody")
     ));
-    TestRelationUpdate[] expected = new TestRelationUpdate[]{
-        new TestRelationUpdate("user1", "friend", "follower"),
-        new TestRelationUpdate("user3", "fan", null),
-        new TestRelationUpdate("user4", "follower", null),
-        new TestRelationUpdate("user5", null, "nobody")
+    TestUpdate[] expected = new TestUpdate[]{
+        new TestUpdate("user1", "friend", "follower"),
+        new TestUpdate("user3", "fan", null),
+        new TestUpdate("user4", "follower", null),
+        new TestUpdate("user5", null, "nobody")
     };
-    List<TestRelationUpdate> updates = list1.updates(list2).collect(toList());
+    List<TestUpdate> updates = list1.updates(list2).collect(toList());
     assertThat(updates, containsInAnyOrder(expected));
   }
 
   @Test
   void override_relations() {
     TestSingleHashMapRelationList list = createList();
-    list.apply(new TestRelationUpdate("user1", null, "friend"));
-    list.apply(new TestRelationUpdate("user2", null, "follower"));
-    list.apply(new TestRelationUpdate("user1", "friend", "fan"));
-    list.apply(new TestRelationUpdate("user4", null, "friend"));
-    list.apply(new TestRelationUpdate("user2", "follower", null));
+    list.apply(new TestUpdate("user1", null, "friend"));
+    list.apply(new TestUpdate("user2", null, "follower"));
+    list.apply(new TestUpdate("user1", "friend", "fan"));
+    list.apply(new TestUpdate("user4", null, "friend"));
+    list.apply(new TestUpdate("user2", "follower", null));
     assertThat(list.users().collect(toList()), containsInAnyOrder(new TestUser("user1"), new TestUser("user4")));
     assertThat(list.relations().collect(toList()), containsInAnyOrder(
         new TestRelation("user1", "fan"),
@@ -64,10 +64,10 @@ public class SingleHashMapRelationListTests implements EmptyRelationListTests<Te
   void return_correct_updates_on_empty_list_when_has_elements() {
     TestSingleHashMapRelationList a = createList(someRelations());
     TestSingleHashMapRelationList b = createList();
-    List<TestRelationUpdate> result = a.updates(b).collect(toList());
-    TestRelationUpdate[] expected = someRelations().stream()
+    List<TestUpdate> result = a.updates(b).collect(toList());
+    TestUpdate[] expected = someRelations().stream()
         .map(TestRelation::asRemove)
-        .toArray(TestRelationUpdate[]::new);
+        .toArray(TestUpdate[]::new);
     assertThat(result, containsInAnyOrder(expected));
   }
 
@@ -76,6 +76,6 @@ public class SingleHashMapRelationListTests implements EmptyRelationListTests<Te
     TestSingleHashMapRelationList list = createList(someRelations());
     TestRelation r = someRelations().get(0);
     String user = r.getUser().getName();
-    assertThrows(RuntimeException.class, () -> list.apply(new TestRelationUpdate(user, "something", "anything")));
+    assertThrows(RuntimeException.class, () -> list.apply(new TestUpdate(user, "something", "anything")));
   }
 }

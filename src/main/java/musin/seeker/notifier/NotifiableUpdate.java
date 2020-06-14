@@ -1,11 +1,11 @@
 package musin.seeker.notifier;
 
-import musin.seeker.relation.RelationUpdate;
+import musin.seeker.relation.Update;
 import musin.seeker.relation.User;
 
 import java.time.LocalDateTime;
 
-public interface NotifiableRelationUpdate<TUser extends User, TRelationType> extends RelationUpdate<TUser, TRelationType> {
+public interface NotifiableUpdate<TUser extends User, TRelationType> extends Update<TUser, TRelationType> {
   Integer getId();
 
   TUser getOwner();

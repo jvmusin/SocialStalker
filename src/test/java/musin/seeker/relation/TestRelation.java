@@ -17,11 +17,11 @@ public class TestRelation implements Relation<TestUser, TestRelationType> {
     this.type = new TestRelationType(type);
   }
 
-  TestRelationUpdate asAdd() {
-    return new TestRelationUpdate(user, null, type);
+  TestUpdate asAdd() {
+    return new TestUpdate(user, null, type);
   }
 
-  TestRelationUpdate asRemove() {
-    return new TestRelationUpdate(user, type, null);
+  TestUpdate asRemove() {
+    return new TestUpdate(user, type, null);
   }
 }

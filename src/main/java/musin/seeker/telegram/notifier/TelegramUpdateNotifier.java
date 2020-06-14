@@ -2,7 +2,7 @@ package musin.seeker.telegram.notifier;
 
 import lombok.RequiredArgsConstructor;
 import musin.seeker.notifier.MarkdownUpdateNotifier;
-import musin.seeker.notifier.NotifiableRelationUpdate;
+import musin.seeker.notifier.NotifiableUpdate;
 import musin.seeker.relation.User;
 import musin.seeker.telegram.api.TelegramMessageSender;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +12,7 @@ import javax.annotation.PreDestroy;
 
 @RequiredArgsConstructor
 public class TelegramUpdateNotifier<
-    TUpdate extends NotifiableRelationUpdate<? extends User, ?>>
+    TUpdate extends NotifiableUpdate<? extends User, ?>>
     extends MarkdownUpdateNotifier<TUpdate> {
 
   private final TelegramMessageSender sender;

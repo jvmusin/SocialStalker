@@ -12,11 +12,11 @@ public abstract class SingleHashMapRelationList<
     TUser extends User,
     TRelationType,
     TRelation extends Relation<? extends TUser, TRelationType>,
-    TRelationUpdate extends RelationUpdate<? extends TUser, ? extends TRelationType>>
-    extends HashMapRelationList<TUser, TRelationType, TRelation, TRelationUpdate> {
+    TUpdate extends Update<? extends TUser, ? extends TRelationType>>
+    extends HashMapRelationList<TUser, TRelationType, TRelation, TUpdate> {
 
   @Override
-  public void apply(@NotNull TRelationUpdate update) {
+  public void apply(@NotNull TUpdate update) {
     validateUpdate(update);
 
     if (!Objects.equals(update.getWas(), getRelationType(update.getTarget())))
@@ -27,7 +27,7 @@ public abstract class SingleHashMapRelationList<
   }
 
   @Override
-  public @NotNull Stream<TRelationUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, TRelationUpdate> newer) {
+  public @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, TUpdate> newer) {
     return concat(users(), newer.users()).distinct()
         .filter(u -> !Objects.equals(getRelationType(u), newer.getRelationType(u)))
         .map(u -> createUpdate(u, getRelationType(u), newer.getRelationType(u)));

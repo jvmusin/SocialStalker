@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-public interface RelationList<TUser, TRelationType, TRelation, TRelationUpdate> {
+public interface RelationList<TUser, TRelationType, TRelation, TUpdate> {
 
   /**
    * @return all users in this list
@@ -30,11 +30,11 @@ public interface RelationList<TUser, TRelationType, TRelation, TRelationUpdate> 
   /**
    * @param update an update to apply
    */
-  void apply(@NotNull TRelationUpdate update);
+  void apply(@NotNull TUpdate update);
 
   /**
    * @param newer a newer list to build updates
    * @return updates between this and newer list
    */
-  @NotNull Stream<TRelationUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, TRelationUpdate> newer);
+  @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, TUpdate> newer);
 }

@@ -14,8 +14,8 @@ public abstract class HashMapRelationList<
     TUser extends User,
     TRelationType,
     TRelation extends Relation<? extends TUser, TRelationType>,
-    TRelationUpdate extends RelationUpdate<? extends TUser, ? extends TRelationType>>
-    implements RelationList<TUser, TRelationType, TRelation, TRelationUpdate> {
+    TUpdate extends Update<? extends TUser, ? extends TRelationType>>
+    implements RelationList<TUser, TRelationType, TRelation, TUpdate> {
 
   protected final Map<TUser, Set<TRelationType>> userRelations = new HashMap<>();
 
@@ -30,7 +30,7 @@ public abstract class HashMapRelationList<
         .flatMap(e -> e.getValue().stream().map(t -> createRelation(e.getKey(), t)));
   }
 
-  protected void validateUpdate(TRelationUpdate update) {
+  protected void validateUpdate(TUpdate update) {
     if (update.getTarget() == null) throw new IllegalArgumentException("Target is null: " + update);
     if (Objects.equals(update.getWas(), update.getNow()))
       throw new IllegalArgumentException("Was and now types are same: " + update);
@@ -52,7 +52,7 @@ public abstract class HashMapRelationList<
    * @param now  new relation
    * @return an update
    */
-  protected abstract @NotNull TRelationUpdate createUpdate(@NotNull TUser user, TRelationType was, TRelationType now);
+  protected abstract @NotNull TUpdate createUpdate(@NotNull TUser user, TRelationType was, TRelationType now);
 
   /**
    * Create a relation

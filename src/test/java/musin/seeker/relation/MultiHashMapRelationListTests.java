@@ -33,16 +33,16 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
         new TestRelation("user5", "nobody"),
         new TestRelation("user5", "or not")
     ));
-    TestRelationUpdate[] expected = new TestRelationUpdate[]{
-        new TestRelationUpdate("user1", "friend", null),
-        new TestRelationUpdate("user1", null, "follower"),
-        new TestRelationUpdate("user3", "fan", null),
-        new TestRelationUpdate("user3", "friend", null),
-        new TestRelationUpdate("user4", "follower", null),
-        new TestRelationUpdate("user5", null, "nobody"),
-        new TestRelationUpdate("user5", null, "or not")
+    TestUpdate[] expected = new TestUpdate[]{
+        new TestUpdate("user1", "friend", null),
+        new TestUpdate("user1", null, "follower"),
+        new TestUpdate("user3", "fan", null),
+        new TestUpdate("user3", "friend", null),
+        new TestUpdate("user4", "follower", null),
+        new TestUpdate("user5", null, "nobody"),
+        new TestUpdate("user5", null, "or not")
     };
-    List<TestRelationUpdate> updates = list1.updates(list2).collect(toList());
+    List<TestUpdate> updates = list1.updates(list2).collect(toList());
     assertThat(updates, containsInAnyOrder(expected));
   }
 
@@ -50,10 +50,10 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
   void return_correct_updates_on_empty_list_when_has_elements() {
     TestMultiHashMapRelationList a = createList(someRelations());
     TestMultiHashMapRelationList b = createList();
-    List<TestRelationUpdate> result = a.updates(b).collect(toList());
-    TestRelationUpdate[] expected = someRelations().stream()
+    List<TestUpdate> result = a.updates(b).collect(toList());
+    TestUpdate[] expected = someRelations().stream()
         .map(TestRelation::asRemove)
-        .toArray(TestRelationUpdate[]::new);
+        .toArray(TestUpdate[]::new);
     assertThat(result, containsInAnyOrder(expected));
   }
 
@@ -64,7 +64,7 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
         new TestRelation("user2", "follower"),
         new TestRelation("user3", "fan")
     ));
-    list.apply(new TestRelationUpdate("user2", "follower", null));
+    list.apply(new TestUpdate("user2", "follower", null));
     assertThat(list.users().collect(toList()), containsInAnyOrder(
         new TestUser("user1"),
         new TestUser("user3")
@@ -74,11 +74,11 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
   @Test
   void remove_relations_correctly() {
     TestMultiHashMapRelationList list = createList();
-    list.apply(new TestRelationUpdate("user1", null, "friend"));
-    list.apply(new TestRelationUpdate("user2", null, "follower"));
-    list.apply(new TestRelationUpdate("user3", null, "fan"));
-    list.apply(new TestRelationUpdate("user1", null, "nobody"));
-    list.apply(new TestRelationUpdate("user2", "follower", null));
+    list.apply(new TestUpdate("user1", null, "friend"));
+    list.apply(new TestUpdate("user2", null, "follower"));
+    list.apply(new TestUpdate("user3", null, "fan"));
+    list.apply(new TestUpdate("user1", null, "nobody"));
+    list.apply(new TestUpdate("user2", "follower", null));
     assertThat(list.relations().collect(toList()), containsInAnyOrder(
         new TestRelation("user1", "friend"),
         new TestRelation("user1", "nobody"),
@@ -91,7 +91,7 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
     @Test
     void try_to_apply_change_and_not_add_or_remove_on_empty_list() {
       TestMultiHashMapRelationList list = createList(someRelations());
-      assertThrows(RuntimeException.class, () -> list.apply(new TestRelationUpdate("user", null, null)));
+      assertThrows(RuntimeException.class, () -> list.apply(new TestUpdate("user", null, null)));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
       TestRelation relation = someRelations().get(0);
       String user = relation.getUser().getName();
       String type = relation.getType().getName();
-      assertThrows(RuntimeException.class, () -> list.apply(new TestRelationUpdate(user, type, type + "1")));
+      assertThrows(RuntimeException.class, () -> list.apply(new TestUpdate(user, type, type + "1")));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
       TestMultiHashMapRelationList list = createList(someRelations());
       TestRelation relation = someRelations().get(0);
       String user = relation.getUser().getName();
-      assertThrows(RuntimeException.class, () -> list.apply(new TestRelationUpdate(user, "something", null)));
+      assertThrows(RuntimeException.class, () -> list.apply(new TestUpdate(user, "something", null)));
     }
 
     @Test

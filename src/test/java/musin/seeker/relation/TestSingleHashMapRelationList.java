@@ -2,11 +2,11 @@ package musin.seeker.relation;
 
 import org.jetbrains.annotations.NotNull;
 
-public class TestSingleHashMapRelationList extends SingleHashMapRelationList<TestUser, TestRelationType, TestRelation, TestRelationUpdate> {
+public class TestSingleHashMapRelationList extends SingleHashMapRelationList<TestUser, TestRelationType, TestRelation, TestUpdate> {
 
   @Override
-  protected @NotNull TestRelationUpdate createUpdate(@NotNull TestUser user, TestRelationType was, TestRelationType now) {
-    return new TestRelationUpdate(user, was, now);
+  protected @NotNull TestUpdate createUpdate(@NotNull TestUser user, TestRelationType was, TestRelationType now) {
+    return new TestUpdate(user, was, now);
   }
 
   @Override

@@ -2,10 +2,10 @@ package musin.seeker.relation;
 
 import org.jetbrains.annotations.NotNull;
 
-public class TestMultiHashMapRelationList extends MultiHashMapRelationList<TestUser, TestRelationType, TestRelation, TestRelationUpdate> {
+public class TestMultiHashMapRelationList extends MultiHashMapRelationList<TestUser, TestRelationType, TestRelation, TestUpdate> {
   @Override
-  protected @NotNull TestRelationUpdate createUpdate(@NotNull TestUser user, TestRelationType was, TestRelationType now) {
-    return new TestRelationUpdate(user, was, now);
+  protected @NotNull TestUpdate createUpdate(@NotNull TestUser user, TestRelationType was, TestRelationType now) {
+    return new TestUpdate(user, was, now);
   }
 
   @Override

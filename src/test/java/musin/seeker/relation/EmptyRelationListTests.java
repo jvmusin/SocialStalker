@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("When empty should")
 interface EmptyRelationListTests<
-    TRelationList extends RelationList<TestUser, TestRelationType, TestRelation, TestRelationUpdate>> {
+    TRelationList extends RelationList<TestUser, TestRelationType, TestRelation, TestUpdate>> {
 
   TRelationList createList();
 
@@ -76,22 +76,22 @@ interface EmptyRelationListTests<
   default void return_correct_updates_on_not_empty_list() {
     TRelationList a = createList();
     TRelationList b = createList(someRelations());
-    List<TestRelationUpdate> result = a.updates(b).collect(toList());
-    TestRelationUpdate[] expected = someRelations().stream()
+    List<TestUpdate> result = a.updates(b).collect(toList());
+    TestUpdate[] expected = someRelations().stream()
         .map(TestRelation::asAdd)
-        .toArray(TestRelationUpdate[]::new);
+        .toArray(TestUpdate[]::new);
     assertThat(result, containsInAnyOrder(expected));
   }
 
   @Test
   default void fail_when_target_is_null() {
-    TestRelationUpdate update = new TestRelationUpdate(null, null, new TestRelationType("friend"));
+    TestUpdate update = new TestUpdate(null, null, new TestRelationType("friend"));
     assertThrows(IllegalArgumentException.class, () -> createList().apply(update));
   }
 
   @Test
   default void fail_when_was_and_now_types_are_same_and_null() {
-    TestRelationUpdate update = new TestRelationUpdate("user", null, null);
+    TestUpdate update = new TestUpdate("user", null, null);
     assertThrows(IllegalArgumentException.class, () -> createList().apply(update));
   }
 
@@ -99,9 +99,9 @@ interface EmptyRelationListTests<
   default void fail_when_was_and_now_types_are_same() {
     String user = "user";
     String friend = "friend";
-    TestRelationUpdate update = new TestRelationUpdate(user, friend, friend);
+    TestUpdate update = new TestUpdate(user, friend, friend);
     TRelationList list = createList();
-    list.apply(new TestRelationUpdate(user, null, friend));
+    list.apply(new TestUpdate(user, null, friend));
     assertThrows(IllegalArgumentException.class, () -> list.apply(update));
   }
 }

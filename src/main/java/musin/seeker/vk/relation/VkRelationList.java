@@ -6,19 +6,19 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class VkRelationList extends SingleHashMapRelationList<VkUser, VkRelationType, VkRelation, VkRelationUpdate> {
+public class VkRelationList extends SingleHashMapRelationList<VkUser, VkRelationType, VkRelation, VkUpdate> {
 
   public VkRelationList(Stream<? extends VkRelation> relations) {
     relations.forEach(r -> apply(createUpdate(r.getUser(), null, r.getType())));
   }
 
-  public VkRelationList(List<? extends VkRelationUpdate> updates) {
+  public VkRelationList(List<? extends VkUpdate> updates) {
     updates.forEach(this::apply);
   }
 
   @Override
-  protected @NotNull VkRelationUpdate createUpdate(@NotNull VkUser user, VkRelationType was, VkRelationType now) {
-    return new VkRelationUpdateImpl(user, was, now);
+  protected @NotNull VkUpdate createUpdate(@NotNull VkUser user, VkRelationType was, VkRelationType now) {
+    return new VkUpdateImpl(user, was, now);
   }
 
   @Override
