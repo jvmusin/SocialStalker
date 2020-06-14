@@ -70,6 +70,7 @@ public class SingleHashMapRelationListTests implements EmptyRelationListTests<Te
 
   @Nested
   class throw_exception_when {
+    //todo remove it
     @Test
     void try_to_apply_update_with_same_was_and_now() {
       TestSingleHashMapRelationList list = createList(someRelations());
@@ -79,6 +80,7 @@ public class SingleHashMapRelationListTests implements EmptyRelationListTests<Te
       assertThrows(RuntimeException.class, () -> list.apply(new TestRelationUpdate(user, type, type)));
     }
 
+    //todo remove it
     @Test
     void try_to_apply_update_which_doesnt_change_anything_but_also_null() {
       TestSingleHashMapRelationList list = createList(someRelations());
@@ -88,7 +90,7 @@ public class SingleHashMapRelationListTests implements EmptyRelationListTests<Te
     }
 
     @Test
-    void try_to_apply_update_with_incorrect_was_type() {
+    void try_to_apply_update_with_wrong_was_type() {
       TestSingleHashMapRelationList list = createList(someRelations());
       TestRelation r = someRelations().get(0);
       String user = r.getUser().getName();

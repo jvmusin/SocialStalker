@@ -16,7 +16,7 @@ public class TestRelationUpdate implements Update<TestUser, TestRelation> {
 
   TestRelationUpdate(String target, String was, String now) {
     this.target = new TestUser(target);
-    this.was = was == null ? null : new TestRelation(this.target, new TestRelationType(was));
-    this.now = now == null ? null : new TestRelation(this.target, new TestRelationType(now));
+    this.was = new TestRelation(this.target, was == null ? null : new TestRelationType(was));
+    this.now = new TestRelation(this.target, now == null ? null : new TestRelationType(now));
   }
 }

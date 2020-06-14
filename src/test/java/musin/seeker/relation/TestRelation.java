@@ -18,10 +18,10 @@ public class TestRelation implements Relation<TestUser, TestRelationType> {
   }
 
   TestRelationUpdate asAdd() {
-    return new TestRelationUpdate(user, null, this);
+    return new TestRelationUpdate(user, new TestRelation(user, null), this);
   }
 
   TestRelationUpdate asRemove() {
-    return new TestRelationUpdate(user, this, null);
+    return new TestRelationUpdate(user, this, new TestRelation(user, null));
   }
 }

@@ -3,10 +3,7 @@ package musin.seeker.relation;
 import musin.seeker.notifier.User;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptySet;
@@ -33,6 +30,15 @@ public abstract class HashMapRelationList<
 //  public @NotNull Set<TRelation> getRelations(@NotNull TUser user) {
 //    return userRelations.getOrDefault(user, emptySet());
 //  }
+
+  protected static void validateUpdate(Update<? extends User, ? extends Relation<?, ?>> update) {
+    if (update.getTarget() == null) throw new IllegalArgumentException("Target is null: " + update);
+    if (update.getWas() == null) throw new IllegalArgumentException("Was is null: " + update);
+    if (update.getNow() == null) throw new IllegalArgumentException("Now is null: " + update);
+    if (!Objects.equals(update.getTarget(), update.getWas().getUser())) throw new IllegalArgumentException("Target and was.user are different: " + update);
+    if (!Objects.equals(update.getTarget(), update.getNow().getUser())) throw new IllegalArgumentException("Target and now.user are different: " + update);
+    if (Objects.equals(update.getWas().getType(), update.getNow().getType())) throw new IllegalArgumentException("Was.type and now.type are same: " + update);
+  }
 
   @Override
   public TRelation getSingleRelation(@NotNull TUser user) {

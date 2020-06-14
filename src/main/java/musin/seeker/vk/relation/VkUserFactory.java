@@ -28,5 +28,10 @@ public class VkUserFactory {
     public String getLink() {
       return "https://vk.com/id" + id;
     }
+
+    @Override
+    public String toString() {
+      return getName();
+    }
   }
 }

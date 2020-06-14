@@ -37,6 +37,10 @@ public class VkUpdater implements Runnable {
     was.thenCombine(now, VkRelationList::updates)
         .thenApply(u -> u.collect(toList()))
         .thenApply(updates -> vkRelationUpdateService.saveAll(updates, owner))
-        .thenAccept(updates -> notifiers.forEach(notifier -> notifier.notify(updates)));
+        .thenAccept(updates -> notifiers.forEach(notifier -> notifier.notify(updates)))
+        .exceptionally(e -> {
+          e.printStackTrace();
+          return null;
+        });
   }
 }

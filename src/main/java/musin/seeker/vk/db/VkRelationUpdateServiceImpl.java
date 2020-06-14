@@ -26,7 +26,7 @@ public class VkRelationUpdateServiceImpl implements VkRelationUpdateService {
 
   @Override
   public CompletableFuture<List<VkNotifiableUpdate>> findAllByOwner(int owner) {
-    return relationUpdateRepository.findAllByResourceAndOwner(VkDbConstants.RESOURCE, owner + "")
+    return relationUpdateRepository.findAllByResourceAndOwnerOrderById(VkDbConstants.RESOURCE, owner + "")
         .thenApply(r -> r.stream().map(VkNotifiableUpdateImpl::new).collect(toList()));
   }
 
