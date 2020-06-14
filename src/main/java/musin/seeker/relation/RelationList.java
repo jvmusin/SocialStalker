@@ -30,7 +30,7 @@ public interface RelationList<
    * If a given {@link Relation#getType() relation.type} is {@code null}, then removes a relation,
    * associated with a user obtained from {@link Relation#getUser() relation.user}.
    * <p>
-   * Otherwise adds (or overrides if already exists) a relation,
+   * Otherwise adds (or replaces if already exists) a relation,
    * associated with a user obtained from {@link Relation#getUser() relation.user}.
    *
    * @param relation a relation to add or remove
