@@ -1,15 +1,16 @@
 package musin.seeker.vk.relation;
 
 import musin.seeker.relation.SingleHashMapRelationList;
+import musin.seeker.vk.db.VkRelationType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-public class VkRelationList extends SingleHashMapRelationList<VkUser, VkRelation, VkUpdate> {
+public class VkRelationList extends SingleHashMapRelationList<VkUser, VkRelationType, VkRelation, VkUpdate> {
 
   public VkRelationList(Stream<? extends VkRelation> relations) {
-    relations.forEach(r -> apply(createUpdate(r.getUser(), null, r)));
+    relations.forEach(r -> apply(createUpdate(r.getUser(), null, r.getType())));
   }
 
   public VkRelationList(List<? extends VkUpdate> updates) {
@@ -17,7 +18,12 @@ public class VkRelationList extends SingleHashMapRelationList<VkUser, VkRelation
   }
 
   @Override
-  protected @NotNull VkUpdate createUpdate(@NotNull VkUser target, VkRelation was, VkRelation now) {
-    return new VkUpdateImpl(target, was, now);
+  protected @NotNull VkUpdate createUpdate(@NotNull VkUser user, VkRelationType was, VkRelationType now) {
+    return new VkUpdateImpl(user, was, now);
+  }
+
+  @Override
+  protected @NotNull VkRelation createRelation(@NotNull VkUser user, VkRelationType type) {
+    return new VkRelation(user, type);
   }
 }

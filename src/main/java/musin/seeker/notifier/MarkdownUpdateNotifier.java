@@ -1,6 +1,5 @@
 package musin.seeker.notifier;
 
-import musin.seeker.relation.Relation;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.ZoneId;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 public abstract class MarkdownUpdateNotifier<
-    TUpdate extends NotifiableUpdate<? extends User, ? extends Relation<?, ?>>>
+    TUpdate extends NotifiableUpdate<? extends User, ?>>
     implements UpdateNotifier<TUpdate> {
 
   private static final DateTimeFormatter DATE_TIME_FORMATTER =
@@ -42,7 +41,7 @@ public abstract class MarkdownUpdateNotifier<
     sj.add("Time: " + update.getTime().format(DATE_TIME_FORMATTER));
     sj.add("Owner: " + userLink(update.getOwner()));
     sj.add("Target: " + userLink(update.getTarget()));
-    sj.add("Type: " + update.getWas().getType() + " to " + update.getNow().getType());
+    sj.add("Type: " + update.getWas() + " to " + update.getNow());
     return sj.toString();
   }
 
@@ -54,7 +53,7 @@ public abstract class MarkdownUpdateNotifier<
     StringJoiner sj = new StringJoiner("\n");
     sj.add(String.format("Too many updates (%d) for user %s", updates.size(), someUpdate.getOwner()));
     sj.add(String.format("Update ids: %d..%d", idStats.getMin(), idStats.getMax()));
-    sj.add(String.format("Type: %s to %s", someUpdate.getWas().getType(), someUpdate.getNow().getType()));
+    sj.add(String.format("Type: %s to %s", someUpdate.getWas(), someUpdate.getNow()));
     return sj.toString();
   }
 

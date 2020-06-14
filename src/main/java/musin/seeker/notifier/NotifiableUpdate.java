@@ -4,7 +4,7 @@ import musin.seeker.relation.Update;
 
 import java.time.LocalDateTime;
 
-public interface NotifiableUpdate<TUser extends User, TRelation> extends Update<TUser, TRelation> {
+public interface NotifiableUpdate<TUser extends User, TRelationType> extends Update<TUser, TRelationType> {
   Integer getId();
 
   TUser getOwner();
