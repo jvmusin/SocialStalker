@@ -1,4 +1,4 @@
-package musin.seeker.vk.db;
+package musin.seeker.vk.relation;
 
 public enum VkRelationType {
   FRIEND,

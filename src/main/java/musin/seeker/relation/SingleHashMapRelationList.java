@@ -1,6 +1,5 @@
 package musin.seeker.relation;
 
-import musin.seeker.notifier.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -13,7 +12,7 @@ public abstract class SingleHashMapRelationList<
     TUser extends User,
     TRelationType,
     TRelation extends Relation<? extends TUser, TRelationType>,
-    TRelationUpdate extends Update<? extends TUser, ? extends TRelationType>>
+    TRelationUpdate extends RelationUpdate<? extends TUser, ? extends TRelationType>>
     extends HashMapRelationList<TUser, TRelationType, TRelation, TRelationUpdate> {
 
   @Override

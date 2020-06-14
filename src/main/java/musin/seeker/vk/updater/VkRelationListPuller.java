@@ -1,15 +1,18 @@
-package musin.seeker.vk.relation;
+package musin.seeker.vk.updater;
 
 import lombok.RequiredArgsConstructor;
 import musin.seeker.vk.api.VkApi;
-import musin.seeker.vk.db.VkRelationType;
+import musin.seeker.vk.relation.VkRelation;
+import musin.seeker.vk.relation.VkRelationList;
+import musin.seeker.vk.relation.VkRelationType;
+import musin.seeker.vk.relation.VkUserFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-import static musin.seeker.vk.db.VkRelationType.FOLLOWER;
-import static musin.seeker.vk.db.VkRelationType.FRIEND;
+import static musin.seeker.vk.relation.VkRelationType.FOLLOWER;
+import static musin.seeker.vk.relation.VkRelationType.FRIEND;
 
 @Component
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
 package musin.seeker.vk.relation;
 
-import musin.seeker.notifier.User;
+import musin.seeker.relation.User;
 import org.jetbrains.annotations.NotNull;
 
 public interface VkUser extends User, Comparable<VkUser> {

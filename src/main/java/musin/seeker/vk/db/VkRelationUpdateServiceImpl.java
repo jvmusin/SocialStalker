@@ -4,8 +4,9 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
-import musin.seeker.vk.notifier.VkNotifiableUpdate;
-import musin.seeker.vk.relation.VkUpdate;
+import musin.seeker.vk.notifier.VkNotifiableRelationUpdate;
+import musin.seeker.vk.relation.VkRelationType;
+import musin.seeker.vk.relation.VkRelationUpdate;
 import musin.seeker.vk.relation.VkUser;
 import musin.seeker.vk.relation.VkUserFactory;
 import org.springframework.stereotype.Service;
@@ -24,22 +25,22 @@ public class VkRelationUpdateServiceImpl implements VkRelationUpdateService {
   private final VkUserFactory vkUserFactory;
 
   @Override
-  public CompletableFuture<List<VkNotifiableUpdate>> findAllByOwner(int owner) {
+  public CompletableFuture<List<VkNotifiableRelationUpdate>> findAllByOwner(int owner) {
     return relationUpdateRepository.findAllByResourceAndOwnerOrderById(VkDbConstants.RESOURCE, owner + "")
-        .thenApply(r -> r.stream().map(VkNotifiableUpdateImpl::new).collect(toList()));
+        .thenApply(r -> r.stream().map(VkNotifiableRelationUpdateImpl::new).collect(toList()));
   }
 
   @Override
-  public List<VkNotifiableUpdate> saveAll(List<? extends VkUpdate> updates, int owner) {
+  public List<VkNotifiableRelationUpdate> saveAll(List<? extends VkRelationUpdate> updates, int owner) {
     List<RelationUpdate> relationUpdates = updates.stream()
         .map(upd -> vkUpdateToRelationUpdate(upd, owner))
         .collect(toList());
     return relationUpdateRepository.saveAll(relationUpdates).stream()
-        .map(VkNotifiableUpdateImpl::new)
+        .map(VkNotifiableRelationUpdateImpl::new)
         .collect(toList());
   }
 
-  private RelationUpdate vkUpdateToRelationUpdate(VkUpdate upd, int owner) {
+  private RelationUpdate vkUpdateToRelationUpdate(VkRelationUpdate upd, int owner) {
     return RelationUpdate.builder()
         .resource(VkDbConstants.RESOURCE)
         .owner(owner + "")
@@ -51,7 +52,7 @@ public class VkRelationUpdateServiceImpl implements VkRelationUpdateService {
   }
 
   @Data
-  private class VkNotifiableUpdateImpl implements VkNotifiableUpdate {
+  private class VkNotifiableRelationUpdateImpl implements VkNotifiableRelationUpdate {
     private final Integer id;
     private final VkUser owner;
     private final VkUser target;
@@ -59,7 +60,7 @@ public class VkRelationUpdateServiceImpl implements VkRelationUpdateService {
     private final VkRelationType now;
     private final LocalDateTime time;
 
-    VkNotifiableUpdateImpl(RelationUpdate update) {
+    VkNotifiableRelationUpdateImpl(RelationUpdate update) {
       id = update.getId();
       owner = vkUserFactory.create(Integer.parseInt(update.getOwner()));
       target = vkUserFactory.create(Integer.parseInt(update.getTarget()));

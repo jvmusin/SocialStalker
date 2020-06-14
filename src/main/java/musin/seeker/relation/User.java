@@ -1,4 +1,4 @@
-package musin.seeker.notifier;
+package musin.seeker.relation;
 
 public interface User {
   String getName();

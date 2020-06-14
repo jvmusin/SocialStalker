@@ -5,7 +5,6 @@ import musin.seeker.vk.db.VkRelationUpdateService;
 import musin.seeker.vk.db.VkSeekerService;
 import musin.seeker.vk.notifier.VkUpdateNotifier;
 import musin.seeker.vk.relation.VkRelationList;
-import musin.seeker.vk.relation.VkRelationListPuller;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +34,7 @@ public class VkUpdater implements Runnable {
     CompletableFuture<VkRelationList> now = vkRelationListPuller.pull(owner);
 
     was.thenCombine(now, VkRelationList::updates)
-        .thenApply(u -> u.collect(toList()))
+        .thenApply(updates -> updates.collect(toList()))
         .thenApply(updates -> vkRelationUpdateService.saveAll(updates, owner))
         .thenAccept(updates -> notifiers.forEach(notifier -> notifier.notify(updates)))
         .exceptionally(e -> {

@@ -8,7 +8,7 @@
 //import musin.seeker.vk.api.SimpleVkUser;
 //import musin.seeker.vk.api.VkApi;
 //import musin.seeker.vk.relation.VkRelationList;
-//import musin.seeker.vk.relation.VkRelationListPuller;
+//import musin.seeker.vk.updater.VkRelationListPuller;
 //import musin.seeker.vk.relation.VkUpdateImpl;
 //import musin.seeker.web.dto.*;
 //import org.springframework.stereotype.Controller;

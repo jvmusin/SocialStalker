@@ -1,6 +1,5 @@
 package musin.seeker.relation;
 
-import musin.seeker.notifier.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -15,7 +14,7 @@ public abstract class HashMapRelationList<
     TUser extends User,
     TRelationType,
     TRelation extends Relation<? extends TUser, TRelationType>,
-    TRelationUpdate extends Update<? extends TUser, ? extends TRelationType>>
+    TRelationUpdate extends RelationUpdate<? extends TUser, ? extends TRelationType>>
     implements RelationList<TUser, TRelationType, TRelation, TRelationUpdate> {
 
   protected final Map<TUser, Set<TRelationType>> userRelations = new HashMap<>();

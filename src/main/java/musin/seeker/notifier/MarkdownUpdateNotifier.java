@@ -1,5 +1,6 @@
 package musin.seeker.notifier;
 
+import musin.seeker.relation.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.ZoneId;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 public abstract class MarkdownUpdateNotifier<
-    TUpdate extends NotifiableUpdate<? extends User, ?>>
+    TUpdate extends NotifiableRelationUpdate<? extends User, ?>>
     implements UpdateNotifier<TUpdate> {
 
   private static final DateTimeFormatter DATE_TIME_FORMATTER =
@@ -47,7 +48,7 @@ public abstract class MarkdownUpdateNotifier<
 
   private String buildMessageForABunchOfUpdates(List<? extends TUpdate> updates) {
     IntSummaryStatistics idStats = updates.stream()
-        .mapToInt(NotifiableUpdate::getId)
+        .mapToInt(NotifiableRelationUpdate::getId)
         .summaryStatistics();
     TUpdate someUpdate = updates.get(0);
     StringJoiner sj = new StringJoiner("\n");

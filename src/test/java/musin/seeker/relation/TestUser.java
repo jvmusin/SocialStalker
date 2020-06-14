@@ -1,7 +1,6 @@
 package musin.seeker.relation;
 
 import lombok.Data;
-import musin.seeker.notifier.User;
 
 @Data
 public class TestUser implements User {

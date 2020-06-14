@@ -3,7 +3,7 @@ package musin.seeker.relation;
 import lombok.Data;
 
 @Data
-public class TestRelationUpdate implements Update<TestUser, TestRelationType> {
+public class TestRelationUpdate implements RelationUpdate<TestUser, TestRelationType> {
   private final TestUser target;
   private final TestRelationType was;
   private final TestRelationType now;
