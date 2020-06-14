@@ -1,11 +1,12 @@
-package musin.seeker.relation.v2;
+package musin.seeker.relation;
 
 import musin.seeker.notifier.User;
-import musin.seeker.relation.Relation;
-import musin.seeker.relation.Update;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;

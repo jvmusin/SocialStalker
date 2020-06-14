@@ -1,4 +1,4 @@
-package musin.seeker.relation.v2;
+package musin.seeker.relation;
 
 import lombok.Data;
 

@@ -1,8 +1,6 @@
-package musin.seeker.relation.v2;
+package musin.seeker.relation;
 
 import musin.seeker.notifier.User;
-import musin.seeker.relation.Relation;
-import musin.seeker.relation.Update;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

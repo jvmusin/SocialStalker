@@ -3,7 +3,25 @@ package musin.seeker.relation;
 import lombok.Data;
 
 @Data
-public class TestRelation implements Relation<String, String> {
-  private final String user;
-  private final String type;
+public class TestRelation implements Relation<TestUser, TestRelationType> {
+  private final TestUser user;
+  private final TestRelationType type;
+
+  TestRelation(TestUser user, TestRelationType type) {
+    this.user = user;
+    this.type = type;
+  }
+
+  TestRelation(String user, String type) {
+    this.user = new TestUser(user);
+    this.type = new TestRelationType(type);
+  }
+
+  TestRelationUpdate asAdd() {
+    return new TestRelationUpdate(user, null, this);
+  }
+
+  TestRelationUpdate asRemove() {
+    return new TestRelationUpdate(user, this, null);
+  }
 }

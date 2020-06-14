@@ -2,73 +2,50 @@ package musin.seeker.relation;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.stream.Stream;
 
-/**
- * This interface represents all relations between some root user and other users.
- *
- * @param <TUser>           type of users
- * @param <TRelation>       type of relations between users
- * @param <TRelationUpdate> type of relation updates
- */
-public interface RelationList<
-    TUser,
-    TRelation,
-    TRelationUpdate>
-    extends Collection<TRelation> {
+public interface RelationList<TUser, TRelation, TRelationUpdate> {
 
   /**
-   * Returns all users in this list.
-   *
-   * @return a stream of all users in this list
+   * @return all users in this list
    */
-  @NotNull
-  Stream<TUser> users();
+  @NotNull Stream<TUser> users();
 
   /**
-   * If a given {@link Relation#getType() relation.type} is {@code null}, then removes a relation,
-   * associated with a user obtained from {@link Relation#getUser() relation.user}.
-   * <p>
-   * Otherwise adds (or replaces if already exists) a relation,
-   * associated with a user obtained from {@link Relation#getUser() relation.user}.
-   *
-   * @param relation a relation to add or remove
-   * @return {@code true} if this list changed as a result of the call
+   * @return all relations in this list
    */
-  @Override
-  boolean add(@NotNull TRelation relation);
+  @NotNull Stream<TRelation> relations();
+
+//  /**
+//   * @param user a user to get all relations for
+//   * @return a stream of all relations associated with a given user
+//   */
+//  @NotNull Set<TRelation> getRelations(@NotNull TUser user);
 
   /**
-   * Returns a relation associated with a given {@code user}.
+   * Returns a single relation for a given user.
+   * <p>If there is a single relation, associated with a given user, returns it.
+   * <p>If there are no relations, associated with a given user, returns null.
+   * <p>If there are more than one relation, associated with a given user, throws an exception.
    *
    * @param user a user to get a relation for
-   * @return a relation associated with a given {@code user}
-   * or {@code null} if a user is not presented in this list
+   * @return a single relation, associated with a given user, or null
    */
-  TRelation get(@NotNull TUser user);
+  TRelation getSingleRelation(@NotNull TUser user);
 
   /**
-   * Returns all updates between this list and the given {@code newer} list.
-   * <p>
-   * An update means any of these:
-   * <ul>
-   * <li>The user is unknown in this list, but is known in a {@code newer} list, or
-   * <li>The user is known in this list, but is unknown in a {@code newer} list, or
-   * <li>The user is known in both lists, but the relation types differ.
-   * </ul>
-   *
-   * @param newer a newer relation list to check for updates
-   * @return a stream of all updates between these two lists
+   * @param update an update to apply
    */
-  @NotNull
-  Stream<TRelationUpdate> updates(@NotNull RelationList<TUser, ? extends TRelation, ?> newer);
+  void apply(@NotNull TRelationUpdate update);
 
   /**
-   * Returns updates such that applying them on an empty list produces a list which is equal to this one.
-   *
-   * @return a stream of updates to build a list which is equal to this one
+   * @param newer a newer list to build updates
+   * @return updates between this and newer list
    */
-  @NotNull
-  Stream<TRelationUpdate> asUpdates();
+  @NotNull Stream<TRelationUpdate> updates(@NotNull RelationList<TUser, TRelation, TRelationUpdate> newer);
+
+//  /**
+//   * @return all relations in this list as a stream of updates
+//   */
+//  @NotNull Stream<TRelationUpdate> asUpdates();
 }
