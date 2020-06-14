@@ -20,13 +20,10 @@ public abstract class SingleHashMapRelationList<
   @Override
   public void apply(@NotNull TRelationUpdate update) {
     if (Objects.equals(update.getWas(), update.getNow()))
-      throw new RuntimeException("Was and now types are same");
+      throw new RuntimeException("Was and now types are same in update " + update);
 
     if (!Objects.equals(update.getWas(), getSingleRelation(update.getTarget())))
       throw new RuntimeException("Was and saved types differ for update " + update);
-
-    if (Objects.equals(update.getNow(), getSingleRelation(update.getTarget())))
-      throw new RuntimeException("Now and saved types are same for update: " + update);
 
     if (update.getNow() == null) userRelations.remove(update.getTarget());
     else userRelations.put(update.getTarget(), singleton(update.getNow()));
