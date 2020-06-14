@@ -17,16 +17,21 @@ public class VkUserFactory {
 
   @Data
   private class VkUserImpl implements VkUser {
-    private final Integer id;
+    private final int id;
 
     @Override
     public String getName() {
-      return vkApi.loadUser(id).toString();
+      return toString();
     }
 
     @Override
     public String getLink() {
       return "https://vk.com/id" + id;
+    }
+
+    @Override
+    public String toString() {
+      return vkApi.loadUser(id).toString();
     }
   }
 }

@@ -44,7 +44,7 @@ public class VkRelationUpdateServiceImpl implements VkRelationUpdateService {
     return RelationUpdate.builder()
         .resource(VkDbConstants.RESOURCE)
         .owner(owner + "")
-        .target(upd.getTarget().getId().toString())
+        .target(upd.getTarget().getId() + "")
         .was(upd.getWas() == null ? null : upd.getWas().getType().toString())
         .now(upd.getNow() == null ? null : upd.getNow().getType().toString())
         .time(LocalDateTime.now())
