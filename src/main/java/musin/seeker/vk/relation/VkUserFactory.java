@@ -2,6 +2,7 @@ package musin.seeker.vk.relation;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import musin.seeker.vk.api.SimpleVkUser;
 import musin.seeker.vk.api.VkApi;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +32,8 @@ public class VkUserFactory {
 
     @Override
     public String toString() {
-      return vkApi.loadUser(id).toString();
+      SimpleVkUser user = vkApi.loadUser(id);
+      return String.format("%d: %s %s", user.getUserId(), user.getFirstName(), user.getLastName());
     }
   }
 }
