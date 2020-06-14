@@ -1,0 +1,8 @@
+package musin.seeker.instagram.notifier;
+
+import musin.seeker.notifier.ConsoleUpdateNotifier;
+import org.springframework.stereotype.Component;
+
+@Component
+public class InstagramConsoleUpdateNotifier extends ConsoleUpdateNotifier<InstagramNotifiableUpdate> implements InstagramUpdateNotifier {
+}
