@@ -22,8 +22,10 @@ public abstract class MultiHashMapRelationList<
 
   @Override
   public void apply(@NotNull TRelationUpdate update) {
+    validateUpdate(update);
+
     if ((update.getWas() == null) == (update.getNow() == null))
-      throw new RuntimeException("An update should remove or add a relation, not update: " + update);
+      throw new IllegalArgumentException("An update should remove or add a relation, not update: " + update);
 
     Set<TRelationType> types = userRelations.computeIfAbsent(update.getTarget(), t -> new HashSet<>());
 

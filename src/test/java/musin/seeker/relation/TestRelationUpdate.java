@@ -3,12 +3,12 @@ package musin.seeker.relation;
 import lombok.Data;
 
 @Data
-public class TestRelationUpdate implements Update<TestUser, TestRelation> {
+public class TestRelationUpdate implements Update<TestUser, TestRelationType> {
   private final TestUser target;
-  private final TestRelation was;
-  private final TestRelation now;
+  private final TestRelationType was;
+  private final TestRelationType now;
 
-  TestRelationUpdate(TestUser target, TestRelation was, TestRelation now) {
+  TestRelationUpdate(TestUser target, TestRelationType was, TestRelationType now) {
     this.target = target;
     this.was = was;
     this.now = now;
@@ -16,7 +16,7 @@ public class TestRelationUpdate implements Update<TestUser, TestRelation> {
 
   TestRelationUpdate(String target, String was, String now) {
     this.target = new TestUser(target);
-    this.was = new TestRelation(this.target, was == null ? null : new TestRelationType(was));
-    this.now = new TestRelation(this.target, now == null ? null : new TestRelationType(now));
+    this.was = was == null ? null : new TestRelationType(was);
+    this.now = now == null ? null : new TestRelationType(now);
   }
 }

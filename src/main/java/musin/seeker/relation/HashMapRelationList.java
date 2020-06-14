@@ -34,7 +34,7 @@ public abstract class HashMapRelationList<
   protected void validateUpdate(TRelationUpdate update) {
     if (update.getTarget() == null) throw new IllegalArgumentException("Target is null: " + update);
     if (Objects.equals(update.getWas(), update.getNow()))
-      throw new IllegalArgumentException("Was.type and now.type are same: " + update);
+      throw new IllegalArgumentException("Was and now types are same: " + update);
   }
 
   @Override
@@ -55,5 +55,12 @@ public abstract class HashMapRelationList<
    */
   protected abstract @NotNull TRelationUpdate createUpdate(@NotNull TUser user, TRelationType was, TRelationType now);
 
+  /**
+   * Create a relation
+   *
+   * @param user a user to create a relation for
+   * @param type a type of relation to create
+   * @return a relation
+   */
   protected abstract @NotNull TRelation createRelation(@NotNull TUser user, TRelationType type);
 }

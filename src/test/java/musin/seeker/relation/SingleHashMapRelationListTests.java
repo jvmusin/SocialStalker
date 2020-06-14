@@ -1,6 +1,9 @@
 package musin.seeker.relation;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -68,33 +71,11 @@ public class SingleHashMapRelationListTests implements EmptyRelationListTests<Te
     assertThat(result, containsInAnyOrder(expected));
   }
 
-  @Nested
-  class throw_exception_when {
-    //todo remove it
-    @Test
-    void try_to_apply_update_with_same_was_and_now() {
-      TestSingleHashMapRelationList list = createList(someRelations());
-      TestRelation r = someRelations().get(0);
-      String user = r.getUser().getName();
-      String type = r.getType().getName();
-      assertThrows(RuntimeException.class, () -> list.apply(new TestRelationUpdate(user, type, type)));
-    }
-
-    //todo remove it
-    @Test
-    void try_to_apply_update_which_doesnt_change_anything_but_also_null() {
-      TestSingleHashMapRelationList list = createList(someRelations());
-      TestRelation r = someRelations().get(0);
-      String user = r.getUser().getName();
-      assertThrows(RuntimeException.class, () -> list.apply(new TestRelationUpdate(user, null, null)));
-    }
-
-    @Test
-    void try_to_apply_update_with_wrong_was_type() {
-      TestSingleHashMapRelationList list = createList(someRelations());
-      TestRelation r = someRelations().get(0);
-      String user = r.getUser().getName();
-      assertThrows(RuntimeException.class, () -> list.apply(new TestRelationUpdate(user, "something", "anything")));
-    }
+  @Test
+  void fail_when_try_to_apply_update_with_wrong_was_type() {
+    TestSingleHashMapRelationList list = createList(someRelations());
+    TestRelation r = someRelations().get(0);
+    String user = r.getUser().getName();
+    assertThrows(RuntimeException.class, () -> list.apply(new TestRelationUpdate(user, "something", "anything")));
   }
 }
