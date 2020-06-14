@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableJpaRepositories
 @SpringBootApplication
-public class VkseekerApplication {
+public class SeekerApplication {
   public static void main(String[] args) {
-    SpringApplication.run(VkseekerApplication.class, args);
+    SpringApplication.run(SeekerApplication.class, args);
   }
 }

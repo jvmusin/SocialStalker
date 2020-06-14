@@ -57,6 +57,7 @@ public abstract class MarkdownUpdateNotifier<
     return sj.toString();
   }
 
+  @SuppressWarnings("SameReturnValue")
   protected int getMinSizeForABunchOfChanges() {
     return 10;
   }
