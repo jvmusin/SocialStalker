@@ -12,5 +12,5 @@ import java.time.Duration;
 public class InstagramConfigurationProperties {
   private String username;
   private String password;
-  private Duration period;
+  private Duration periodBetweenUpdates;
 }

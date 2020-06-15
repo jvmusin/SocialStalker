@@ -12,7 +12,10 @@ import org.brunocvcunha.instagram4j.requests.payload.InstagramUserSummary;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Collectors.toList;
@@ -23,22 +26,40 @@ import static java.util.stream.Collectors.toList;
 public class InstagramApiImpl implements InstagramApi {
 
   private final Instagram4j instagram;
+  private final Map<Long, InstagramApiUser> users = new ConcurrentHashMap<>();
+
+  private InstagramApiUser mapUser(InstagramUserSummary user) {
+    return new InstagramApiUser(user.pk, user.username);
+  }
+
+  private InstagramApiUser mapUser(InstagramUser user) {
+    return new InstagramApiUser(user.pk, user.username);
+  }
+
+  private void saveUser(long pk, InstagramApiUser user) {
+    users.put(pk, user);
+  }
 
   @Override
-  @SneakyThrows
-  //todo add caching
   public InstagramApiUser loadUser(long userId) {
-    InstagramSearchUsernameResult res = instagram.sendRequest(new InstagramGetUserInfoRequest(userId));
-    InstagramUser user = res.getUser();
-    return new InstagramApiUser(userId, user.username);
+    //noinspection Convert2Lambda
+    return users.computeIfAbsent(userId, new Function<>() {
+      @Override
+      @SneakyThrows
+      public InstagramApiUser apply(Long id) {
+        InstagramSearchUsernameResult res = instagram.sendRequest(new InstagramGetUserInfoRequest(id));
+        return InstagramApiImpl.this.mapUser(res.getUser());
+      }
+    });
   }
 
   @Override
   @SneakyThrows
   public CompletableFuture<List<Long>> loadFollowers(long userId) {
     InstagramGetUserFollowersResult githubFollowers = instagram.sendRequest(new InstagramGetUserFollowersRequest(userId));
-    List<InstagramUserSummary> users = githubFollowers.getUsers();
-    List<Long> result = users.stream().map(u -> u.pk).collect(toList());
+    List<InstagramUserSummary> followers = githubFollowers.getUsers();
+    followers.forEach(u -> saveUser(u.pk, mapUser(u)));
+    List<Long> result = followers.stream().map(u -> u.pk).collect(toList());
     return completedFuture(result);
   }
 }

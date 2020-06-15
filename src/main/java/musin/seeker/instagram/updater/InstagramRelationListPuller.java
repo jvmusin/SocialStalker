@@ -1,8 +1,11 @@
-package musin.seeker.instagram.relation;
+package musin.seeker.instagram.updater;
 
 import lombok.RequiredArgsConstructor;
 import musin.seeker.instagram.api.InstagramApi;
 import musin.seeker.instagram.db.InstagramRelationType;
+import musin.seeker.instagram.relation.InstagramRelation;
+import musin.seeker.instagram.relation.InstagramRelationList;
+import musin.seeker.instagram.relation.InstagramUserFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
@@ -17,7 +20,7 @@ public class InstagramRelationListPuller {
   private final InstagramUserFactory instagramUserFactory;
 
   private InstagramRelation createRelation(long userId, InstagramRelationType type) {
-    return new InstagramRelation(instagramUserFactory.create(userId), FOLLOWER);
+    return new InstagramRelation(instagramUserFactory.create(userId), type);
   }
 
   public CompletableFuture<InstagramRelationList> pull(long userId) {

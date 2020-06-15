@@ -1,4 +1,4 @@
 instagram:
   username: ${INSTAGRAM_USERNAME}
   password: ${INSTAGRAM_PASSWORD}
-  period: 30m
+  period-between-updates: 5m

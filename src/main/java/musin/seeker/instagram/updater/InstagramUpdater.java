@@ -5,7 +5,6 @@ import musin.seeker.instagram.db.InstagramRelationUpdateService;
 import musin.seeker.instagram.db.InstagramSeekerService;
 import musin.seeker.instagram.notifier.InstagramUpdateNotifier;
 import musin.seeker.instagram.relation.InstagramRelationList;
-import musin.seeker.instagram.relation.InstagramRelationListPuller;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 

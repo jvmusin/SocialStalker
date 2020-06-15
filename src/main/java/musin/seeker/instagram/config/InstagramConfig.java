@@ -209,6 +209,6 @@ public class InstagramConfig {
 
   @Bean
   public InstagramSchedulerUpdaterRule instagramSchedulerUpdaterRule(InstagramUpdater instagramUpdater, InstagramConfigurationProperties config) {
-    return new InstagramSchedulerUpdaterRule(instagramUpdater, config.getPeriod());
+    return new InstagramSchedulerUpdaterRule(instagramUpdater, config.getPeriodBetweenUpdates());
   }
 }

@@ -5,4 +5,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class InstagramConsoleUpdateNotifier extends ConsoleUpdateNotifier<InstagramNotifiableUpdate> implements InstagramUpdateNotifier {
+  @Override
+  protected int getMinSizeForABunchOfChanges() {
+    return 40;
+  }
 }

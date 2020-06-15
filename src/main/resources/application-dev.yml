@@ -1,2 +1,4 @@
 vk:
   period-between-updates: 30s
+instagram:
+  period-between-updates: 1m
