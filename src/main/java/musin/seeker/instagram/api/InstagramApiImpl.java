@@ -30,11 +30,11 @@ public class InstagramApiImpl implements InstagramApi {
   private final Map<Long, InstagramApiUser> users = new ConcurrentHashMap<>();
 
   private InstagramApiUser mapUser(InstagramUserSummary user) {
-    return new InstagramApiUser(user.pk, user.username);
+    return new InstagramApiUser(user.pk, user.username, user.full_name);
   }
 
   private InstagramApiUser mapUser(InstagramUser user) {
-    return new InstagramApiUser(user.pk, user.username);
+    return new InstagramApiUser(user.pk, user.username, user.full_name);
   }
 
   private void saveUser(long pk, InstagramApiUser user) {

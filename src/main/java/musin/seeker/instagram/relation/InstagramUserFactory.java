@@ -22,7 +22,7 @@ public class InstagramUserFactory {
     @Override
     public String getName() {
       InstagramApiUser user = instagramApi.loadUser(id);
-      return String.format("%d: %s", user.getUserId(), user.getUsername());
+      return String.format("%d: %s (%s)", user.getUserId(), user.getFullName(), user.getUsername());
     }
 
     @Override
