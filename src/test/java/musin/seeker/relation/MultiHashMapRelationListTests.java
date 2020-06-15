@@ -5,9 +5,12 @@ import org.junit.jupiter.api.*;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -16,6 +19,28 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
   @Override
   public TestMultiHashMapRelationList createList() {
     return new TestMultiHashMapRelationList();
+  }
+
+  @Test
+  void return_correct_relation_types() {
+    TestMultiHashMapRelationList list = createList();
+    list.apply(new TestUpdate("user1", null, "friend"));
+    list.apply(new TestUpdate("user2", null, "follower"));
+    list.apply(new TestUpdate("user3", null, "fan"));
+    list.apply(new TestUpdate("user1", null, "nobody"));
+    list.apply(new TestUpdate("user2", "follower", null));
+    assertThat(list.getAllRelationTypes(new TestUser("user1")), containsInAnyOrder(
+        new TestRelationType("friend"),
+        new TestRelationType("nobody")
+    ));
+    assertEquals(list.getAllRelationTypes(new TestUser("user2")), emptySet());
+    assertEquals(list.getAllRelationTypes(new TestUser("user3")), singleton(new TestRelationType("fan")));
+    assertEquals(list.getAllRelationTypes(new TestUser("user4")), emptySet());
+    assertEquals(list.getAllRelationTypes(new TestUser("user3")), singleton(new TestRelationType("fan")));
+    assertThat(list.getAllRelationTypes(new TestUser("user1")), containsInAnyOrder(
+        new TestRelationType("friend"),
+        new TestRelationType("nobody")
+    ));
   }
 
   @Test

@@ -8,9 +8,12 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -20,6 +23,22 @@ public class SingleHashMapRelationListTests implements EmptyRelationListTests<Te
   @Override
   public TestSingleHashMapRelationList createList() {
     return new TestSingleHashMapRelationList();
+  }
+
+  @Test
+  void return_correct_relation_types() {
+    TestSingleHashMapRelationList list = createList();
+    list.apply(new TestUpdate("user1", null, "friend"));
+    list.apply(new TestUpdate("user2", null, "follower"));
+    list.apply(new TestUpdate("user1", "friend", "fan"));
+    list.apply(new TestUpdate("user4", null, "friend"));
+    list.apply(new TestUpdate("user2", "follower", null));
+    assertEquals(list.getAllRelationTypes(new TestUser("user1")), singleton(new TestRelationType("fan")));
+    assertEquals(list.getAllRelationTypes(new TestUser("user2")), emptySet());
+    assertEquals(list.getAllRelationTypes(new TestUser("user4")), singleton(new TestRelationType("friend")));
+    assertEquals(list.getAllRelationTypes(new TestUser("user1")), singleton(new TestRelationType("fan")));
+    assertEquals(list.getAllRelationTypes(new TestUser("user5")), emptySet());
+    assertEquals(list.getAllRelationTypes(new TestUser("user2")), emptySet());
   }
 
   @Test

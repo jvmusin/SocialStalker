@@ -50,6 +50,11 @@ interface EmptyRelationListTests<
   }
 
   @Test
+  default void return_empty_relation_types_for_any_user() {
+    assertThat(createList().getAllRelationTypes(new TestUser("user")), empty());
+  }
+
+  @Test
   default void return_empty_updates_on_empty_list() {
     assertThat(createList().updates(createList()).collect(toList()), empty());
   }
