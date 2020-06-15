@@ -13,7 +13,7 @@ import static java.util.Collections.emptySet;
 public abstract class HashMapRelationList<
     TUser extends User<?>,
     TRelationType,
-    TRelation extends Relation<? extends TUser, TRelationType>,
+    TRelation extends Relation<? extends TUser, ? extends TRelationType>,
     TUpdate extends Update<? extends TUser, ? extends TRelationType>>
     implements RelationList<TUser, TRelationType, TRelation, TUpdate> {
 
@@ -28,6 +28,11 @@ public abstract class HashMapRelationList<
   public @NotNull Stream<TRelation> relations() {
     return userRelations.entrySet().stream()
         .flatMap(e -> e.getValue().stream().map(t -> createRelation(e.getKey(), t)));
+  }
+
+  @Override
+  public @NotNull Set<TRelationType> getAllRelationTypes(@NotNull TUser user) {
+    return userRelations.getOrDefault(user, emptySet());
   }
 
   protected void validateUpdate(TUpdate update) {

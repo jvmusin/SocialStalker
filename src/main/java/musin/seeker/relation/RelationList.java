@@ -2,6 +2,7 @@ package musin.seeker.relation;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
 import java.util.stream.Stream;
 
 public interface RelationList<TUser, TRelationType, TRelation, TUpdate> {
@@ -15,6 +16,12 @@ public interface RelationList<TUser, TRelationType, TRelation, TUpdate> {
    * @return all relations in this list
    */
   @NotNull Stream<TRelation> relations();
+
+  /**
+   * @param user a user to get relations for
+   * @return all relation types, associated with a given user
+   */
+  @NotNull Set<TRelationType> getAllRelationTypes(@NotNull TUser user);
 
   /**
    * Returns a single relation for a given user.
@@ -36,5 +43,5 @@ public interface RelationList<TUser, TRelationType, TRelation, TUpdate> {
    * @param newer a newer list to build updates
    * @return updates between this and newer list
    */
-  @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, ?> newer);
+  @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, ? extends TRelationType, ?, ?> newer);
 }

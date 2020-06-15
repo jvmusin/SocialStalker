@@ -11,7 +11,7 @@ import static java.util.stream.Stream.concat;
 public abstract class SingleHashMapRelationList<
     TUser extends User<?>,
     TRelationType,
-    TRelation extends Relation<? extends TUser, TRelationType>,
+    TRelation extends Relation<? extends TUser, ? extends TRelationType>,
     TUpdate extends Update<? extends TUser, ? extends TRelationType>>
     extends HashMapRelationList<TUser, TRelationType, TRelation, TUpdate> {
 
@@ -27,7 +27,7 @@ public abstract class SingleHashMapRelationList<
   }
 
   @Override
-  public @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, ?> newer) {
+  public @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, ? extends TRelationType, ?, ?> newer) {
     return concat(users(), newer.users()).distinct()
         .filter(u -> !Objects.equals(getRelationType(u), newer.getRelationType(u)))
         .map(u -> createUpdate(u, getRelationType(u), newer.getRelationType(u)));
