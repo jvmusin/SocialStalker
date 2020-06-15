@@ -11,11 +11,11 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class ScheduledUpdater {
-  private final List<ScheduledUpdaterRule> rules;
+  private final List<Updater> updaters;
   private final TaskScheduler taskScheduler;
 
   @EventListener(ApplicationReadyEvent.class)
   public void scheduleUpdates() {
-    rules.forEach(rule -> taskScheduler.scheduleWithFixedDelay(rule.getUpdater(), rule.getPeriod()));
+    updaters.forEach(updater -> taskScheduler.scheduleWithFixedDelay(updater, updater.getPeriodBetweenUpdates()));
   }
 }

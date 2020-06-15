@@ -1,5 +1,5 @@
 spring:
   profiles:
-    include: telegram
+    include: telegram, instagram
 vk:
   period-between-updates: 5m

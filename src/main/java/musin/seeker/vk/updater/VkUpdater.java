@@ -1,46 +1,31 @@
 package musin.seeker.vk.updater;
 
-import lombok.RequiredArgsConstructor;
-import musin.seeker.vk.db.VkUpdateService;
+import lombok.Getter;
+import musin.seeker.updater.BasicUpdater;
+import musin.seeker.vk.config.VkConfigurationProperties;
 import musin.seeker.vk.db.VkSeekerService;
+import musin.seeker.vk.db.VkUpdateService;
+import musin.seeker.vk.notifier.VkNotifiableUpdate;
 import musin.seeker.vk.notifier.VkUpdateNotifier;
-import musin.seeker.vk.relation.VkID;
-import musin.seeker.vk.relation.VkRelationList;
+import musin.seeker.vk.relation.*;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
-import static java.util.stream.Collectors.toList;
+@Component
+public class VkUpdater extends BasicUpdater<VkID, VkUser, VkRelationType, VkUpdate, VkRelationList, VkNotifiableUpdate> {
+  @Getter
+  private final Duration periodBetweenUpdates;
 
-@Service
-@RequiredArgsConstructor
-public class VkUpdater implements Runnable {
-
-  private final VkSeekerService vkSeekerService;
-  private final VkUpdateService vkUpdateService;
-  private final List<VkUpdateNotifier> notifiers;
-  private final TaskExecutor taskExecutor;
-  private final VkRelationListPuller vkRelationListPuller;
-
-  @Override
-  public void run() {
-    vkSeekerService.findAllOwners().forEach(s -> taskExecutor.execute(() -> run(s)));
-  }
-
-  private void run(VkID owner) {
-    CompletableFuture<VkRelationList> was = vkUpdateService.buildList(owner);
-
-    CompletableFuture<VkRelationList> now = vkRelationListPuller.pull(owner);
-
-    was.thenCombine(now, VkRelationList::updates)
-        .thenApply(updates -> updates.collect(toList()))
-        .thenApply(updates -> vkUpdateService.saveAll(updates, owner))
-        .thenAccept(updates -> notifiers.forEach(notifier -> notifier.notify(updates)))
-        .exceptionally(e -> {
-          e.printStackTrace();
-          return null;
-        });
+  public VkUpdater(VkSeekerService seekerService,
+                   VkUpdateService updateService,
+                   VkRelationListPuller relationListPuller,
+                   List<VkUpdateNotifier> updateNotifiers,
+                   TaskExecutor taskExecutor,
+                   VkConfigurationProperties config) {
+    super(seekerService, updateService, relationListPuller, updateNotifiers, taskExecutor);
+    periodBetweenUpdates = config.getPeriodBetweenUpdates();
   }
 }

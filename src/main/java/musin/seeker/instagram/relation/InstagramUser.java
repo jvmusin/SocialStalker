@@ -2,6 +2,5 @@ package musin.seeker.instagram.relation;
 
 import musin.seeker.relation.User;
 
-public interface InstagramUser extends User<Long> {
-  Long getId();
+public interface InstagramUser extends User<InstagramID> {
 }

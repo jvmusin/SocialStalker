@@ -1,7 +1,7 @@
 package musin.seeker.instagram.db;
 
-import java.util.List;
+import musin.seeker.instagram.relation.InstagramID;
+import musin.seeker.updater.SeekerService;
 
-public interface InstagramSeekerService {
-  List<InstagramSeeker> findAll();
+public interface InstagramSeekerService extends SeekerService<InstagramID> {
 }

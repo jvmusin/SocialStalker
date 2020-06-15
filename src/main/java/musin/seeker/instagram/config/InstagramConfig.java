@@ -1,7 +1,6 @@
 package musin.seeker.instagram.config;
 
 import lombok.SneakyThrows;
-import musin.seeker.instagram.updater.InstagramUpdater;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.InstagramGetChallengeRequest;
 import org.brunocvcunha.instagram4j.requests.InstagramResetChallengeRequest;
@@ -207,10 +206,5 @@ public class InstagramConfig {
     InstagramLoginResult login = instagram.login();
     checkInstagramLoginResult(instagram, login, true);
     return instagram;
-  }
-
-  @Bean
-  public InstagramSchedulerUpdaterRule instagramSchedulerUpdaterRule(InstagramUpdater instagramUpdater, InstagramConfigurationProperties config) {
-    return new InstagramSchedulerUpdaterRule(instagramUpdater, config.getPeriodBetweenUpdates());
   }
 }

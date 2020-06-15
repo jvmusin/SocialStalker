@@ -1,7 +1,7 @@
 package musin.seeker.vk.updater;
 
 import lombok.RequiredArgsConstructor;
-import musin.seeker.updater.v2.RelationListPuller;
+import musin.seeker.updater.RelationListPuller;
 import musin.seeker.vk.api.VkApi;
 import musin.seeker.vk.relation.*;
 import org.springframework.stereotype.Component;
