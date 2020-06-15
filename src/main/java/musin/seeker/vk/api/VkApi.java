@@ -24,13 +24,13 @@ public class VkApi {
   private final VkApiClient vkApiClient;
   private final UserActor userActor;
   private final AsyncListenableTaskExecutor taskExecutor;
-  private final Map<Integer, SimpleVkUser> usersCache = new ConcurrentHashMap<>();
+  private final Map<Integer, VkApiUser> usersCache = new ConcurrentHashMap<>();
 
-  public SimpleVkUser loadUser(int userId) {
+  public VkApiUser loadUser(int userId) {
     return loadUsers(singleton(userId)).get(0);
   }
 
-  private List<SimpleVkUser> loadUsers(Set<Integer> userIds) {
+  private List<VkApiUser> loadUsers(Set<Integer> userIds) {
     loadUsersToCache(userIds);
     return userIds.stream()
         .map(usersCache::get)
@@ -52,7 +52,7 @@ public class VkApi {
         .execute()
         .forEach(u -> usersCache.put(
             u.getId(),
-            new SimpleVkUser(u.getId(), u.getFirstName(), u.getLastName()))
+            new VkApiUser(u.getId(), u.getFirstName(), u.getLastName()))
         );
   }
 
