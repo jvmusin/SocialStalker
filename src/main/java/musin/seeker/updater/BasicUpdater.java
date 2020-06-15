@@ -37,7 +37,6 @@ public abstract class BasicUpdater<
 
     CompletableFuture<TRelationList> now = relationListPuller.pull(owner);
 
-    //noinspection DuplicatedCode
     was.thenCombine(now, RelationList::updates)
         .thenApply(updates -> updates.collect(toList()))
         .thenApply(updates -> updateService.saveAll(updates, owner))
