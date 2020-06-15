@@ -2,6 +2,7 @@ package musin.seeker.instagram.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import musin.seeker.instagram.relation.InstagramID;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.InstagramGetUserFollowersRequest;
 import org.brunocvcunha.instagram4j.requests.InstagramGetUserFollowingRequest;
@@ -25,52 +26,52 @@ import static java.util.stream.Collectors.toList;
 @Component
 @Profile("instagram")
 @RequiredArgsConstructor
-//todo add restriction to 200 requests per hour
 public class InstagramApi {
 
   private final Instagram4j instagram;
-  private final Map<Long, InstagramApiUser> users = new ConcurrentHashMap<>();
+  private final Map<InstagramID, InstagramApiUser> users = new ConcurrentHashMap<>();
 
   private InstagramApiUser mapUser(InstagramUserSummary user) {
-    return new InstagramApiUser(user.pk, user.username, user.full_name);
+    return new InstagramApiUser(new InstagramID(user.pk), user.username, user.full_name);
   }
 
   private InstagramApiUser mapUser(InstagramUser user) {
-    return new InstagramApiUser(user.pk, user.username, user.full_name);
+    return new InstagramApiUser(new InstagramID(user.pk), user.username, user.full_name);
   }
 
-  private void saveUser(long pk, InstagramApiUser user) {
-    users.put(pk, user);
+  private void saveUser(InstagramApiUser user) {
+    users.put(user.getId(), user);
   }
 
-  public InstagramApiUser loadUser(long userId) {
+  public InstagramApiUser loadUser(InstagramID userId) {
     //noinspection Convert2Lambda
     return users.computeIfAbsent(userId, new Function<>() {
       @Override
       @SneakyThrows
-      public InstagramApiUser apply(Long id) {
-        InstagramSearchUsernameResult res = instagram.sendRequest(new InstagramGetUserInfoRequest(id));
+      public InstagramApiUser apply(InstagramID id) {
+        InstagramSearchUsernameResult res = instagram.sendRequest(new InstagramGetUserInfoRequest(id.getValue()));
         return mapUser(res.getUser());
       }
     });
   }
 
-  private List<Long> followersToIds(List<InstagramUserSummary> followers) {
+  private List<InstagramID> followersToIds(List<InstagramUserSummary> followers) {
     return followers.stream()
-        .peek(u -> saveUser(u.pk, mapUser(u)))
-        .map(u -> u.pk)
+        .map(this::mapUser)
+        .peek(this::saveUser)
+        .map(InstagramApiUser::getId)
         .collect(toList());
   }
 
   @SneakyThrows
-  public CompletableFuture<List<Long>> loadFollowers(long userId) {
-    InstagramGetUserFollowersResult followers = instagram.sendRequest(new InstagramGetUserFollowersRequest(userId));
+  public CompletableFuture<List<InstagramID>> loadFollowers(InstagramID userId) {
+    InstagramGetUserFollowersResult followers = instagram.sendRequest(new InstagramGetUserFollowersRequest(userId.getValue()));
     return completedFuture(followersToIds(followers.getUsers()));
   }
 
   @SneakyThrows
-  public CompletableFuture<List<Long>> loadFollowing(long userId) {
-    InstagramGetUserFollowersResult following = instagram.sendRequest(new InstagramGetUserFollowingRequest(userId));
+  public CompletableFuture<List<InstagramID>> loadFollowing(InstagramID userId) {
+    InstagramGetUserFollowersResult following = instagram.sendRequest(new InstagramGetUserFollowingRequest(userId.getValue()));
     return completedFuture(followersToIds(following.getUsers()));
   }
 }

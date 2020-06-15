@@ -25,13 +25,13 @@ public class InstagramUserFactory implements UserFactory<InstagramID, InstagramU
 
     @Override
     public String getName() {
-      InstagramApiUser user = instagramApi.loadUser(id.getValue());
-      return String.format("%d: %s (%s)", user.getUserId(), user.getFullName(), user.getUsername());
+      InstagramApiUser user = instagramApi.loadUser(id);
+      return String.format("%s: %s (%s)", user.getId(), user.getFullName(), user.getUsername());
     }
 
     @Override
     public String getLink() {
-      InstagramApiUser user = instagramApi.loadUser(id.getValue());
+      InstagramApiUser user = instagramApi.loadUser(id);
       return "https://instagram.com/" + user.getUsername();
     }
 

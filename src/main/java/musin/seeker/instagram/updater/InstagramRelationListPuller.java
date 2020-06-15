@@ -21,15 +21,14 @@ public class InstagramRelationListPuller implements RelationListPuller<Instagram
   private final InstagramApi instagramApi;
   private final InstagramUserFactory instagramUserFactory;
 
-  private InstagramRelation createRelation(long userId, InstagramRelationType type) {
-    return new InstagramRelation(instagramUserFactory.create(new InstagramID(userId)), type);
+  private InstagramRelation createRelation(InstagramID id, InstagramRelationType type) {
+    return new InstagramRelation(instagramUserFactory.create(id), type);
   }
 
   @Override
   public CompletableFuture<InstagramRelationList> pull(InstagramID userId) {
-    long uid = userId.getValue();
-    var followers = instagramApi.loadFollowers(uid).thenApply(s -> s.stream().map(id -> createRelation(id, FOLLOWER)));
-    var following = instagramApi.loadFollowing(uid).thenApply(s -> s.stream().map(id -> createRelation(id, FOLLOWING)));
+    var followers = instagramApi.loadFollowers(userId).thenApply(s -> s.stream().map(id -> createRelation(id, FOLLOWER)));
+    var following = instagramApi.loadFollowing(userId).thenApply(s -> s.stream().map(id -> createRelation(id, FOLLOWING)));
     return followers.thenCombine(following, Stream::concat).thenApply(InstagramRelationList::new);
   }
 }
