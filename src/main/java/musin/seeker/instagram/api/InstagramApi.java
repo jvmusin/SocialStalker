@@ -2,7 +2,6 @@ package musin.seeker.instagram.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import musin.seeker.instagram.relation.InstagramID;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.InstagramGetUserFollowersRequest;
 import org.brunocvcunha.instagram4j.requests.InstagramGetUserFollowingRequest;

@@ -1,6 +1,7 @@
 package musin.seeker.instagram.updater;
 
 import lombok.Getter;
+import musin.seeker.instagram.api.InstagramID;
 import musin.seeker.instagram.config.InstagramConfigurationProperties;
 import musin.seeker.instagram.db.InstagramSeekerService;
 import musin.seeker.instagram.db.InstagramUpdateService;

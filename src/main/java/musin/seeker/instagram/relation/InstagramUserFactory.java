@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.instagram.api.InstagramApi;
 import musin.seeker.instagram.api.InstagramApiUser;
+import musin.seeker.instagram.api.InstagramID;
 import musin.seeker.relation.UserFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package musin.seeker.instagram.relation;
+package musin.seeker.instagram.api;
 
 import lombok.Data;
 

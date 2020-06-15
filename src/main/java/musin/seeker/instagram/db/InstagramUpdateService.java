@@ -3,6 +3,7 @@ package musin.seeker.instagram.db;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
+import musin.seeker.instagram.api.InstagramID;
 import musin.seeker.instagram.notifier.InstagramNotifiableUpdate;
 import musin.seeker.instagram.relation.*;
 import musin.seeker.updater.UpdateServiceBase;

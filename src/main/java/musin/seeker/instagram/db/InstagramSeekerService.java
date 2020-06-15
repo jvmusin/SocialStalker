@@ -2,7 +2,7 @@ package musin.seeker.instagram.db;
 
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.seeker.SeekerRepository;
-import musin.seeker.instagram.relation.InstagramID;
+import musin.seeker.instagram.api.InstagramID;
 import musin.seeker.updater.SeekerService;
 import org.springframework.stereotype.Service;
 

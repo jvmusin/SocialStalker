@@ -1,7 +1,6 @@
 package musin.seeker.instagram.api;
 
 import lombok.Data;
-import musin.seeker.instagram.relation.InstagramID;
 
 @Data
 public class InstagramApiUser {

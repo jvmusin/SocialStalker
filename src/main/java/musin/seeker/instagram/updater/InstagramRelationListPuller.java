@@ -2,6 +2,7 @@ package musin.seeker.instagram.updater;
 
 import lombok.RequiredArgsConstructor;
 import musin.seeker.instagram.api.InstagramApi;
+import musin.seeker.instagram.api.InstagramID;
 import musin.seeker.instagram.relation.*;
 import musin.seeker.updater.RelationListPuller;
 import org.springframework.context.annotation.Profile;
