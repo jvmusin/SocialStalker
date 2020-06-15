@@ -4,4 +4,4 @@ spring:
 vk:
   period-between-updates: 5m
 instagram:
-  period-between-updates: 5m
+  period-between-updates: 1h
