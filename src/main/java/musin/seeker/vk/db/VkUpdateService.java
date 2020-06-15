@@ -7,7 +7,7 @@ import musin.seeker.vk.relation.VkUpdate;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public interface VkRelationUpdateService {
+public interface VkUpdateService {
   CompletableFuture<List<VkNotifiableUpdate>> findAllByOwner(int owner);
 
   default CompletableFuture<VkRelationList> buildList(int owner) {

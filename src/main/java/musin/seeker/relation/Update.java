@@ -1,6 +1,6 @@
 package musin.seeker.relation;
 
-public interface Update<TUser extends User, TRelationType> {
+public interface Update<TUser extends User<?>, TRelationType> {
   TUser getTarget();
 
   TRelationType getWas();

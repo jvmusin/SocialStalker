@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 @Log4j2
 public class ConsoleUpdateNotifier<
-    TUpdate extends NotifiableUpdate<? extends User, ?>>
+    TUpdate extends NotifiableUpdate<? extends User<?>, ?>>
     extends MarkdownUpdateNotifier<TUpdate> {
 
   @Override

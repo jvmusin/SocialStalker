@@ -1,7 +1,7 @@
 package musin.seeker.vk.updater;
 
 import lombok.RequiredArgsConstructor;
-import musin.seeker.vk.db.VkRelationUpdateService;
+import musin.seeker.vk.db.VkUpdateService;
 import musin.seeker.vk.db.VkSeekerService;
 import musin.seeker.vk.notifier.VkUpdateNotifier;
 import musin.seeker.vk.relation.VkRelationList;
@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 public class VkUpdater implements Runnable {
 
   private final VkSeekerService vkSeekerService;
-  private final VkRelationUpdateService vkRelationUpdateService;
+  private final VkUpdateService vkUpdateService;
   private final List<VkUpdateNotifier> notifiers;
   private final TaskExecutor taskExecutor;
   private final VkRelationListPuller vkRelationListPuller;
@@ -29,13 +29,13 @@ public class VkUpdater implements Runnable {
   }
 
   private void run(int owner) {
-    CompletableFuture<VkRelationList> was = vkRelationUpdateService.buildList(owner);
+    CompletableFuture<VkRelationList> was = vkUpdateService.buildList(owner);
 
     CompletableFuture<VkRelationList> now = vkRelationListPuller.pull(owner);
 
     was.thenCombine(now, VkRelationList::updates)
         .thenApply(updates -> updates.collect(toList()))
-        .thenApply(updates -> vkRelationUpdateService.saveAll(updates, owner))
+        .thenApply(updates -> vkUpdateService.saveAll(updates, owner))
         .thenAccept(updates -> notifiers.forEach(notifier -> notifier.notify(updates)))
         .exceptionally(e -> {
           e.printStackTrace();

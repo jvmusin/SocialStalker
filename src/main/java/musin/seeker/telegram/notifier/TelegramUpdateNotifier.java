@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
 public class TelegramUpdateNotifier<
-    TUpdate extends NotifiableUpdate<? extends User, ?>>
+    TUpdate extends NotifiableUpdate<? extends User<?>, ?>>
     extends MarkdownUpdateNotifier<TUpdate> {
 
   private final TelegramMessageSender sender;

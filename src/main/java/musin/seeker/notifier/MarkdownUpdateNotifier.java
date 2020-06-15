@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 public abstract class MarkdownUpdateNotifier<
-    TUpdate extends NotifiableUpdate<? extends User, ?>>
+    TUpdate extends NotifiableUpdate<? extends User<?>, ?>>
     implements UpdateNotifier<TUpdate> {
 
   private static final DateTimeFormatter DATE_TIME_FORMATTER =
@@ -32,7 +32,7 @@ public abstract class MarkdownUpdateNotifier<
     sendMessage(buildMessageForABunchOfUpdates(updates));
   }
 
-  private String userLink(User user) {
+  private String userLink(User<?> user) {
     return String.format("[%s](%s)", user.getName(), user.getLink());
   }
 

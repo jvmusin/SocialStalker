@@ -17,7 +17,7 @@ public class InstagramUserFactory {
 
   @Data
   private class InstagramUserImpl implements InstagramUser {
-    private final long id;
+    private final Long id;
 
     @Override
     public String getName() {

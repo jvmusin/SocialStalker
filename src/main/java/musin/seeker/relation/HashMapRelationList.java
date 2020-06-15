@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static java.util.Collections.emptySet;
 
 public abstract class HashMapRelationList<
-    TUser extends User,
+    TUser extends User<?>,
     TRelationType,
     TRelation extends Relation<? extends TUser, TRelationType>,
     TUpdate extends Update<? extends TUser, ? extends TRelationType>>

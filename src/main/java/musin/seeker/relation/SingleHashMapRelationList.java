@@ -9,7 +9,7 @@ import static java.util.Collections.singleton;
 import static java.util.stream.Stream.concat;
 
 public abstract class SingleHashMapRelationList<
-    TUser extends User,
+    TUser extends User<?>,
     TRelationType,
     TRelation extends Relation<? extends TUser, TRelationType>,
     TUpdate extends Update<? extends TUser, ? extends TRelationType>>

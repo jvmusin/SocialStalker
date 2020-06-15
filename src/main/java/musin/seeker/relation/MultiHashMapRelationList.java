@@ -13,7 +13,7 @@ import static java.util.stream.Stream.concat;
 import static org.apache.commons.collections4.CollectionUtils.intersection;
 
 public abstract class MultiHashMapRelationList<
-    TUser extends User,
+    TUser extends User<?>,
     TRelationType,
     TRelation extends Relation<? extends TUser, TRelationType>,
     TUpdate extends Update<? extends TUser, TRelationType>>

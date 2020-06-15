@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
-public class VkRelationUpdateServiceImpl implements VkRelationUpdateService {
+public class VkUpdateServiceImpl implements VkUpdateService {
 
   private final RelationUpdateRepository relationUpdateRepository;
   private final VkUserFactory vkUserFactory;
