@@ -27,7 +27,7 @@ public abstract class SingleHashMapRelationList<
   }
 
   @Override
-  public @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, TUpdate> newer) {
+  public @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, ?> newer) {
     return concat(users(), newer.users()).distinct()
         .filter(u -> !Objects.equals(getRelationType(u), newer.getRelationType(u)))
         .map(u -> createUpdate(u, getRelationType(u), newer.getRelationType(u)));

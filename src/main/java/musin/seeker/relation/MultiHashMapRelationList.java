@@ -41,7 +41,7 @@ public abstract class MultiHashMapRelationList<
   }
 
   @Override
-  public @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, TUpdate> newer) {
+  public @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, ?> newer) {
     List<TRelation> thisRelations = relations().collect(toList());
     List<TRelation> newerRelations = newer.relations().collect(toList());
     Collection<TRelation> same = intersection(thisRelations, newerRelations);

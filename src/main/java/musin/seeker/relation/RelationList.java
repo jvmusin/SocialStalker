@@ -36,5 +36,5 @@ public interface RelationList<TUser, TRelationType, TRelation, TUpdate> {
    * @param newer a newer list to build updates
    * @return updates between this and newer list
    */
-  @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, TUpdate> newer);
+  @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, TRelationType, TRelation, ?> newer);
 }
