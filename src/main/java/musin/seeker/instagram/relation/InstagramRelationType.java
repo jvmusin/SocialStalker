@@ -1,4 +1,4 @@
-package musin.seeker.instagram.db;
+package musin.seeker.instagram.relation;
 
 public enum InstagramRelationType {
   FOLLOWER,

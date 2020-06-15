@@ -2,17 +2,17 @@ package musin.seeker.instagram.updater;
 
 import lombok.RequiredArgsConstructor;
 import musin.seeker.instagram.api.InstagramApi;
-import musin.seeker.instagram.db.InstagramRelationType;
 import musin.seeker.instagram.relation.InstagramRelation;
 import musin.seeker.instagram.relation.InstagramRelationList;
+import musin.seeker.instagram.relation.InstagramRelationType;
 import musin.seeker.instagram.relation.InstagramUserFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-import static musin.seeker.instagram.db.InstagramRelationType.FOLLOWER;
-import static musin.seeker.instagram.db.InstagramRelationType.FOLLOWING;
+import static musin.seeker.instagram.relation.InstagramRelationType.FOLLOWER;
+import static musin.seeker.instagram.relation.InstagramRelationType.FOLLOWING;
 
 @Component
 @RequiredArgsConstructor

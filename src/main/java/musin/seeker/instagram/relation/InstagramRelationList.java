@@ -1,6 +1,5 @@
 package musin.seeker.instagram.relation;
 
-import musin.seeker.instagram.db.InstagramRelationType;
 import musin.seeker.relation.MultiHashMapRelationList;
 import org.jetbrains.annotations.NotNull;
 

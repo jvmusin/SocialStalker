@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.instagram.notifier.InstagramNotifiableUpdate;
+import musin.seeker.instagram.relation.InstagramRelationType;
 import musin.seeker.instagram.relation.InstagramUpdate;
 import musin.seeker.instagram.relation.InstagramUser;
 import musin.seeker.instagram.relation.InstagramUserFactory;
