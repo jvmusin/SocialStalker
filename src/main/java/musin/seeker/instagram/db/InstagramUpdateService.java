@@ -1,11 +1,11 @@
 package musin.seeker.instagram.db;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.instagram.notifier.InstagramNotifiableUpdate;
 import musin.seeker.instagram.relation.*;
+import musin.seeker.notifier.NotifiableUpdateBase;
 import musin.seeker.updater.UpdateService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -56,23 +56,29 @@ public class InstagramUpdateService implements UpdateService<InstagramID, Instag
         .build();
   }
 
-  @Data
-  private class InstagramNotifiableUpdateImpl implements InstagramNotifiableUpdate {
-    private final String resource = InstagramConstants.RESOURCE;
-    private final Integer id;
-    private final InstagramUser owner;
-    private final InstagramUser target;
-    private final InstagramRelationType was;
-    private final InstagramRelationType now;
-    private final LocalDateTime time;
+  private class InstagramNotifiableUpdateImpl extends NotifiableUpdateBase<InstagramID, InstagramUser, InstagramRelationType> implements InstagramNotifiableUpdate {
+    protected InstagramNotifiableUpdateImpl(RelationUpdate update) {
+      super(update);
+    }
 
-    InstagramNotifiableUpdateImpl(RelationUpdate update) {
-      id = update.getId();
-      owner = instagramUserFactory.create(Long.parseLong(update.getOwner()));
-      target = instagramUserFactory.create(Long.parseLong(update.getTarget()));
-      was = InstagramRelationType.parseNullSafe(update.getWas());
-      now = InstagramRelationType.parseNullSafe(update.getNow());
-      time = update.getTime();
+    @Override
+    protected InstagramUser createUser(InstagramID id) {
+      return instagramUserFactory.create(id);
+    }
+
+    @Override
+    protected InstagramID parseId(String id) {
+      return new InstagramID(id);
+    }
+
+    @Override
+    protected InstagramRelationType parseRelationType(String type) {
+      return InstagramRelationType.parseNullSafe(type);
+    }
+
+    @Override
+    public String getResource() {
+      return InstagramConstants.RESOURCE;
     }
   }
 }

@@ -22,7 +22,7 @@ public class InstagramRelationListPuller implements RelationListPuller<Instagram
   private final InstagramUserFactory instagramUserFactory;
 
   private InstagramRelation createRelation(long userId, InstagramRelationType type) {
-    return new InstagramRelation(instagramUserFactory.create(userId), type);
+    return new InstagramRelation(instagramUserFactory.create(new InstagramID(userId)), type);
   }
 
   @Override

@@ -1,9 +1,9 @@
 package musin.seeker.vk.db;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
+import musin.seeker.notifier.NotifiableUpdateBase;
 import musin.seeker.updater.UpdateService;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
 import musin.seeker.vk.relation.*;
@@ -54,23 +54,29 @@ public class VkUpdateService implements UpdateService<VkID, VkUpdate, VkRelation
         .build();
   }
 
-  @Data
-  private class VkNotifiableUpdateImpl implements VkNotifiableUpdate {
-    private final String resource = VkConstants.RESOURCE;
-    private final Integer id;
-    private final VkUser owner;
-    private final VkUser target;
-    private final VkRelationType was;
-    private final VkRelationType now;
-    private final LocalDateTime time;
+  private class VkNotifiableUpdateImpl extends NotifiableUpdateBase<VkID, VkUser, VkRelationType> implements VkNotifiableUpdate {
+    protected VkNotifiableUpdateImpl(RelationUpdate update) {
+      super(update);
+    }
 
-    VkNotifiableUpdateImpl(RelationUpdate update) {
-      id = update.getId();
-      owner = vkUserFactory.create(Integer.parseInt(update.getOwner()));
-      target = vkUserFactory.create(Integer.parseInt(update.getTarget()));
-      was = VkRelationType.parseNullSafe(update.getWas());
-      now = VkRelationType.parseNullSafe(update.getNow());
-      time = update.getTime();
+    @Override
+    protected VkUser createUser(VkID vkID) {
+      return vkUserFactory.create(vkID);
+    }
+
+    @Override
+    protected VkID parseId(String id) {
+      return new VkID(id);
+    }
+
+    @Override
+    protected VkRelationType parseRelationType(String type) {
+      return VkRelationType.parseNullSafe(type);
+    }
+
+    @Override
+    public String getResource() {
+      return VkConstants.RESOURCE;
     }
   }
 }

@@ -2,18 +2,19 @@ package musin.seeker.vk.relation;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import musin.seeker.vk.api.VkApiUser;
+import musin.seeker.relation.UserFactory;
 import musin.seeker.vk.api.VkApi;
+import musin.seeker.vk.api.VkApiUser;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class VkUserFactory {
+public class VkUserFactory implements UserFactory<VkID, VkUser> {
 
   private final VkApi vkApi;
 
-  public VkUser create(int id) {
-    return new VkUserImpl(new VkID(id));
+  public VkUser create(VkID id) {
+    return new VkUserImpl(id);
   }
 
   @Data

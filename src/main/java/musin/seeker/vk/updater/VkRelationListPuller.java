@@ -20,7 +20,7 @@ public class VkRelationListPuller implements RelationListPuller<VkID, VkRelation
   private final VkUserFactory vkUserFactory;
 
   private VkRelation createRelation(int id, VkRelationType type) {
-    return new VkRelation(vkUserFactory.create(id), type);
+    return new VkRelation(vkUserFactory.create(new VkID(id)), type);
   }
 
   @Override
