@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.relation.UserFactory;
 import musin.seeker.vk.api.VkApi;
 import musin.seeker.vk.api.VkApiUser;
+import musin.seeker.vk.api.VkID;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,8 +24,8 @@ public class VkUserFactory implements UserFactory<VkID, VkUser> {
 
     @Override
     public String getName() {
-      VkApiUser user = vkApi.loadUser(id.getValue());
-      return String.format("%d: %s %s", user.getUserId(), user.getFirstName(), user.getLastName());
+      VkApiUser user = vkApi.loadUser(id);
+      return String.format("%s: %s %s", user.getId(), user.getFirstName(), user.getLastName());
     }
 
     @Override

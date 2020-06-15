@@ -3,7 +3,7 @@ package musin.seeker.vk.db;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.seeker.SeekerRepository;
 import musin.seeker.updater.SeekerService;
-import musin.seeker.vk.relation.VkID;
+import musin.seeker.vk.api.VkID;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

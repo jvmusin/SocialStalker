@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.updater.UpdateServiceBase;
+import musin.seeker.vk.api.VkID;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
 import musin.seeker.vk.relation.*;
 import org.springframework.stereotype.Service;

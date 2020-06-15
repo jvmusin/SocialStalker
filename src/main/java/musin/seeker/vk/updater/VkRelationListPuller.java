@@ -3,7 +3,11 @@ package musin.seeker.vk.updater;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.updater.RelationListPuller;
 import musin.seeker.vk.api.VkApi;
-import musin.seeker.vk.relation.*;
+import musin.seeker.vk.api.VkID;
+import musin.seeker.vk.relation.VkRelation;
+import musin.seeker.vk.relation.VkRelationList;
+import musin.seeker.vk.relation.VkRelationType;
+import musin.seeker.vk.relation.VkUserFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
@@ -25,9 +29,8 @@ public class VkRelationListPuller implements RelationListPuller<VkID, VkRelation
 
   @Override
   public CompletableFuture<VkRelationList> pull(VkID userId) {
-    int uid = userId.getValue();
-    var friends = vkApi.loadFriendsAsync(uid).thenApply(s -> s.stream().map(id -> createRelation(id, FRIEND)));
-    var followers = vkApi.loadFollowersAsync(uid).thenApply(s -> s.stream().map(id -> createRelation(id, FOLLOWER)));
+    var friends = vkApi.loadFriendsAsync(userId).thenApply(s -> s.stream().map(id -> createRelation(id, FRIEND)));
+    var followers = vkApi.loadFollowersAsync(userId).thenApply(s -> s.stream().map(id -> createRelation(id, FOLLOWER)));
     return friends.thenCombine(followers, Stream::concat).thenApply(VkRelationList::new);
   }
 }

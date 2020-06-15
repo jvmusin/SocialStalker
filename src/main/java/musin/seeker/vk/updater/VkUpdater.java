@@ -2,6 +2,7 @@ package musin.seeker.vk.updater;
 
 import lombok.Getter;
 import musin.seeker.updater.BasicUpdater;
+import musin.seeker.vk.api.VkID;
 import musin.seeker.vk.config.VkConfigurationProperties;
 import musin.seeker.vk.db.VkSeekerService;
 import musin.seeker.vk.db.VkUpdateService;

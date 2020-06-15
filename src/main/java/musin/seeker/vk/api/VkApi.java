@@ -24,13 +24,17 @@ public class VkApi {
   private final VkApiClient vkApiClient;
   private final UserActor userActor;
   private final AsyncListenableTaskExecutor taskExecutor;
-  private final Map<Integer, VkApiUser> usersCache = new ConcurrentHashMap<>();
+  private final Map<VkID, VkApiUser> usersCache = new ConcurrentHashMap<>();
 
-  public VkApiUser loadUser(int userId) {
+  private void saveUser(VkApiUser user) {
+    usersCache.put(user.getId(), user);
+  }
+
+  public VkApiUser loadUser(VkID userId) {
     return loadUsers(singleton(userId)).get(0);
   }
 
-  private List<VkApiUser> loadUsers(Set<Integer> userIds) {
+  private List<VkApiUser> loadUsers(Set<VkID> userIds) {
     loadUsersToCache(userIds);
     return userIds.stream()
         .map(usersCache::get)
@@ -38,7 +42,7 @@ public class VkApi {
   }
 
   @SneakyThrows
-  private void loadUsersToCache(Set<Integer> userIds) {
+  private void loadUsersToCache(Set<VkID> userIds) {
     List<String> asString = userIds.stream()
         .filter(id -> !usersCache.containsKey(id))
         .distinct()
@@ -50,29 +54,26 @@ public class VkApi {
         .userIds(asString)
         .lang(EN)
         .execute()
-        .forEach(u -> usersCache.put(
-            u.getId(),
-            new VkApiUser(u.getId(), u.getFirstName(), u.getLastName()))
-        );
+        .forEach(u -> saveUser(new VkApiUser(new VkID(u.getId()), u.getFirstName(), u.getLastName())));
   }
 
-  public CompletableFuture<List<Integer>> loadFriendsAsync(int userId) {
+  public CompletableFuture<List<Integer>> loadFriendsAsync(VkID userId) {
     return taskExecutor.submitListenable(() -> vkApiClient
         .friends()
         .get(userActor)
-        .userId(userId)
+        .userId(userId.getValue())
         .lang(EN)
         .execute()
         .getItems()
     ).completable();
   }
 
-  public CompletableFuture<List<Integer>> loadFollowersAsync(int userId) {
+  public CompletableFuture<List<Integer>> loadFollowersAsync(VkID userId) {
     return taskExecutor.submitListenable(() -> vkApiClient
         .users()
         .getFollowers(userActor)
         .count(1000)
-        .userId(userId)
+        .userId(userId.getValue())
         .lang(EN)
         .execute()
         .getItems()
