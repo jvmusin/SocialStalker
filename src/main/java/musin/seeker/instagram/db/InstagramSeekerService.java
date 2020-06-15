@@ -18,7 +18,7 @@ public class InstagramSeekerService implements SeekerService<InstagramID> {
   @Override
   public List<InstagramID> findAllOwners() {
     return seekerRepository.findAllByResource(InstagramConstants.RESOURCE).stream()
-        .map(s -> new InstagramID(s.getOwner()))
+        .map(seeker -> new InstagramID(seeker.getOwner()))
         .collect(toList());
   }
 }

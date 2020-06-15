@@ -18,7 +18,7 @@ public class VkSeekerService implements SeekerService<VkID> {
   @Override
   public List<VkID> findAllOwners() {
     return seekerRepository.findAllByResource(VkConstants.RESOURCE).stream()
-        .map(s -> new VkID(s.getOwner()))
+        .map(seeker -> new VkID(seeker.getOwner()))
         .collect(toList());
   }
 }

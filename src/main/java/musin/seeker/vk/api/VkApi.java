@@ -57,7 +57,7 @@ public class VkApi {
         .forEach(u -> saveUser(new VkApiUser(new VkID(u.getId()), u.getFirstName(), u.getLastName())));
   }
 
-  public CompletableFuture<List<Integer>> loadFriendsAsync(VkID userId) {
+  public CompletableFuture<List<VkID>> loadFriendsAsync(VkID userId) {
     return taskExecutor.submitListenable(() -> vkApiClient
         .friends()
         .get(userActor)
@@ -65,10 +65,10 @@ public class VkApi {
         .lang(EN)
         .execute()
         .getItems()
-    ).completable();
+    ).completable().thenApply(ids -> ids.stream().map(VkID::new).collect(toList()));
   }
 
-  public CompletableFuture<List<Integer>> loadFollowersAsync(VkID userId) {
+  public CompletableFuture<List<VkID>> loadFollowersAsync(VkID userId) {
     return taskExecutor.submitListenable(() -> vkApiClient
         .users()
         .getFollowers(userActor)
@@ -77,6 +77,6 @@ public class VkApi {
         .lang(EN)
         .execute()
         .getItems()
-    ).completable();
+    ).completable().thenApply(ids -> ids.stream().map(VkID::new).collect(toList()));
   }
 }

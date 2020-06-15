@@ -9,7 +9,8 @@ import java.util.stream.Stream;
 public class VkRelationList extends SingleHashMapRelationList<VkUser, VkRelationType, VkRelation, VkUpdate> {
 
   public VkRelationList(Stream<? extends VkRelation> relations) {
-    relations.forEach(r -> apply(createUpdate(r.getUser(), null, r.getType())));
+    //todo prolly move it to one of base classes
+    relations.forEach(relation -> apply(createUpdate(relation.getUser(), null, relation.getType())));
   }
 
   public VkRelationList(List<? extends VkUpdate> updates) {

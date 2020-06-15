@@ -13,7 +13,7 @@ public class InstagramRelationList extends MultiHashMapRelationList<InstagramUse
   }
 
   public InstagramRelationList(Stream<? extends InstagramRelation> relations) {
-    relations.forEach(r -> apply(createUpdate(r.getUser(), null, r.getType())));
+    relations.forEach(relation -> apply(createUpdate(relation.getUser(), null, relation.getType())));
   }
 
   @Override
