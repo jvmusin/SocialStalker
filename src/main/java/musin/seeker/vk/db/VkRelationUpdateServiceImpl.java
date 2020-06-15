@@ -53,6 +53,7 @@ public class VkRelationUpdateServiceImpl implements VkRelationUpdateService {
 
   @Data
   private class VkNotifiableUpdateImpl implements VkNotifiableUpdate {
+    private final String resource = VkDbConstants.RESOURCE;
     private final Integer id;
     private final VkUser owner;
     private final VkUser target;

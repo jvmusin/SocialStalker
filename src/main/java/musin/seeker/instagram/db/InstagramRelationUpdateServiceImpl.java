@@ -53,6 +53,7 @@ public class InstagramRelationUpdateServiceImpl implements InstagramRelationUpda
 
   @Data
   private class InstagramNotifiableUpdateImpl implements InstagramNotifiableUpdate {
+    private final String resource = InstagramDbConstants.RESOURCE;
     private final Integer id;
     private final InstagramUser owner;
     private final InstagramUser target;

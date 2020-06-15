@@ -39,6 +39,7 @@ public abstract class MarkdownUpdateNotifier<
   private String buildMessage(TUpdate update) {
     StringJoiner sj = new StringJoiner("\n");
     sj.add("Update id: " + update.getId());
+    sj.add("Resource: " + update.getResource());
     sj.add("Time: " + update.getTime().format(DATE_TIME_FORMATTER));
     sj.add("Owner: " + userLink(update.getOwner()));
     sj.add("Target: " + userLink(update.getTarget()));
@@ -53,6 +54,7 @@ public abstract class MarkdownUpdateNotifier<
     TUpdate someUpdate = updates.get(0);
     StringJoiner sj = new StringJoiner("\n");
     sj.add(String.format("Too many updates (%d) for user %s", updates.size(), someUpdate.getOwner()));
+    sj.add("Resource: " + someUpdate.getResource());
     sj.add(String.format("Update ids: %d..%d", idStats.getMin(), idStats.getMax()));
     sj.add(String.format("Type: %s to %s", someUpdate.getWas(), someUpdate.getNow()));
     return sj.toString();
