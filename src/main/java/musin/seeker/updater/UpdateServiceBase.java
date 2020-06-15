@@ -1,7 +1,10 @@
 package musin.seeker.updater;
 
+import lombok.Data;
 import musin.seeker.db.update.RelationUpdate;
+import musin.seeker.notifier.NotifiableUpdate;
 import musin.seeker.relation.Update;
+import musin.seeker.relation.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,4 +35,29 @@ public abstract class UpdateServiceBase<
   protected abstract TRelationList createList(List<TNotifiableUpdate> updates);
 
   protected abstract String getResource();
+
+  @Data
+  protected abstract class NotifiableUpdateBase<TUser extends User<?>, TRelationType> implements NotifiableUpdate<TUser, TRelationType> {
+    private final Integer id;
+    private final TUser owner;
+    private final TUser target;
+    private final TRelationType was;
+    private final TRelationType now;
+    private final LocalDateTime time;
+
+    protected NotifiableUpdateBase(RelationUpdate update) {
+      id = update.getId();
+      owner = createUser(parseId(update.getOwner()));
+      target = createUser(parseId(update.getTarget()));
+      was = parseRelationType(update.getWas());
+      now = parseRelationType(update.getNow());
+      time = update.getTime();
+    }
+
+    protected abstract TUser createUser(ID id);
+
+    protected abstract ID parseId(String id);
+
+    protected abstract TRelationType parseRelationType(String type);
+  }
 }

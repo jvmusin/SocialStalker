@@ -3,7 +3,6 @@ package musin.seeker.vk.db;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
-import musin.seeker.notifier.NotifiableUpdateBase;
 import musin.seeker.updater.UpdateServiceBase;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
 import musin.seeker.vk.relation.*;
@@ -47,7 +46,7 @@ public class VkUpdateService extends UpdateServiceBase<VkID, VkUpdate, VkRelatio
     return VkConstants.RESOURCE;
   }
 
-  private class VkNotifiableUpdateImpl extends NotifiableUpdateBase<VkID, VkUser, VkRelationType> implements VkNotifiableUpdate {
+  private class VkNotifiableUpdateImpl extends NotifiableUpdateBase<VkUser, VkRelationType> implements VkNotifiableUpdate {
     protected VkNotifiableUpdateImpl(RelationUpdate update) {
       super(update);
     }

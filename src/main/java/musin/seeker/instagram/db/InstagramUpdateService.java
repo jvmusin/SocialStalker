@@ -5,7 +5,6 @@ import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.instagram.notifier.InstagramNotifiableUpdate;
 import musin.seeker.instagram.relation.*;
-import musin.seeker.notifier.NotifiableUpdateBase;
 import musin.seeker.updater.UpdateServiceBase;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class InstagramUpdateService extends UpdateServiceBase<InstagramID, Insta
     return InstagramConstants.RESOURCE;
   }
 
-  private class InstagramNotifiableUpdateImpl extends NotifiableUpdateBase<InstagramID, InstagramUser, InstagramRelationType> implements InstagramNotifiableUpdate {
+  private class InstagramNotifiableUpdateImpl extends NotifiableUpdateBase<InstagramUser, InstagramRelationType> implements InstagramNotifiableUpdate {
     protected InstagramNotifiableUpdateImpl(RelationUpdate update) {
       super(update);
     }
