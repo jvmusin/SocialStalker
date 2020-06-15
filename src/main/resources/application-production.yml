@@ -3,3 +3,5 @@ spring:
     include: telegram, instagram
 vk:
   period-between-updates: 5m
+instagram:
+  period-between-updates: 5m
