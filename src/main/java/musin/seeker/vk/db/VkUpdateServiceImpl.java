@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
-import musin.seeker.vk.relation.VkRelationType;
-import musin.seeker.vk.relation.VkUpdate;
-import musin.seeker.vk.relation.VkUser;
-import musin.seeker.vk.relation.VkUserFactory;
+import musin.seeker.vk.relation.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,13 +22,13 @@ public class VkUpdateServiceImpl implements VkUpdateService {
   private final VkUserFactory vkUserFactory;
 
   @Override
-  public CompletableFuture<List<VkNotifiableUpdate>> findAllByOwner(int owner) {
-    return relationUpdateRepository.findAllByResourceAndOwnerOrderById(VkDbConstants.RESOURCE, owner + "")
+  public CompletableFuture<List<VkNotifiableUpdate>> findAllByOwner(VkID owner) {
+    return relationUpdateRepository.findAllByResourceAndOwnerOrderById(VkConstants.RESOURCE, owner.toString())
         .thenApply(r -> r.stream().map(VkNotifiableUpdateImpl::new).collect(toList()));
   }
 
   @Override
-  public List<VkNotifiableUpdate> saveAll(List<? extends VkUpdate> updates, int owner) {
+  public List<VkNotifiableUpdate> saveAll(List<? extends VkUpdate> updates, VkID owner) {
     List<RelationUpdate> relationUpdates = updates.stream()
         .map(upd -> vkUpdateToRelationUpdate(upd, owner))
         .collect(toList());
@@ -40,10 +37,10 @@ public class VkUpdateServiceImpl implements VkUpdateService {
         .collect(toList());
   }
 
-  private RelationUpdate vkUpdateToRelationUpdate(VkUpdate upd, int owner) {
+  private RelationUpdate vkUpdateToRelationUpdate(VkUpdate upd, VkID owner) {
     return RelationUpdate.builder()
-        .resource(VkDbConstants.RESOURCE)
-        .owner(owner + "")
+        .resource(VkConstants.RESOURCE)
+        .owner(owner.toString())
         .target(upd.getTarget().getId().toString())
         .was(upd.getWas() == null ? null : upd.getWas().toString())
         .now(upd.getNow() == null ? null : upd.getNow().toString())
@@ -53,7 +50,7 @@ public class VkUpdateServiceImpl implements VkUpdateService {
 
   @Data
   private class VkNotifiableUpdateImpl implements VkNotifiableUpdate {
-    private final String resource = VkDbConstants.RESOURCE;
+    private final String resource = VkConstants.RESOURCE;
     private final Integer id;
     private final VkUser owner;
     private final VkUser target;

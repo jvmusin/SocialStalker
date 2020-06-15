@@ -13,16 +13,16 @@ public class VkUserFactory {
   private final VkApi vkApi;
 
   public VkUser create(int id) {
-    return new VkUserImpl(id);
+    return new VkUserImpl(new VkID(id));
   }
 
   @Data
   private class VkUserImpl implements VkUser {
-    private final Integer id;
+    private final VkID id;
 
     @Override
     public String getName() {
-      SimpleVkUser user = vkApi.loadUser(id);
+      SimpleVkUser user = vkApi.loadUser(id.getValue());
       return String.format("%d: %s %s", user.getUserId(), user.getFirstName(), user.getLastName());
     }
 

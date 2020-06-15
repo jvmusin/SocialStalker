@@ -1,5 +1,5 @@
 package musin.seeker.vk.db;
 
-public class VkDbConstants {
+public class VkConstants {
   public static final String RESOURCE = "VK";
 }

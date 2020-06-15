@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.vk.db.VkUpdateService;
 import musin.seeker.vk.db.VkSeekerService;
 import musin.seeker.vk.notifier.VkUpdateNotifier;
+import musin.seeker.vk.relation.VkID;
 import musin.seeker.vk.relation.VkRelationList;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
@@ -25,10 +26,10 @@ public class VkUpdater implements Runnable {
 
   @Override
   public void run() {
-    vkSeekerService.findAll().forEach(s -> taskExecutor.execute(() -> run(s.getOwner())));
+    vkSeekerService.findAllOwners().forEach(s -> taskExecutor.execute(() -> run(s)));
   }
 
-  private void run(int owner) {
+  private void run(VkID owner) {
     CompletableFuture<VkRelationList> was = vkUpdateService.buildList(owner);
 
     CompletableFuture<VkRelationList> now = vkRelationListPuller.pull(owner);

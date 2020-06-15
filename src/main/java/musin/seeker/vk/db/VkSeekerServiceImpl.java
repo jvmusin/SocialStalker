@@ -2,6 +2,7 @@ package musin.seeker.vk.db;
 
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.seeker.SeekerRepository;
+import musin.seeker.vk.relation.VkID;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +15,9 @@ public class VkSeekerServiceImpl implements VkSeekerService {
   private final SeekerRepository seekerRepository;
 
   @Override
-  public List<VkSeeker> findAll() {
-    return seekerRepository.findAllByResource(VkDbConstants.RESOURCE).stream()
-        .map(s -> new VkSeeker(s.getId(), Integer.parseInt(s.getOwner())))
+  public List<VkID> findAllOwners() {
+    return seekerRepository.findAllByResource(VkConstants.RESOURCE).stream()
+        .map(s -> new VkID(s.getOwner()))
         .collect(toList());
   }
 }
