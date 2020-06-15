@@ -1,13 +1,13 @@
 package musin.seeker.instagram.relation;
 
 import musin.seeker.instagram.db.InstagramRelationType;
-import musin.seeker.relation.SingleHashMapRelationList;
+import musin.seeker.relation.MultiHashMapRelationList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-public class InstagramRelationList extends SingleHashMapRelationList<InstagramUser, InstagramRelationType, InstagramRelation, InstagramUpdate> {
+public class InstagramRelationList extends MultiHashMapRelationList<InstagramUser, InstagramRelationType, InstagramRelation, InstagramUpdate> {
 
   public InstagramRelationList(List<? extends InstagramUpdate> updates) {
     updates.forEach(this::apply);

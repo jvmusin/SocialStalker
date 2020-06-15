@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.InstagramGetUserFollowersRequest;
+import org.brunocvcunha.instagram4j.requests.InstagramGetUserFollowingRequest;
 import org.brunocvcunha.instagram4j.requests.InstagramGetUserInfoRequest;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramGetUserFollowersResult;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramSearchUsernameResult;
@@ -53,13 +54,24 @@ public class InstagramApiImpl implements InstagramApi {
     });
   }
 
+  private List<Long> followersToIds(List<InstagramUserSummary> followers) {
+    return followers.stream()
+        .peek(u -> saveUser(u.pk, mapUser(u)))
+        .map(u -> u.pk)
+        .collect(toList());
+  }
+
   @Override
   @SneakyThrows
   public CompletableFuture<List<Long>> loadFollowers(long userId) {
-    InstagramGetUserFollowersResult githubFollowers = instagram.sendRequest(new InstagramGetUserFollowersRequest(userId));
-    List<InstagramUserSummary> followers = githubFollowers.getUsers();
-    followers.forEach(u -> saveUser(u.pk, mapUser(u)));
-    List<Long> result = followers.stream().map(u -> u.pk).collect(toList());
-    return completedFuture(result);
+    InstagramGetUserFollowersResult followers = instagram.sendRequest(new InstagramGetUserFollowersRequest(userId));
+    return completedFuture(followersToIds(followers.getUsers()));
+  }
+
+  @Override
+  @SneakyThrows
+  public CompletableFuture<List<Long>> loadFollowing(long userId) {
+    InstagramGetUserFollowersResult following = instagram.sendRequest(new InstagramGetUserFollowingRequest(userId));
+    return completedFuture(followersToIds(following.getUsers()));
   }
 }
