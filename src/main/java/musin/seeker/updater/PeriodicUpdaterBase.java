@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-public abstract class AbstractPeriodicUpdater<
+public abstract class PeriodicUpdaterBase<
     ID,
     TUser extends User<?>,
     TRelationType,

@@ -8,7 +8,7 @@ import musin.seeker.instagram.db.InstagramUpdateService;
 import musin.seeker.instagram.notifier.InstagramNotifiableUpdate;
 import musin.seeker.instagram.notifier.InstagramUpdateNotifier;
 import musin.seeker.instagram.relation.*;
-import musin.seeker.updater.AbstractPeriodicUpdater;
+import musin.seeker.updater.PeriodicUpdaterBase;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Component
 @Profile("instagram")
-public class InstagramUpdater extends AbstractPeriodicUpdater<InstagramID, InstagramUser, InstagramRelationType, InstagramUpdate, InstagramRelationList, InstagramNotifiableUpdate> {
+public class InstagramUpdater extends PeriodicUpdaterBase<InstagramID, InstagramUser, InstagramRelationType, InstagramUpdate, InstagramRelationList, InstagramNotifiableUpdate> {
   @Getter
   private final Duration periodBetweenUpdates;
 

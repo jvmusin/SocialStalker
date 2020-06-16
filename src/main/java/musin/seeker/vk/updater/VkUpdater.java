@@ -1,7 +1,7 @@
 package musin.seeker.vk.updater;
 
 import lombok.Getter;
-import musin.seeker.updater.AbstractPeriodicUpdater;
+import musin.seeker.updater.PeriodicUpdaterBase;
 import musin.seeker.vk.api.VkID;
 import musin.seeker.vk.config.VkConfigurationProperties;
 import musin.seeker.vk.db.VkSeekerService;
@@ -16,7 +16,7 @@ import java.time.Duration;
 import java.util.List;
 
 @Component
-public class VkUpdater extends AbstractPeriodicUpdater<VkID, VkUser, VkRelationType, VkUpdate, VkRelationList, VkNotifiableUpdate> {
+public class VkUpdater extends PeriodicUpdaterBase<VkID, VkUser, VkRelationType, VkUpdate, VkRelationList, VkNotifiableUpdate> {
   @Getter
   private final Duration periodBetweenUpdates;
 
