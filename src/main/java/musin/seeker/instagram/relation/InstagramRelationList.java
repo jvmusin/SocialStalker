@@ -8,12 +8,12 @@ import java.util.stream.Stream;
 
 public class InstagramRelationList extends MultiHashMapRelationList<InstagramUser, InstagramRelationType, InstagramRelation, InstagramUpdate> {
 
-  public InstagramRelationList(List<? extends InstagramUpdate> updates) {
-    updates.forEach(this::apply);
+  public InstagramRelationList(Stream<? extends InstagramRelation> relations) {
+    initRelations(relations);
   }
 
-  public InstagramRelationList(Stream<? extends InstagramRelation> relations) {
-    relations.forEach(relation -> apply(createUpdate(relation.getUser(), null, relation.getType())));
+  public InstagramRelationList(List<? extends InstagramUpdate> updates) {
+    initUpdates(updates);
   }
 
   @Override

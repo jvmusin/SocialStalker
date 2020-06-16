@@ -2,10 +2,7 @@ package musin.seeker.relation;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptySet;
@@ -18,6 +15,14 @@ public abstract class HashMapRelationList<
     implements RelationList<TUser, TRelationType, TRelation, TUpdate> {
 
   protected final Map<TUser, Set<TRelationType>> userRelations = new HashMap<>();
+
+  protected void initRelations(@NotNull Stream<? extends TRelation> relations) {
+    relations.forEach(relation -> apply(createUpdate(relation.getUser(), null, relation.getType())));
+  }
+
+  protected void initUpdates(@NotNull List<? extends TUpdate> updates) {
+    updates.forEach(this::apply);
+  }
 
   @Override
   public @NotNull Stream<TUser> users() {
