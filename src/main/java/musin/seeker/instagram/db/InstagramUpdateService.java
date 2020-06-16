@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 @Profile("instagram")
 public class InstagramUpdateService extends UpdateServiceBase<InstagramID, InstagramUser, InstagramRelationType, InstagramUpdate, InstagramRelationList, InstagramNotifiableUpdate> {
 
-  public InstagramUpdateService(RelationUpdateRepository relationUpdateRepository, InstagramUserFactory instagramUserFactory) {
-    super(relationUpdateRepository, instagramUserFactory);
+  public InstagramUpdateService(RelationUpdateRepository relationUpdateRepository, InstagramUserFactory instagramUserFactory, InstagramRelationTypeFactory instagramRelationTypeFactory) {
+    super(relationUpdateRepository, instagramUserFactory, instagramRelationTypeFactory);
   }
 
   @Override
@@ -40,11 +40,6 @@ public class InstagramUpdateService extends UpdateServiceBase<InstagramID, Insta
     @Override
     protected InstagramID parseId(String id) {
       return new InstagramID(id);
-    }
-
-    @Override
-    protected InstagramRelationType parseRelationType(String type) {
-      return InstagramRelationType.parseNullSafe(type);
     }
   }
 }

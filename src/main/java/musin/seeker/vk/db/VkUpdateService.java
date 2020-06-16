@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class VkUpdateService extends UpdateServiceBase<VkID, VkUser, VkRelationType, VkUpdate, VkRelationList, VkNotifiableUpdate> {
 
-  public VkUpdateService(RelationUpdateRepository relationUpdateRepository, VkUserFactory userFactory) {
-    super(relationUpdateRepository, userFactory);
+  public VkUpdateService(RelationUpdateRepository relationUpdateRepository, VkUserFactory userFactory, VkRelationTypeFactory vkRelationTypeFactory) {
+    super(relationUpdateRepository, userFactory, vkRelationTypeFactory);
   }
 
   @Override
@@ -38,11 +38,6 @@ public class VkUpdateService extends UpdateServiceBase<VkID, VkUser, VkRelationT
     @Override
     protected VkID parseId(String id) {
       return new VkID(id);
-    }
-
-    @Override
-    protected VkRelationType parseRelationType(String type) {
-      return VkRelationType.parseNullSafe(type);
     }
   }
 }

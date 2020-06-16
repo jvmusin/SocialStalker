@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.notifier.NotifiableUpdate;
-import musin.seeker.relation.RelationList;
-import musin.seeker.relation.Update;
-import musin.seeker.relation.User;
-import musin.seeker.relation.UserFactory;
+import musin.seeker.relation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +26,7 @@ public abstract class UpdateServiceBase<
 
   private final RelationUpdateRepository relationUpdateRepository;
   private final UserFactory<ID, TUser> userFactory;
+  private final RelationTypeFactory<TRelationType> relationTypeFactory;
 
   @Override
   public List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID owner) {
@@ -82,14 +80,12 @@ public abstract class UpdateServiceBase<
       id = update.getId();
       owner = userFactory.create(parseId(update.getOwner()));
       target = userFactory.create(parseId(update.getTarget()));
-      was = parseRelationType(update.getWas());
-      now = parseRelationType(update.getNow());
+      was = relationTypeFactory.parseNullSafe(update.getWas());
+      now = relationTypeFactory.parseNullSafe(update.getNow());
       time = update.getTime();
     }
 
     protected abstract ID parseId(String id);
-
-    protected abstract TRelationType parseRelationType(String type);
 
     @Override
     public String getResource() {
