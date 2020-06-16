@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.notifier.NotifiableUpdate;
+import musin.seeker.relation.RelationList;
 import musin.seeker.relation.Update;
 import musin.seeker.relation.User;
 import musin.seeker.relation.UserFactory;
@@ -12,6 +13,7 @@ import musin.seeker.relation.UserFactory;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -21,8 +23,8 @@ public abstract class UpdateServiceBase<
     TUser extends User<ID>,
     TRelationType,
     TUpdate extends Update<TUser, TRelationType>,
-    TRelationList,
-    TNotifiableUpdate>
+    TRelationList extends RelationList<?, ?, ?, TUpdate>,
+    TNotifiableUpdate extends TUpdate>
     implements UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> {
 
   private final RelationUpdateRepository relationUpdateRepository;
@@ -40,7 +42,7 @@ public abstract class UpdateServiceBase<
 
   public CompletableFuture<TRelationList> buildList(ID owner) {
     return relationUpdateRepository.findAllByResourceAndOwnerOrderById(getResource(), owner.toString())
-        .thenApply(r -> r.stream().map(this::createNotifiableUpdate).collect(toList()))
+        .thenApply(r -> r.stream().map(this::createNotifiableUpdate))
         .thenApply(this::createList);
   }
 
@@ -55,9 +57,15 @@ public abstract class UpdateServiceBase<
         .build();
   }
 
+  private TRelationList createList(Stream<TNotifiableUpdate> updates) {
+    TRelationList list = createList();
+    updates.forEach(list::apply);
+    return list;
+  }
+
   protected abstract TNotifiableUpdate createNotifiableUpdate(RelationUpdate update);
 
-  protected abstract TRelationList createList(List<TNotifiableUpdate> updates);
+  protected abstract TRelationList createList();
 
   protected abstract String getResource();
 

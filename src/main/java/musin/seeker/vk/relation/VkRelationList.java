@@ -3,17 +3,15 @@ package musin.seeker.vk.relation;
 import musin.seeker.relation.SingleHashMapRelationList;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 public class VkRelationList extends SingleHashMapRelationList<VkUser, VkRelationType, VkRelation, VkUpdate> {
 
-  public VkRelationList(Stream<? extends VkRelation> relations) {
-    initRelations(relations);
+  public VkRelationList() {
   }
 
-  public VkRelationList(List<? extends VkUpdate> updates) {
-    initUpdates(updates);
+  public VkRelationList(@NotNull Stream<? extends VkRelation> relations) {
+    initRelations(relations);
   }
 
   @Override

@@ -9,8 +9,6 @@ import musin.seeker.updater.UpdateServiceBase;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @Profile("instagram")
 public class InstagramUpdateService extends UpdateServiceBase<InstagramID, InstagramUser, InstagramRelationType, InstagramUpdate, InstagramRelationList, InstagramNotifiableUpdate> {
@@ -25,8 +23,8 @@ public class InstagramUpdateService extends UpdateServiceBase<InstagramID, Insta
   }
 
   @Override
-  protected InstagramRelationList createList(List<InstagramNotifiableUpdate> updates) {
-    return new InstagramRelationList(updates);
+  protected InstagramRelationList createList() {
+    return new InstagramRelationList();
   }
 
   @Override

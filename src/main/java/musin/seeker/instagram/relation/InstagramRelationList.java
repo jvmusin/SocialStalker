@@ -3,17 +3,15 @@ package musin.seeker.instagram.relation;
 import musin.seeker.relation.MultiHashMapRelationList;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 public class InstagramRelationList extends MultiHashMapRelationList<InstagramUser, InstagramRelationType, InstagramRelation, InstagramUpdate> {
 
-  public InstagramRelationList(Stream<? extends InstagramRelation> relations) {
-    initRelations(relations);
+  public InstagramRelationList() {
   }
 
-  public InstagramRelationList(List<? extends InstagramUpdate> updates) {
-    initUpdates(updates);
+  public InstagramRelationList(@NotNull Stream<? extends InstagramRelation> relations) {
+    initRelations(relations);
   }
 
   @Override
