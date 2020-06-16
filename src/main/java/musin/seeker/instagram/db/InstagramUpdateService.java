@@ -1,6 +1,5 @@
 package musin.seeker.instagram.db;
 
-import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.instagram.api.InstagramID;
@@ -11,32 +10,18 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 @Profile("instagram")
-@RequiredArgsConstructor
-public class InstagramUpdateService extends UpdateServiceBase<InstagramID, InstagramUpdate, InstagramRelationList, InstagramNotifiableUpdate> {
+public class InstagramUpdateService extends UpdateServiceBase<InstagramID, InstagramUser, InstagramRelationType, InstagramUpdate, InstagramRelationList, InstagramNotifiableUpdate> {
 
-  private final RelationUpdateRepository relationUpdateRepository;
-  private final InstagramUserFactory instagramUserFactory;
-
-  @Override
-  public CompletableFuture<List<InstagramNotifiableUpdate>> findAllByOwner(InstagramID owner) {
-    return relationUpdateRepository.findAllByResourceAndOwnerOrderById(getResource(), owner.toString())
-        .thenApply(r -> r.stream().map(InstagramNotifiableUpdateImpl::new).collect(toList()));
+  public InstagramUpdateService(RelationUpdateRepository relationUpdateRepository, InstagramUserFactory instagramUserFactory) {
+    super(relationUpdateRepository, instagramUserFactory);
   }
 
   @Override
-  public List<InstagramNotifiableUpdate> saveAll(List<? extends InstagramUpdate> updates, InstagramID owner) {
-    List<RelationUpdate> relationUpdates = updates.stream()
-        .map(update -> updateToRelationUpdate(update, owner))
-        .collect(toList());
-    return relationUpdateRepository.saveAll(relationUpdates).stream()
-        .map(InstagramNotifiableUpdateImpl::new)
-        .collect(toList());
+  protected InstagramNotifiableUpdate createNotifiableUpdate(RelationUpdate update) {
+    return new InstagramNotifiableUpdateImpl(update);
   }
 
   @Override
@@ -49,14 +34,9 @@ public class InstagramUpdateService extends UpdateServiceBase<InstagramID, Insta
     return InstagramConstants.RESOURCE;
   }
 
-  private class InstagramNotifiableUpdateImpl extends NotifiableUpdateBase<InstagramUser, InstagramRelationType> implements InstagramNotifiableUpdate {
+  private class InstagramNotifiableUpdateImpl extends NotifiableUpdateBase implements InstagramNotifiableUpdate {
     protected InstagramNotifiableUpdateImpl(RelationUpdate update) {
       super(update);
-    }
-
-    @Override
-    protected InstagramUser createUser(InstagramID id) {
-      return instagramUserFactory.create(id);
     }
 
     @Override
@@ -67,11 +47,6 @@ public class InstagramUpdateService extends UpdateServiceBase<InstagramID, Insta
     @Override
     protected InstagramRelationType parseRelationType(String type) {
       return InstagramRelationType.parseNullSafe(type);
-    }
-
-    @Override
-    public String getResource() {
-      return InstagramUpdateService.this.getResource();
     }
   }
 }

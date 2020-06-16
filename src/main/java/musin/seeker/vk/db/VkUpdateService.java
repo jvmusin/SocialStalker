@@ -1,40 +1,29 @@
 package musin.seeker.vk.db;
 
-import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
+import musin.seeker.relation.UserFactory;
 import musin.seeker.updater.UpdateServiceBase;
 import musin.seeker.vk.api.VkID;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
-import musin.seeker.vk.relation.*;
+import musin.seeker.vk.relation.VkRelationList;
+import musin.seeker.vk.relation.VkRelationType;
+import musin.seeker.vk.relation.VkUpdate;
+import musin.seeker.vk.relation.VkUser;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
-@RequiredArgsConstructor
-public class VkUpdateService extends UpdateServiceBase<VkID, VkUpdate, VkRelationList, VkNotifiableUpdate> {
+public class VkUpdateService extends UpdateServiceBase<VkID, VkUser, VkRelationType, VkUpdate, VkRelationList, VkNotifiableUpdate> {
 
-  private final RelationUpdateRepository relationUpdateRepository;
-  private final VkUserFactory vkUserFactory;
-
-  @Override
-  public CompletableFuture<List<VkNotifiableUpdate>> findAllByOwner(VkID owner) {
-    return relationUpdateRepository.findAllByResourceAndOwnerOrderById(getResource(), owner.toString())
-        .thenApply(r -> r.stream().map(VkNotifiableUpdateImpl::new).collect(toList()));
+  public VkUpdateService(RelationUpdateRepository relationUpdateRepository, UserFactory<VkID, VkUser> userFactory) {
+    super(relationUpdateRepository, userFactory);
   }
 
   @Override
-  public List<VkNotifiableUpdate> saveAll(List<? extends VkUpdate> updates, VkID owner) {
-    List<RelationUpdate> relationUpdates = updates.stream()
-        .map(update -> updateToRelationUpdate(update, owner))
-        .collect(toList());
-    return relationUpdateRepository.saveAll(relationUpdates).stream()
-        .map(VkNotifiableUpdateImpl::new)
-        .collect(toList());
+  protected VkNotifiableUpdate createNotifiableUpdate(RelationUpdate update) {
+    return new VkNotifiableUpdateImpl(update);
   }
 
   @Override
@@ -47,14 +36,9 @@ public class VkUpdateService extends UpdateServiceBase<VkID, VkUpdate, VkRelatio
     return VkConstants.RESOURCE;
   }
 
-  private class VkNotifiableUpdateImpl extends NotifiableUpdateBase<VkUser, VkRelationType> implements VkNotifiableUpdate {
+  private class VkNotifiableUpdateImpl extends NotifiableUpdateBase implements VkNotifiableUpdate {
     protected VkNotifiableUpdateImpl(RelationUpdate update) {
       super(update);
-    }
-
-    @Override
-    protected VkUser createUser(VkID vkID) {
-      return vkUserFactory.create(vkID);
     }
 
     @Override
@@ -65,11 +49,6 @@ public class VkUpdateService extends UpdateServiceBase<VkID, VkUpdate, VkRelatio
     @Override
     protected VkRelationType parseRelationType(String type) {
       return VkRelationType.parseNullSafe(type);
-    }
-
-    @Override
-    public String getResource() {
-      return VkUpdateService.this.getResource();
     }
   }
 }
