@@ -10,8 +10,8 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ScheduledUpdater {
-  private final List<Updater> updaters;
+public class PeriodicUpdaterScheduler {
+  private final List<PeriodicUpdater> updaters;
   private final TaskScheduler taskScheduler;
 
   @EventListener(ApplicationReadyEvent.class)

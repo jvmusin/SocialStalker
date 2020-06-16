@@ -12,14 +12,14 @@ import java.util.concurrent.CompletableFuture;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-public abstract class BasicUpdater<
+public abstract class AbstractPeriodicUpdater<
     ID,
     TUser extends User<?>,
     TRelationType,
     TUpdate,
     TRelationList extends RelationList<TUser, TRelationType, ?, TUpdate>,
     TNotifiableUpdate extends TUpdate>
-    implements Updater {
+    implements PeriodicUpdater {
 
   private final SeekerService<ID> seekerService;
   private final UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
