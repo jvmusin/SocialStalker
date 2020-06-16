@@ -3,34 +3,30 @@ package musin.seeker.vk.config;
 import com.vk.api.sdk.client.ClientResponse;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import lombok.SneakyThrows;
-import org.springframework.scheduling.TaskScheduler;
+import musin.seeker.util.TimedSemaphore;
+import musin.seeker.util.TimedSemaphoreFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.time.Instant;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Semaphore;
 
 @Component
 public class VkHttpTransportClient extends HttpTransportClient {
 
-  private final TaskScheduler taskScheduler;
-  private final long delayBetweenRequestsMillis;
-  private final Semaphore availableRequestsSemaphore;
+  private final TimedSemaphore semaphore;
 
-  public VkHttpTransportClient(TaskScheduler taskScheduler, VkConfigurationProperties config) {
-    this.taskScheduler = taskScheduler;
-    this.delayBetweenRequestsMillis = config.getMinDelayBetweenRequests().toMillis();
-    this.availableRequestsSemaphore = new Semaphore(config.getRequestsPerSecond(), true);
+  public VkHttpTransportClient(TimedSemaphoreFactory timedSemaphoreFactory, VkConfigurationProperties config) {
+    semaphore = timedSemaphoreFactory.create(config.getRequestsPerSecond(), config.getMinDelayBetweenRequests());
   }
 
   @SneakyThrows
   private <T> T execute(Callable<T> work) {
+    boolean acquired = false;
     try {
-      availableRequestsSemaphore.acquireUninterruptibly();
+      acquired = semaphore.acquire();
       return work.call();
     } finally {
-      taskScheduler.schedule(availableRequestsSemaphore::release, Instant.now().plusMillis(delayBetweenRequestsMillis));
+      if (acquired) semaphore.scheduleRelease();
     }
   }
 
