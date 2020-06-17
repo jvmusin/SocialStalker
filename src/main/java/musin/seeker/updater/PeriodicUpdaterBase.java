@@ -1,11 +1,13 @@
 package musin.seeker.updater;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.notifier.UpdateNotifier;
 import musin.seeker.relation.RelationList;
 import musin.seeker.relation.User;
 import org.springframework.core.task.TaskExecutor;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -26,6 +28,8 @@ public abstract class PeriodicUpdaterBase<
   private final RelationListPuller<ID, TRelationList> relationListPuller;
   private final List<? extends UpdateNotifier<? super TNotifiableUpdate>> notifiers;
   private final TaskExecutor taskExecutor;
+  @Getter
+  private final Duration periodBetweenUpdates;
 
   @Override
   public void run() {

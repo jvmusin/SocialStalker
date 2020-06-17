@@ -1,6 +1,5 @@
 package musin.seeker.vk.updater;
 
-import lombok.Getter;
 import musin.seeker.updater.PeriodicUpdaterBase;
 import musin.seeker.vk.api.VkID;
 import musin.seeker.vk.config.VkConfigurationProperties;
@@ -8,25 +7,34 @@ import musin.seeker.vk.db.VkSeekerService;
 import musin.seeker.vk.db.VkUpdateService;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
 import musin.seeker.vk.notifier.VkUpdateNotifier;
-import musin.seeker.vk.relation.*;
+import musin.seeker.vk.relation.VkRelationList;
+import musin.seeker.vk.relation.VkRelationType;
+import musin.seeker.vk.relation.VkUpdate;
+import musin.seeker.vk.relation.VkUser;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
 import java.util.List;
 
 @Component
-public class VkUpdater extends PeriodicUpdaterBase<VkID, VkUser, VkRelationType, VkUpdate, VkRelationList, VkNotifiableUpdate> {
-  @Getter
-  private final Duration periodBetweenUpdates;
-
+public class VkUpdater extends PeriodicUpdaterBase<
+    VkID,
+    VkUser,
+    VkRelationType,
+    VkUpdate,
+    VkRelationList,
+    VkNotifiableUpdate> {
   public VkUpdater(VkSeekerService seekerService,
                    VkUpdateService updateService,
                    VkRelationListPuller relationListPuller,
                    List<VkUpdateNotifier> updateNotifiers,
                    TaskExecutor taskExecutor,
                    VkConfigurationProperties config) {
-    super(seekerService, updateService, relationListPuller, updateNotifiers, taskExecutor);
-    periodBetweenUpdates = config.getPeriodBetweenUpdates();
+    super(seekerService,
+        updateService,
+        relationListPuller,
+        updateNotifiers,
+        taskExecutor,
+        config.getPeriodBetweenUpdates());
   }
 }
