@@ -1,5 +1,6 @@
 package musin.seeker.instagram.relation;
 
+import lombok.Data;
 import musin.seeker.instagram.api.InstagramID;
 import musin.seeker.relation.RelationFactoryBase;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,12 @@ public class InstagramRelationFactory extends RelationFactoryBase<
 
   @Override
   public InstagramRelation createByUser(InstagramUser user, InstagramRelationType type) {
-    return new InstagramRelation(user, type);
+    return new InstagramRelationImpl(user, type);
+  }
+
+  @Data
+  private static class InstagramRelationImpl implements InstagramRelation {
+    private final InstagramUser user;
+    private final InstagramRelationType type;
   }
 }

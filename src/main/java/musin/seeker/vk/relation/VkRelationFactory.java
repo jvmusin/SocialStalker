@@ -1,5 +1,6 @@
 package musin.seeker.vk.relation;
 
+import lombok.Data;
 import musin.seeker.relation.RelationFactoryBase;
 import musin.seeker.vk.api.VkID;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,12 @@ public class VkRelationFactory extends RelationFactoryBase<VkID, VkUser, VkRelat
 
   @Override
   public VkRelation createByUser(VkUser user, VkRelationType type) {
-    return new VkRelation(user, type);
+    return new VkRelationImpl(user, type);
+  }
+
+  @Data
+  private static class VkRelationImpl implements VkRelation {
+    private final VkUser user;
+    private final VkRelationType type;
   }
 }
