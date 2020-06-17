@@ -1,23 +1,30 @@
 package musin.seeker.vk.db;
 
-import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.updater.UpdateServiceBase;
 import musin.seeker.vk.api.VkID;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
-import musin.seeker.vk.relation.*;
+import musin.seeker.vk.notifier.VkNotifiableUpdateFactory;
+import musin.seeker.vk.relation.VkRelationList;
+import musin.seeker.vk.relation.VkRelationType;
+import musin.seeker.vk.relation.VkUpdate;
+import musin.seeker.vk.relation.VkUser;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VkUpdateService extends UpdateServiceBase<VkID, VkUser, VkRelationType, VkUpdate, VkRelationList, VkNotifiableUpdate> {
+public class VkUpdateService extends UpdateServiceBase<
+    VkID,
+    VkUser,
+    VkRelationType,
+    VkUpdate,
+    VkRelationList,
+    VkNotifiableUpdate> {
 
-  public VkUpdateService(RelationUpdateRepository relationUpdateRepository, VkUserFactory userFactory, VkRelationTypeFactory vkRelationTypeFactory) {
-    super(relationUpdateRepository, userFactory, vkRelationTypeFactory);
-  }
-
-  @Override
-  protected VkNotifiableUpdate createNotifiableUpdate(RelationUpdate update) {
-    return new VkNotifiableUpdateImpl(update);
+  public VkUpdateService(RelationUpdateRepository relationUpdateRepository,
+                         VkNotifiableUpdateFactory vkNotifiableUpdateFactory) {
+    super(
+        relationUpdateRepository,
+        vkNotifiableUpdateFactory);
   }
 
   @Override
@@ -28,16 +35,5 @@ public class VkUpdateService extends UpdateServiceBase<VkID, VkUser, VkRelationT
   @Override
   protected String getResource() {
     return VkConstants.RESOURCE;
-  }
-
-  private class VkNotifiableUpdateImpl extends NotifiableUpdateBase implements VkNotifiableUpdate {
-    protected VkNotifiableUpdateImpl(RelationUpdate update) {
-      super(update);
-    }
-
-    @Override
-    protected VkID parseId(String id) {
-      return new VkID(id);
-    }
   }
 }

@@ -37,7 +37,7 @@ public interface RelationList<TUser, TRelationType, TRelation, TUpdate> {
   /**
    * @param update an update to apply
    */
-  void apply(@NotNull TUpdate update);
+  void apply(@NotNull Update<? extends TUser, ? extends TRelationType> update);
 
   /**
    * @param newer a newer list to build updates

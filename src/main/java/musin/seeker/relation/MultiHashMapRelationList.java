@@ -16,7 +16,7 @@ public abstract class MultiHashMapRelationList<
     extends HashMapRelationList<TUser, TRelationType, TRelation, TUpdate> {
 
   @Override
-  public void apply(@NotNull TUpdate update) {
+  public void apply(@NotNull Update<? extends TUser, ? extends TRelationType> update) {
     validateUpdate(update);
 
     if ((update.getWas() == null) == (update.getNow() == null))

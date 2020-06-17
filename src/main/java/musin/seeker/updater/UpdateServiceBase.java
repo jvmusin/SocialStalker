@@ -1,11 +1,13 @@
 package musin.seeker.updater;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.notifier.NotifiableUpdate;
-import musin.seeker.relation.*;
+import musin.seeker.notifier.NotifiableUpdateFactory;
+import musin.seeker.relation.RelationList;
+import musin.seeker.relation.Update;
+import musin.seeker.relation.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,13 +22,12 @@ public abstract class UpdateServiceBase<
     TUser extends User<ID>,
     TRelationType,
     TUpdate extends Update<TUser, TRelationType>,
-    TRelationList extends RelationList<?, ?, ?, TUpdate>,
-    TNotifiableUpdate extends TUpdate>
+    TRelationList extends RelationList<TUser, TRelationType, ?, TUpdate>,
+    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
     implements UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> {
 
   private final RelationUpdateRepository relationUpdateRepository;
-  private final UserFactory<ID, TUser> userFactory;
-  private final RelationTypeFactory<TRelationType> relationTypeFactory;
+  private final NotifiableUpdateFactory<ID, TUser, TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
 
   @Override
   public List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID owner) {
@@ -34,13 +35,13 @@ public abstract class UpdateServiceBase<
         .map(update -> updateToRelationUpdate(update, owner))
         .collect(toList());
     return relationUpdateRepository.saveAll(relationUpdates).stream()
-        .map(this::createNotifiableUpdate)
+        .map(notifiableUpdateFactory::create)
         .collect(toList());
   }
 
   public CompletableFuture<TRelationList> buildList(ID owner) {
     return relationUpdateRepository.findAllByResourceAndOwnerOrderById(getResource(), owner.toString())
-        .thenApply(r -> r.stream().map(this::createNotifiableUpdate))
+        .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);
   }
 
@@ -55,41 +56,13 @@ public abstract class UpdateServiceBase<
         .build();
   }
 
-  private TRelationList createList(Stream<TNotifiableUpdate> updates) {
+  private TRelationList createList(Stream<? extends Update<? extends TUser, ? extends TRelationType>> updates) {
     TRelationList list = createList();
     updates.forEach(list::apply);
     return list;
   }
 
-  protected abstract TNotifiableUpdate createNotifiableUpdate(RelationUpdate update);
-
   protected abstract TRelationList createList();
 
   protected abstract String getResource();
-
-  @Data
-  protected abstract class NotifiableUpdateBase implements NotifiableUpdate<TUser, TRelationType> {
-    private final Integer id;
-    private final TUser owner;
-    private final TUser target;
-    private final TRelationType was;
-    private final TRelationType now;
-    private final LocalDateTime time;
-
-    protected NotifiableUpdateBase(RelationUpdate update) {
-      id = update.getId();
-      owner = userFactory.create(parseId(update.getOwner()));
-      target = userFactory.create(parseId(update.getTarget()));
-      was = relationTypeFactory.parseNullSafe(update.getWas());
-      now = relationTypeFactory.parseNullSafe(update.getNow());
-      time = update.getTime();
-    }
-
-    protected abstract ID parseId(String id);
-
-    @Override
-    public String getResource() {
-      return UpdateServiceBase.this.getResource();
-    }
-  }
 }

@@ -39,7 +39,7 @@ public abstract class HashMapRelationList<
     return userRelations.getOrDefault(user, emptySet());
   }
 
-  protected void validateUpdate(TUpdate update) {
+  protected void validateUpdate(Update<? extends TUser, ? extends TRelationType> update) {
     if (update.getTarget() == null) throw new IllegalArgumentException("Target is null: " + update);
     if (Objects.equals(update.getWas(), update.getNow()))
       throw new IllegalArgumentException("Was and now types are same: " + update);
