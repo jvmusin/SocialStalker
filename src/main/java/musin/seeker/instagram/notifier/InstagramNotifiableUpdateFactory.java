@@ -2,6 +2,7 @@ package musin.seeker.instagram.notifier;
 
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.instagram.api.InstagramID;
+import musin.seeker.instagram.api.InstagramIdFactory;
 import musin.seeker.instagram.config.InstagramServiceProperties;
 import musin.seeker.instagram.relation.InstagramRelationType;
 import musin.seeker.instagram.relation.InstagramRelationTypeFactory;
@@ -11,12 +12,17 @@ import musin.seeker.notifier.NotifiableUpdateFactoryBase;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InstagramNotifiableUpdateFactory
-    extends NotifiableUpdateFactoryBase<InstagramID, InstagramUser, InstagramRelationType, InstagramNotifiableUpdate> {
+public class InstagramNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<
+    InstagramID,
+    InstagramUser,
+    InstagramRelationType,
+    InstagramNotifiableUpdate> {
+
   public InstagramNotifiableUpdateFactory(InstagramUserFactory userFactory,
                                           InstagramRelationTypeFactory relationTypeFactory,
-                                          InstagramServiceProperties instagramServiceProperties) {
-    super(userFactory, relationTypeFactory, instagramServiceProperties);
+                                          InstagramServiceProperties instagramServiceProperties,
+                                          InstagramIdFactory idFactory) {
+    super(userFactory, relationTypeFactory, instagramServiceProperties, idFactory);
   }
 
   @Override
@@ -27,11 +33,6 @@ public class InstagramNotifiableUpdateFactory
   private class InstagramNotifiableUpdateImpl extends NotifiableUpdateBase implements InstagramNotifiableUpdate {
     protected InstagramNotifiableUpdateImpl(RelationUpdate update) {
       super(update);
-    }
-
-    @Override
-    protected InstagramID parseId(String id) {
-      return new InstagramID(id);
     }
   }
 }
