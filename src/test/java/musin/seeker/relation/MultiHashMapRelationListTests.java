@@ -123,7 +123,7 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
     void try_to_apply_change_and_not_add_or_remove_on_not_empty_list() {
       TestMultiHashMapRelationList list = createList(someRelations());
       TestRelation relation = someRelations().get(0);
-      String user = relation.getUser().getName();
+      String user = relation.getUser().getFullyQualifiedName();
       String type = relation.getType().getName();
       assertThrows(RuntimeException.class, () -> list.apply(new TestUpdate(user, type, type + "1")));
     }
@@ -132,7 +132,7 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
     void try_to_update_with_wrong_was_type() {
       TestMultiHashMapRelationList list = createList(someRelations());
       TestRelation relation = someRelations().get(0);
-      String user = relation.getUser().getName();
+      String user = relation.getUser().getFullyQualifiedName();
       assertThrows(RuntimeException.class, () -> list.apply(new TestUpdate(user, "something", null)));
     }
 

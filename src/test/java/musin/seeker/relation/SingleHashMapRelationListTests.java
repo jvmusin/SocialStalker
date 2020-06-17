@@ -94,7 +94,7 @@ public class SingleHashMapRelationListTests implements EmptyRelationListTests<Te
   void fail_when_try_to_apply_update_with_wrong_was_type() {
     TestSingleHashMapRelationList list = createList(someRelations());
     TestRelation r = someRelations().get(0);
-    String user = r.getUser().getName();
+    String user = r.getUser().getFullyQualifiedName();
     assertThrows(RuntimeException.class, () -> list.apply(new TestUpdate(user, "something", "anything")));
   }
 }

@@ -1,13 +1,15 @@
 package musin.seeker.instagram.relation;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.instagram.api.InstagramApi;
 import musin.seeker.instagram.api.InstagramApiUser;
 import musin.seeker.instagram.api.InstagramID;
+import musin.seeker.relation.LazyLoadingUser;
 import musin.seeker.relation.UserFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import java.util.function.Function;
 
 @Component
 @Profile("instagram")
@@ -17,28 +19,22 @@ public class InstagramUserFactory implements UserFactory<InstagramID, InstagramU
 
   @Override
   public InstagramUser create(InstagramID id) {
-    return new InstagramUserImpl(id);
+    return new InstagramUserImpl(id, instagramApi::loadUser);
   }
 
-  @Data
-  private class InstagramUserImpl implements InstagramUser {
-    private final InstagramID id;
+  private static class InstagramUserImpl extends LazyLoadingUser<InstagramID, InstagramApiUser> implements InstagramUser {
+    InstagramUserImpl(InstagramID instagramID, Function<InstagramID, InstagramApiUser> loadUser) {
+      super(instagramID, loadUser);
+    }
 
     @Override
-    public String getName() {
-      InstagramApiUser user = instagramApi.loadUser(id);
-      return String.format("%s: %s (%s)", user.getId(), user.getFullName(), user.getUsername());
+    public String getFullyQualifiedName() {
+      return String.format("%s: %s (%s)", user().getId(), user().getFullName(), user().getUsername());
     }
 
     @Override
     public String getLink() {
-      InstagramApiUser user = instagramApi.loadUser(id);
-      return "https://instagram.com/" + user.getUsername();
-    }
-
-    @Override
-    public String toString() {
-      return getName();
+      return "https://instagram.com/" + user().getUsername();
     }
   }
 }

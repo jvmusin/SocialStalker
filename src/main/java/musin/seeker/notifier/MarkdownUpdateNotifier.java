@@ -33,7 +33,7 @@ public abstract class MarkdownUpdateNotifier<
   }
 
   private String userLink(User<?> user) {
-    return String.format("[%s](%s)", user.getName(), user.getLink());
+    return String.format("[%s](%s)", user.getFullyQualifiedName(), user.getLink());
   }
 
   private String buildMessage(TUpdate update) {
