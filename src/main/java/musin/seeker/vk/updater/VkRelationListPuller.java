@@ -7,8 +7,6 @@ import musin.seeker.vk.api.VkID;
 import musin.seeker.vk.relation.*;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.CompletableFuture;
-
 import static musin.seeker.vk.relation.VkRelationType.FOLLOWER;
 import static musin.seeker.vk.relation.VkRelationType.FRIEND;
 
@@ -20,22 +18,12 @@ public class VkRelationListPuller extends RelationListPullerBase<
     VkRelation,
     VkUpdate,
     VkRelationList> {
-
-  private final VkApi api;
-
   public VkRelationListPuller(RelationListFactory<VkRelationList> relationListFactory,
                               VkUpdateFactory updateFactory,
-                              VkApi api,
-                              VkRelationFactory relationFactory) {
+                              VkRelationFactory relationFactory,
+                              VkApi api) {
     super(relationListFactory, updateFactory, relationFactory);
-    this.api = api;
-  }
-
-  @Override
-  public CompletableFuture<VkRelationList> pull(VkID userId) {
-    return combine(
-        load(() -> api.loadFriendsAsync(userId), FRIEND),
-        load(() -> api.loadFollowersAsync(userId), FOLLOWER)
-    );
+    registerQuery(api::loadFriendsAsync, FRIEND);
+    registerQuery(api::loadFollowersAsync, FOLLOWER);
   }
 }

@@ -7,8 +7,6 @@ import musin.seeker.updater.RelationListPullerBase;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.CompletableFuture;
-
 import static musin.seeker.instagram.relation.InstagramRelationType.FOLLOWER;
 import static musin.seeker.instagram.relation.InstagramRelationType.FOLLOWING;
 
@@ -21,22 +19,12 @@ public class InstagramRelationListPuller extends RelationListPullerBase<
     InstagramRelation,
     InstagramUpdate,
     InstagramRelationList> {
-
-  private final InstagramApi api;
-
   public InstagramRelationListPuller(InstagramRelationListFactory relationListFactory,
                                      InstagramUpdateFactory updateFactory,
-                                     InstagramApi api,
-                                     InstagramRelationFactory relationFactory) {
+                                     InstagramRelationFactory relationFactory,
+                                     InstagramApi api) {
     super(relationListFactory, updateFactory, relationFactory);
-    this.api = api;
-  }
-
-  @Override
-  public CompletableFuture<InstagramRelationList> pull(InstagramID userId) {
-    return combine(
-        load(() -> api.loadFollowers(userId), FOLLOWER),
-        load(() -> api.loadFollowing(userId), FOLLOWING)
-    );
+    registerQuery(api::loadFollowers, FOLLOWER);
+    registerQuery(api::loadFollowing, FOLLOWING);
   }
 }

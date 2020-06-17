@@ -3,10 +3,10 @@ package musin.seeker.updater;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.relation.*;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
@@ -25,10 +25,16 @@ public abstract class RelationListPullerBase<
   private final RelationListFactory<TRelationList> relationListFactory;
   private final UpdateFactory<TUser, TRelationType, TUpdate> updateFactory;
   private final RelationFactory<ID, TUser, TRelationType, TRelation> relationFactory;
+  private final List<Query> queries = new ArrayList<>();
 
-  @SafeVarargs
-  public final CompletableFuture<TRelationList> combine(CompletableFuture<Stream<TRelation>>... lists) {
-    return Arrays.stream(lists)
+  protected void registerQuery(Function<ID, CompletableFuture<List<ID>>> query, TRelationType resultType) {
+    queries.add(new Query(query, resultType));
+  }
+
+  @Override
+  public CompletableFuture<TRelationList> pull(ID userId) {
+    return queries.stream()
+        .map(q -> q.call(userId))
         .reduce(completedFuture(empty()), (a, b) -> a.thenCombine(b, Stream::concat))
         .thenApply(relations -> {
           TRelationList list = relationListFactory.create();
@@ -37,7 +43,13 @@ public abstract class RelationListPullerBase<
         });
   }
 
-  protected CompletableFuture<Stream<TRelation>> load(Supplier<CompletableFuture<List<ID>>> query, TRelationType type) {
-    return query.get().thenApply(s -> s.stream().map(id -> relationFactory.create(id, type)));
+  @RequiredArgsConstructor
+  private class Query {
+    final Function<ID, CompletableFuture<List<ID>>> query;
+    final TRelationType type;
+
+    CompletableFuture<Stream<TRelation>> call(ID userId) {
+      return query.apply(userId).thenApply(list -> list.stream().map(id -> relationFactory.create(id, type)));
+    }
   }
 }
