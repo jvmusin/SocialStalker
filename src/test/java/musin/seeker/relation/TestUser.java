@@ -5,15 +5,15 @@ import lombok.Data;
 @Data
 public class TestUser implements User<String> {
   private final String id;
-  private final String name;
+  private final String fullyQualifiedName;
 
-  public TestUser(String name) {
-    this.name = name;
-    this.id = "id" + name;
+  public TestUser(String fullyQualifiedName) {
+    this.fullyQualifiedName = fullyQualifiedName;
+    this.id = "id" + fullyQualifiedName;
   }
 
   @Override
   public String getLink() {
-    return "link_to_user_" + name;
+    return "link_to_user_" + fullyQualifiedName;
   }
 }
