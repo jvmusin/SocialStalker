@@ -38,6 +38,6 @@ public abstract class RelationListPullerBase<
   }
 
   protected CompletableFuture<Stream<TRelation>> load(Supplier<CompletableFuture<List<ID>>> query, TRelationType type) {
-    return query.get().thenApply(s -> s.stream().map(id -> relationFactory.createById(id, type)));
+    return query.get().thenApply(s -> s.stream().map(id -> relationFactory.create(id, type)));
   }
 }

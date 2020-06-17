@@ -3,12 +3,17 @@ package musin.seeker.relation;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public abstract class RelationFactoryBase<ID, TUser, TRelationType, TRelation>
+public abstract class RelationFactoryBase<
+    ID,
+    TUser extends User<ID>,
+    TRelationType,
+    TRelation>
     implements RelationFactory<ID, TUser, TRelationType, TRelation> {
+
   private final UserFactory<ID, TUser> userFactory;
 
   @Override
-  public TRelation createById(ID id, TRelationType type) {
-    return createByUser(userFactory.create(id), type);
+  public TRelation create(ID id, TRelationType type) {
+    return create(userFactory.create(id), type);
   }
 }

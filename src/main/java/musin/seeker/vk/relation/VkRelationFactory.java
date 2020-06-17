@@ -12,7 +12,7 @@ public class VkRelationFactory extends RelationFactoryBase<VkID, VkUser, VkRelat
   }
 
   @Override
-  public VkRelation createByUser(VkUser user, VkRelationType type) {
+  public VkRelation create(VkUser user, VkRelationType type) {
     return new VkRelationImpl(user, type);
   }
 

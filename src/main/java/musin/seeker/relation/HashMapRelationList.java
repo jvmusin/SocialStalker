@@ -31,7 +31,7 @@ public abstract class HashMapRelationList<
   @Override
   public @NotNull Stream<TRelation> relations() {
     return userRelations.entrySet().stream()
-        .flatMap(e -> e.getValue().stream().map(t -> relationFactory.createByUser(e.getKey(), t)));
+        .flatMap(e -> e.getValue().stream().map(t -> relationFactory.create(e.getKey(), t)));
   }
 
   @Override

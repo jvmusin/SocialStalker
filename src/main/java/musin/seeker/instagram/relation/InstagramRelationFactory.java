@@ -17,7 +17,7 @@ public class InstagramRelationFactory extends RelationFactoryBase<
   }
 
   @Override
-  public InstagramRelation createByUser(InstagramUser user, InstagramRelationType type) {
+  public InstagramRelation create(InstagramUser user, InstagramRelationType type) {
     return new InstagramRelationImpl(user, type);
   }
 
