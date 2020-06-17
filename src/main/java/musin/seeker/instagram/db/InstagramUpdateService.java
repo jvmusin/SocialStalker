@@ -5,10 +5,7 @@ import musin.seeker.instagram.api.InstagramID;
 import musin.seeker.instagram.config.InstagramServiceProperties;
 import musin.seeker.instagram.notifier.InstagramNotifiableUpdate;
 import musin.seeker.instagram.notifier.InstagramNotifiableUpdateFactory;
-import musin.seeker.instagram.relation.InstagramRelationList;
-import musin.seeker.instagram.relation.InstagramRelationType;
-import musin.seeker.instagram.relation.InstagramUpdate;
-import musin.seeker.instagram.relation.InstagramUser;
+import musin.seeker.instagram.relation.*;
 import musin.seeker.updater.UpdateServiceBase;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -25,15 +22,12 @@ public class InstagramUpdateService extends UpdateServiceBase<
 
   public InstagramUpdateService(RelationUpdateRepository relationUpdateRepository,
                                 InstagramNotifiableUpdateFactory instagramNotifiableUpdateFactory,
-                                InstagramServiceProperties instagramServiceProperties) {
+                                InstagramServiceProperties instagramServiceProperties,
+                                InstagramRelationListFactory instagramRelationListFactory) {
     super(
         relationUpdateRepository,
         instagramNotifiableUpdateFactory,
-        instagramServiceProperties);
-  }
-
-  @Override
-  protected InstagramRelationList createList() {
-    return new InstagramRelationList();
+        instagramServiceProperties,
+        instagramRelationListFactory);
   }
 }

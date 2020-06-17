@@ -1,15 +1,17 @@
 package musin.seeker.relation;
 
-import org.jetbrains.annotations.NotNull;
-
 public class TestMultiHashMapRelationList extends MultiHashMapRelationList<TestUser, TestRelationType, TestRelation, TestUpdate> {
-  @Override
-  protected @NotNull TestUpdate createUpdate(@NotNull TestUser user, TestRelationType was, TestRelationType now) {
-    return new TestUpdate(user, was, now);
-  }
+  public TestMultiHashMapRelationList() {
+    super(TestUpdate::new, new RelationFactory<String, TestUser, TestRelationType, TestRelation>() {
+      @Override
+      public TestRelation createById(String id, TestRelationType type) {
+        return new TestRelation(new TestUser(id), type);
+      }
 
-  @Override
-  protected @NotNull TestRelation createRelation(@NotNull TestUser user, TestRelationType type) {
-    return new TestRelation(user, type);
+      @Override
+      public TestRelation createByUser(TestUser user, TestRelationType type) {
+        return new TestRelation(user, type);
+      }
+    });
   }
 }

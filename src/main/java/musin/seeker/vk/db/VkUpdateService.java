@@ -6,10 +6,7 @@ import musin.seeker.vk.api.VkID;
 import musin.seeker.vk.config.VkServiceProperties;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
 import musin.seeker.vk.notifier.VkNotifiableUpdateFactory;
-import musin.seeker.vk.relation.VkRelationList;
-import musin.seeker.vk.relation.VkRelationType;
-import musin.seeker.vk.relation.VkUpdate;
-import musin.seeker.vk.relation.VkUser;
+import musin.seeker.vk.relation.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,15 +20,12 @@ public class VkUpdateService extends UpdateServiceBase<
 
   public VkUpdateService(RelationUpdateRepository relationUpdateRepository,
                          VkNotifiableUpdateFactory vkNotifiableUpdateFactory,
-                         VkServiceProperties vkServiceProperties) {
+                         VkServiceProperties vkServiceProperties,
+                         VkRelationListFactory vkRelationListFactory) {
     super(
         relationUpdateRepository,
         vkNotifiableUpdateFactory,
-        vkServiceProperties);
-  }
-
-  @Override
-  protected VkRelationList createList() {
-    return new VkRelationList();
+        vkServiceProperties,
+        vkRelationListFactory);
   }
 }

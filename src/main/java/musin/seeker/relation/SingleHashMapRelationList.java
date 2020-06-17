@@ -15,6 +15,11 @@ public abstract class SingleHashMapRelationList<
     TUpdate extends Update<? extends TUser, ? extends TRelationType>>
     extends HashMapRelationList<TUser, TRelationType, TRelation, TUpdate> {
 
+  public SingleHashMapRelationList(UpdateFactory<TUser, TRelationType, TUpdate> updateFactory,
+                                   RelationFactory<?, TUser, TRelationType, TRelation> relationFactory) {
+    super(updateFactory, relationFactory);
+  }
+
   @Override
   public void apply(@NotNull Update<? extends TUser, ? extends TRelationType> update) {
     validateUpdate(update);
@@ -30,6 +35,6 @@ public abstract class SingleHashMapRelationList<
   public @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, ? extends TRelationType, ?, ?> newer) {
     return concat(users(), newer.users()).distinct()
         .filter(u -> !Objects.equals(getRelationType(u), newer.getRelationType(u)))
-        .map(u -> createUpdate(u, getRelationType(u), newer.getRelationType(u)));
+        .map(u -> updateFactory.create(u, getRelationType(u), newer.getRelationType(u)));
   }
 }

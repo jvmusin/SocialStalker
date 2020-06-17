@@ -7,6 +7,7 @@ import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.notifier.NotifiableUpdate;
 import musin.seeker.notifier.NotifiableUpdateFactory;
 import musin.seeker.relation.RelationList;
+import musin.seeker.relation.RelationListFactory;
 import musin.seeker.relation.Update;
 import musin.seeker.relation.User;
 
@@ -30,6 +31,7 @@ public abstract class UpdateServiceBase<
   private final RelationUpdateRepository relationUpdateRepository;
   private final NotifiableUpdateFactory<ID, TUser, TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
   private final ServiceProperties serviceProperties;
+  private final RelationListFactory<TRelationList> relationListFactory;
 
   @Override
   public List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID owner) {
@@ -59,10 +61,8 @@ public abstract class UpdateServiceBase<
   }
 
   private TRelationList createList(Stream<? extends Update<? extends TUser, ? extends TRelationType>> updates) {
-    TRelationList list = createList();
+    TRelationList list = relationListFactory.create();
     updates.forEach(list::apply);
     return list;
   }
-
-  protected abstract TRelationList createList();
 }

@@ -15,6 +15,11 @@ public abstract class MultiHashMapRelationList<
     TUpdate extends Update<? extends TUser, ? extends TRelationType>>
     extends HashMapRelationList<TUser, TRelationType, TRelation, TUpdate> {
 
+  public MultiHashMapRelationList(UpdateFactory<TUser, TRelationType, TUpdate> updateFactory,
+                                  RelationFactory<?, TUser, TRelationType, TRelation> relationFactory) {
+    super(updateFactory, relationFactory);
+  }
+
   @Override
   public void apply(@NotNull Update<? extends TUser, ? extends TRelationType> update) {
     validateUpdate(update);
@@ -42,8 +47,8 @@ public abstract class MultiHashMapRelationList<
       var curTypes = getAllRelationTypes(user);
       var newerTypes = newer.getAllRelationTypes(user);
       return concat(
-          curTypes.stream().filter(type -> !newerTypes.contains(type)).map(type -> createUpdate(user, type, null)),
-          newerTypes.stream().filter(type -> !curTypes.contains(type)).map(type -> createUpdate(user, null, type))
+          curTypes.stream().filter(type -> !newerTypes.contains(type)).map(type -> updateFactory.create(user, type, null)),
+          newerTypes.stream().filter(type -> !curTypes.contains(type)).map(type -> updateFactory.create(user, null, type))
       );
     });
   }

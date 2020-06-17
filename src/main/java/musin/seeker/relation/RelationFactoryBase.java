@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public abstract class RelationFactoryBase<ID, TUser, TRelationType, TRelation>
-    implements RelationFactory<ID, TRelationType, TRelation> {
-  private final UserFactory<ID, TUser> userUserFactory;
+    implements RelationFactory<ID, TUser, TRelationType, TRelation> {
+  private final UserFactory<ID, TUser> userFactory;
 
-  protected TUser createUser(ID id) {
-    return userUserFactory.create(id);
+  @Override
+  public TRelation createById(ID id, TRelationType type) {
+    return createByUser(userFactory.create(id), type);
   }
 }
