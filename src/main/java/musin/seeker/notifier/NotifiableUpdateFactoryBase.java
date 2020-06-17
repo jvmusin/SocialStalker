@@ -2,6 +2,7 @@ package musin.seeker.notifier;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import musin.seeker.config.ServiceProperties;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.relation.RelationTypeFactory;
 import musin.seeker.relation.User;
@@ -19,9 +20,11 @@ public abstract class NotifiableUpdateFactoryBase<
 
   private final UserFactory<ID, TUser> userFactory;
   private final RelationTypeFactory<TRelationType> relationTypeFactory;
+  private final ServiceProperties serviceProperties;
 
   @Data
   protected abstract class NotifiableUpdateBase implements NotifiableUpdate<TUser, TRelationType> {
+    private final String resource = serviceProperties.getResource();
     private final Integer id;
     private final TUser owner;
     private final TUser target;

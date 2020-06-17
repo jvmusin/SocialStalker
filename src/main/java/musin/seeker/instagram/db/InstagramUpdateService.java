@@ -2,6 +2,7 @@ package musin.seeker.instagram.db;
 
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.instagram.api.InstagramID;
+import musin.seeker.instagram.config.InstagramServiceProperties;
 import musin.seeker.instagram.notifier.InstagramNotifiableUpdate;
 import musin.seeker.instagram.notifier.InstagramNotifiableUpdateFactory;
 import musin.seeker.instagram.relation.InstagramRelationList;
@@ -23,19 +24,16 @@ public class InstagramUpdateService extends UpdateServiceBase<
     InstagramNotifiableUpdate> {
 
   public InstagramUpdateService(RelationUpdateRepository relationUpdateRepository,
-                                InstagramNotifiableUpdateFactory instagramNotifiableUpdateFactory) {
+                                InstagramNotifiableUpdateFactory instagramNotifiableUpdateFactory,
+                                InstagramServiceProperties instagramServiceProperties) {
     super(
         relationUpdateRepository,
-        instagramNotifiableUpdateFactory);
+        instagramNotifiableUpdateFactory,
+        instagramServiceProperties);
   }
 
   @Override
   protected InstagramRelationList createList() {
     return new InstagramRelationList();
-  }
-
-  @Override
-  protected String getResource() {
-    return InstagramConstants.RESOURCE;
   }
 }

@@ -2,7 +2,7 @@ package musin.seeker.instagram.notifier;
 
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.instagram.api.InstagramID;
-import musin.seeker.instagram.db.InstagramConstants;
+import musin.seeker.instagram.config.InstagramServiceProperties;
 import musin.seeker.instagram.relation.InstagramRelationType;
 import musin.seeker.instagram.relation.InstagramRelationTypeFactory;
 import musin.seeker.instagram.relation.InstagramUser;
@@ -13,8 +13,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class InstagramNotifiableUpdateFactory
     extends NotifiableUpdateFactoryBase<InstagramID, InstagramUser, InstagramRelationType, InstagramNotifiableUpdate> {
-  public InstagramNotifiableUpdateFactory(InstagramUserFactory userFactory, InstagramRelationTypeFactory relationTypeFactory) {
-    super(userFactory, relationTypeFactory);
+  public InstagramNotifiableUpdateFactory(InstagramUserFactory userFactory,
+                                          InstagramRelationTypeFactory relationTypeFactory,
+                                          InstagramServiceProperties instagramServiceProperties) {
+    super(userFactory, relationTypeFactory, instagramServiceProperties);
   }
 
   @Override
@@ -30,11 +32,6 @@ public class InstagramNotifiableUpdateFactory
     @Override
     protected InstagramID parseId(String id) {
       return new InstagramID(id);
-    }
-
-    @Override
-    public String getResource() {
-      return InstagramConstants.RESOURCE;
     }
   }
 }

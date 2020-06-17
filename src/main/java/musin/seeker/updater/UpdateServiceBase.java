@@ -1,6 +1,7 @@
 package musin.seeker.updater;
 
 import lombok.RequiredArgsConstructor;
+import musin.seeker.config.ServiceProperties;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.notifier.NotifiableUpdate;
@@ -28,6 +29,7 @@ public abstract class UpdateServiceBase<
 
   private final RelationUpdateRepository relationUpdateRepository;
   private final NotifiableUpdateFactory<ID, TUser, TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
+  private final ServiceProperties serviceProperties;
 
   @Override
   public List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID owner) {
@@ -40,14 +42,14 @@ public abstract class UpdateServiceBase<
   }
 
   public CompletableFuture<TRelationList> buildList(ID owner) {
-    return relationUpdateRepository.findAllByResourceAndOwnerOrderById(getResource(), owner.toString())
+    return relationUpdateRepository.findAllByResourceAndOwnerOrderById(serviceProperties.getResource(), owner.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);
   }
 
   protected RelationUpdate updateToRelationUpdate(TUpdate update, ID owner) {
     return RelationUpdate.builder()
-        .resource(getResource())
+        .resource(serviceProperties.getResource())
         .owner(owner.toString())
         .target(update.getTarget().getId().toString())
         .was(update.getWas() == null ? null : update.getWas().toString())
@@ -63,6 +65,4 @@ public abstract class UpdateServiceBase<
   }
 
   protected abstract TRelationList createList();
-
-  protected abstract String getResource();
 }

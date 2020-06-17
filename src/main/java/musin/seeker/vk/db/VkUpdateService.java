@@ -3,6 +3,7 @@ package musin.seeker.vk.db;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.updater.UpdateServiceBase;
 import musin.seeker.vk.api.VkID;
+import musin.seeker.vk.config.VkServiceProperties;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
 import musin.seeker.vk.notifier.VkNotifiableUpdateFactory;
 import musin.seeker.vk.relation.VkRelationList;
@@ -21,19 +22,16 @@ public class VkUpdateService extends UpdateServiceBase<
     VkNotifiableUpdate> {
 
   public VkUpdateService(RelationUpdateRepository relationUpdateRepository,
-                         VkNotifiableUpdateFactory vkNotifiableUpdateFactory) {
+                         VkNotifiableUpdateFactory vkNotifiableUpdateFactory,
+                         VkServiceProperties vkServiceProperties) {
     super(
         relationUpdateRepository,
-        vkNotifiableUpdateFactory);
+        vkNotifiableUpdateFactory,
+        vkServiceProperties);
   }
 
   @Override
   protected VkRelationList createList() {
     return new VkRelationList();
-  }
-
-  @Override
-  protected String getResource() {
-    return VkConstants.RESOURCE;
   }
 }
