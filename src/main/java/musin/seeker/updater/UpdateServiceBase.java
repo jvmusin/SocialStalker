@@ -29,7 +29,7 @@ public abstract class UpdateServiceBase<
     implements UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> {
 
   private final RelationUpdateRepository relationUpdateRepository;
-  private final NotifiableUpdateFactory<ID, TUser, TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
+  private final NotifiableUpdateFactory<TUser, TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
   private final ServiceProperties serviceProperties;
   private final RelationListFactory<TRelationList> relationListFactory;
 
