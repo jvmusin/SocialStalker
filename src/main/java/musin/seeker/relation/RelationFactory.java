@@ -1,7 +1,5 @@
 package musin.seeker.relation;
 
-public interface RelationFactory<ID, TUser extends User<ID>, TRelationType, TRelation> {
-  TRelation create(ID id, TRelationType type);
-
+public interface RelationFactory<TUser, TRelationType, TRelation> {
   TRelation create(TUser user, TRelationType type);
 }

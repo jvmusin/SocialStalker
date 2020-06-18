@@ -15,7 +15,7 @@ import static java.util.stream.Stream.empty;
 @RequiredArgsConstructor
 public abstract class RelationListPullerBase<
     ID,
-    TUser extends User<ID>,
+    TUser,
     TRelationType,
     TRelation extends Relation<TUser, TRelationType>,
     TUpdate extends Update<TUser, TRelationType>,
@@ -24,7 +24,8 @@ public abstract class RelationListPullerBase<
 
   private final RelationListFactory<TRelationList> relationListFactory;
   private final UpdateFactory<TUser, TRelationType, TUpdate> updateFactory;
-  private final RelationFactory<ID, TUser, TRelationType, TRelation> relationFactory;
+  private final RelationFactory<TUser, TRelationType, TRelation> relationFactory;
+  private final UserFactory<ID, TUser> userFactory;
   private final List<Query> queries = new ArrayList<>();
 
   protected void registerQuery(Function<ID, CompletableFuture<List<ID>>> query, TRelationType resultType) {
@@ -49,7 +50,7 @@ public abstract class RelationListPullerBase<
     final TRelationType type;
 
     CompletableFuture<Stream<TRelation>> call(ID userId) {
-      return query.apply(userId).thenApply(list -> list.stream().map(id -> relationFactory.create(id, type)));
+      return query.apply(userId).thenApply(list -> list.stream().map(id -> relationFactory.create(userFactory.create(id), type)));
     }
   }
 }

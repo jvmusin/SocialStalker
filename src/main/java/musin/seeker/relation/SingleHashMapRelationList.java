@@ -8,15 +8,8 @@ import java.util.stream.Stream;
 import static java.util.Collections.singleton;
 import static java.util.stream.Stream.concat;
 
-public abstract class SingleHashMapRelationList<
-    TUser extends User<?>,
-    TRelationType,
-    TRelation extends Relation<? extends TUser, ? extends TRelationType>>
-    extends HashMapRelationList<TUser, TRelationType, TRelation> {
-
-  public SingleHashMapRelationList(RelationFactory<?, TUser, TRelationType, TRelation> relationFactory) {
-    super(relationFactory);
-  }
+public abstract class SingleHashMapRelationList<TUser, TRelationType>
+    extends HashMapRelationList<TUser, TRelationType> {
 
   @Override
   public void apply(@NotNull Update<? extends TUser, ? extends TRelationType> update) {

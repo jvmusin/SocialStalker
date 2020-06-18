@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.notifier.UpdateNotifier;
 import musin.seeker.relation.RelationList;
 import musin.seeker.relation.UpdateFactory;
-import musin.seeker.relation.User;
 import org.springframework.core.task.TaskExecutor;
 
 import java.time.Duration;
@@ -17,11 +16,11 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public abstract class PeriodicUpdaterBase<
     ID,
-    TUser extends User<?>,
+    TUser,
     TRelationType,
     TUpdate,
     TRelationList extends RelationList<TUser, TRelationType>,
-    TNotifiableUpdate extends TUpdate>
+    TNotifiableUpdate>
     implements PeriodicUpdater {
 
   private final SeekerService<ID> seekerService;

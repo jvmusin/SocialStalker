@@ -8,15 +8,8 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Stream.concat;
 
-public abstract class MultiHashMapRelationList<
-    TUser extends User<?>,
-    TRelationType,
-    TRelation extends Relation<? extends TUser, ? extends TRelationType>>
-    extends HashMapRelationList<TUser, TRelationType, TRelation> {
-
-  public MultiHashMapRelationList(RelationFactory<?, TUser, TRelationType, TRelation> relationFactory) {
-    super(relationFactory);
-  }
+public abstract class MultiHashMapRelationList<TUser, TRelationType>
+    extends HashMapRelationList<TUser, TRelationType> {
 
   @Override
   public void apply(@NotNull Update<? extends TUser, ? extends TRelationType> update) {

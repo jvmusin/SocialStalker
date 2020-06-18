@@ -1,9 +1,6 @@
 package musin.seeker.relation;
 
 public class TestSingleHashMapRelationList
-    extends SingleHashMapRelationList<TestUser, TestRelationType, TestRelation>
+    extends SingleHashMapRelationList<TestUser, TestRelationType>
     implements TestRelationList {
-  public TestSingleHashMapRelationList() {
-    super(new TestRelationFactory());
-  }
 }

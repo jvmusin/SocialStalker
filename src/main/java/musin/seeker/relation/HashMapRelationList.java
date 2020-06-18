@@ -12,14 +12,10 @@ import java.util.stream.Stream;
 import static java.util.Collections.emptySet;
 
 @RequiredArgsConstructor
-public abstract class HashMapRelationList<
-    TUser extends User<?>,
-    TRelationType,
-    TRelation extends Relation<? extends TUser, ? extends TRelationType>>
+public abstract class HashMapRelationList<TUser, TRelationType>
     implements RelationList<TUser, TRelationType> {
 
   protected final Map<TUser, Set<TRelationType>> userRelations = new HashMap<>();
-  protected final RelationFactory<?, TUser, TRelationType, TRelation> relationFactory;
 
   @Override
   public @NotNull Stream<TUser> users() {

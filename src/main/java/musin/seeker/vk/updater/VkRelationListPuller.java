@@ -21,8 +21,9 @@ public class VkRelationListPuller extends RelationListPullerBase<
   public VkRelationListPuller(RelationListFactory<VkRelationList> relationListFactory,
                               VkUpdateFactory updateFactory,
                               VkRelationFactory relationFactory,
+                              VkUserFactory userFactory,
                               VkApi api) {
-    super(relationListFactory, updateFactory, relationFactory);
+    super(relationListFactory, updateFactory, relationFactory, userFactory);
     registerQuery(api::loadFriendsAsync, FRIEND);
     registerQuery(api::loadFollowersAsync, FOLLOWER);
   }

@@ -1,28 +1,19 @@
 package musin.seeker.vk.relation;
 
-import lombok.RequiredArgsConstructor;
-import musin.seeker.relation.RelationFactory;
 import musin.seeker.relation.RelationListFactory;
 import musin.seeker.relation.SingleHashMapRelationList;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class VkRelationListFactory implements RelationListFactory<VkRelationList> {
-
-  private final VkRelationFactory relationFactory;
 
   @Override
   public VkRelationList create() {
-    return new VkRelationListImpl(relationFactory);
+    return new VkRelationListImpl();
   }
 
   private static class VkRelationListImpl
-      extends SingleHashMapRelationList<VkUser, VkRelationType, VkRelation>
+      extends SingleHashMapRelationList<VkUser, VkRelationType>
       implements VkRelationList {
-
-    public VkRelationListImpl(RelationFactory<?, VkUser, VkRelationType, VkRelation> relationFactory) {
-      super(relationFactory);
-    }
   }
 }
