@@ -21,7 +21,7 @@ public class TelegramMessageSenderImpl implements TelegramMessageSender {
 
   @Override
   @SneakyThrows
-  public void sendMessage(@NotNull String message, boolean waitForExecutionEnd) {
+  public void sendMessage(@NotNull String message, boolean waitUntilNotSent) {
     ListenableFuture<?> task = taskExecutor.submitListenable(() -> {
       SendMessage m = new SendMessage(receiverUid, message);
       m.setParseMode("Markdown");
@@ -32,6 +32,11 @@ public class TelegramMessageSenderImpl implements TelegramMessageSender {
         e.printStackTrace();
       }
     });
-    if (waitForExecutionEnd) task.get();
+    if (waitUntilNotSent) task.get();
+  }
+
+  @Override
+  public void sendMessage(@NotNull String message) {
+    sendMessage(message, false);
   }
 }

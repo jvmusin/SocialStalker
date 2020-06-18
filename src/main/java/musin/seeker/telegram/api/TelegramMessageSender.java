@@ -1,5 +1,6 @@
 package musin.seeker.telegram.api;
 
-public interface TelegramMessageSender {
-  void sendMessage(String message, boolean waitForExecutionEnd);
+import musin.seeker.notifier.AsyncMessageSender;
+
+public interface TelegramMessageSender extends AsyncMessageSender {
 }

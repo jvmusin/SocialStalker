@@ -1,7 +1,7 @@
 package musin.seeker.notifier;
 
+import lombok.RequiredArgsConstructor;
 import musin.seeker.relation.User;
-import org.jetbrains.annotations.NotNull;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -10,16 +10,19 @@ import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.StringJoiner;
 
-public abstract class MarkdownUpdateNotifier<
+@RequiredArgsConstructor
+public class MarkdownUpdateNotifier<
     TUpdate extends NotifiableUpdate<? extends User<?>, ?>>
     implements UpdateNotifier<TUpdate> {
 
   private static final DateTimeFormatter DATE_TIME_FORMATTER =
       DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).withZone(ZoneId.systemDefault());
 
+  private final MessageSender sender;
+
   @Override
   public void notify(TUpdate update) {
-    sendMessage(buildMessage(update));
+    sender.sendMessage(buildMessage(update));
   }
 
   @Override
@@ -29,7 +32,7 @@ public abstract class MarkdownUpdateNotifier<
   }
 
   private void notifyABunchOfChanges(List<? extends TUpdate> updates) {
-    sendMessage(buildMessageForABunchOfUpdates(updates));
+    sender.sendMessage(buildMessageForABunchOfUpdates(updates));
   }
 
   private String userLink(User<?> user) {
@@ -63,6 +66,4 @@ public abstract class MarkdownUpdateNotifier<
   protected int getMinSizeForABunchOfChanges() {
     return 10;
   }
-
-  protected abstract void sendMessage(@NotNull String message);
 }
