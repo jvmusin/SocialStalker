@@ -19,8 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @DisplayName("When empty should")
-interface EmptyRelationListTests<
-    TRelationList extends RelationList<TestUser, TestRelationType, TestRelation, TestUpdate>> {
+interface EmptyRelationListTests<TRelationList extends TestRelationList> {
 
   TRelationList createList();
 
@@ -40,27 +39,27 @@ interface EmptyRelationListTests<
   }
 
   @Test
-  default void return_empty_users() {
+  default void have_no_users() {
     assertThat(createList().users().collect(toList()), empty());
   }
 
   @Test
-  default void return_empty_relations() {
+  default void have_no_relations() {
     assertThat(createList().relations().collect(toList()), empty());
   }
 
   @Test
-  default void return_empty_relation_types_for_any_user() {
+  default void have_no_relation_types_for_any_user() {
     assertThat(createList().getAllRelationTypes(new TestUser("user")), empty());
   }
 
   @Test
-  default void return_empty_updates_on_empty_list() {
+  default void have_no_updates_on_empty_list() {
     assertThat(createList().updates(createList()).collect(toList()), empty());
   }
 
   @Test
-  default void return_null_on_getSingleRelation_call() {
+  default void return_null_on_getRelationType_call() {
     assertThat(createList().getRelationType(new TestUser("john")), nullValue());
   }
 
