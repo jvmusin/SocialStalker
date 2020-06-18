@@ -5,17 +5,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public interface RelationList<TUser, TRelationType, TRelation, TUpdate> {
+public interface RelationList<TUser, TRelationType> {
 
   /**
    * @return all users in this list
    */
   @NotNull Stream<TUser> users();
-
-  /**
-   * @return all relations in this list
-   */
-  @NotNull Stream<TRelation> relations();
 
   /**
    * @param user a user to get relations for
@@ -40,8 +35,10 @@ public interface RelationList<TUser, TRelationType, TRelation, TUpdate> {
   void apply(@NotNull Update<? extends TUser, ? extends TRelationType> update);
 
   /**
-   * @param newer a newer list to build updates
+   * @param newer         a newer list to build updates
+   * @param updateFactory a factory to create updates with
    * @return updates between this and newer list
    */
-  @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, ? extends TRelationType, ?, ?> newer);
+  @NotNull <TUpdate> Stream<TUpdate> updates(@NotNull RelationList<TUser, ? extends TRelationType> newer,
+                                             @NotNull UpdateFactory<? super TUser, ? super TRelationType, ? extends TUpdate> updateFactory);
 }

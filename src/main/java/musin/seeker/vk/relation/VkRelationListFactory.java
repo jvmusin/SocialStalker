@@ -4,28 +4,25 @@ import lombok.RequiredArgsConstructor;
 import musin.seeker.relation.RelationFactory;
 import musin.seeker.relation.RelationListFactory;
 import musin.seeker.relation.SingleHashMapRelationList;
-import musin.seeker.relation.UpdateFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class VkRelationListFactory implements RelationListFactory<VkRelationList> {
 
-  private final VkUpdateFactory updateFactory;
   private final VkRelationFactory relationFactory;
 
   @Override
   public VkRelationList create() {
-    return new VkRelationListImpl(updateFactory, relationFactory);
+    return new VkRelationListImpl(relationFactory);
   }
 
   private static class VkRelationListImpl
-      extends SingleHashMapRelationList<VkUser, VkRelationType, VkRelation, VkUpdate>
+      extends SingleHashMapRelationList<VkUser, VkRelationType, VkRelation>
       implements VkRelationList {
 
-    public VkRelationListImpl(UpdateFactory<VkUser, VkRelationType, VkUpdate> updateFactory,
-                              RelationFactory<?, VkUser, VkRelationType, VkRelation> relationFactory) {
-      super(updateFactory, relationFactory);
+    public VkRelationListImpl(RelationFactory<?, VkUser, VkRelationType, VkRelation> relationFactory) {
+      super(relationFactory);
     }
   }
 }

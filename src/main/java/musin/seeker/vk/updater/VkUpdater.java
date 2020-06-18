@@ -7,10 +7,7 @@ import musin.seeker.vk.db.VkSeekerService;
 import musin.seeker.vk.db.VkUpdateService;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
 import musin.seeker.vk.notifier.VkUpdateNotifier;
-import musin.seeker.vk.relation.VkRelationList;
-import musin.seeker.vk.relation.VkRelationType;
-import musin.seeker.vk.relation.VkUpdate;
-import musin.seeker.vk.relation.VkUser;
+import musin.seeker.vk.relation.*;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -29,12 +26,14 @@ public class VkUpdater extends PeriodicUpdaterBase<
                    VkRelationListPuller relationListPuller,
                    List<VkUpdateNotifier> updateNotifiers,
                    TaskExecutor taskExecutor,
-                   VkConfigurationProperties config) {
+                   VkConfigurationProperties config,
+                   VkUpdateFactory updateFactory) {
     super(seekerService,
         updateService,
         relationListPuller,
         updateNotifiers,
         taskExecutor,
-        config.getPeriodBetweenUpdates());
+        config.getPeriodBetweenUpdates(),
+        updateFactory);
   }
 }

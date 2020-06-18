@@ -9,24 +9,21 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class InstagramRelationListFactory implements RelationListFactory<InstagramRelationList> {
 
-  private final InstagramUpdateFactory updateFactory;
   private final InstagramRelationFactory relationFactory;
 
   @Override
   public InstagramRelationList create() {
-    return new InstagramRelationListImpl(updateFactory, relationFactory);
+    return new InstagramRelationListImpl(relationFactory);
   }
 
   private static class InstagramRelationListImpl extends MultiHashMapRelationList<
       InstagramUser,
       InstagramRelationType,
-      InstagramRelation,
-      InstagramUpdate>
+      InstagramRelation>
       implements InstagramRelationList {
 
-    public InstagramRelationListImpl(InstagramUpdateFactory updateFactory,
-                                     InstagramRelationFactory relationFactory) {
-      super(updateFactory, relationFactory);
+    public InstagramRelationListImpl(InstagramRelationFactory relationFactory) {
+      super(relationFactory);
     }
   }
 }

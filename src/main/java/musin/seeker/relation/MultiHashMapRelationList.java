@@ -11,13 +11,11 @@ import static java.util.stream.Stream.concat;
 public abstract class MultiHashMapRelationList<
     TUser extends User<?>,
     TRelationType,
-    TRelation extends Relation<? extends TUser, ? extends TRelationType>,
-    TUpdate extends Update<? extends TUser, ? extends TRelationType>>
-    extends HashMapRelationList<TUser, TRelationType, TRelation, TUpdate> {
+    TRelation extends Relation<? extends TUser, ? extends TRelationType>>
+    extends HashMapRelationList<TUser, TRelationType, TRelation> {
 
-  public MultiHashMapRelationList(UpdateFactory<TUser, TRelationType, TUpdate> updateFactory,
-                                  RelationFactory<?, TUser, TRelationType, TRelation> relationFactory) {
-    super(updateFactory, relationFactory);
+  public MultiHashMapRelationList(RelationFactory<?, TUser, TRelationType, TRelation> relationFactory) {
+    super(relationFactory);
   }
 
   @Override
@@ -42,7 +40,8 @@ public abstract class MultiHashMapRelationList<
   }
 
   @Override
-  public @NotNull Stream<TUpdate> updates(@NotNull RelationList<TUser, ? extends TRelationType, ?, ?> newer) {
+  public @NotNull <TUpdate> Stream<TUpdate> updates(@NotNull RelationList<TUser, ? extends TRelationType> newer,
+                                                    @NotNull UpdateFactory<? super TUser, ? super TRelationType, ? extends TUpdate> updateFactory) {
     return concat(users(), newer.users()).distinct().flatMap(user -> {
       var curTypes = getAllRelationTypes(user);
       var newerTypes = newer.getAllRelationTypes(user);

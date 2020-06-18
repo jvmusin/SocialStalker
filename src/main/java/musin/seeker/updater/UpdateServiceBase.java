@@ -24,7 +24,7 @@ public abstract class UpdateServiceBase<
     TUser extends User<ID>,
     TRelationType,
     TUpdate extends Update<TUser, TRelationType>,
-    TRelationList extends RelationList<TUser, TRelationType, ?, TUpdate>,
+    TRelationList extends RelationList<TUser, TRelationType>,
     TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
     implements UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> {
 

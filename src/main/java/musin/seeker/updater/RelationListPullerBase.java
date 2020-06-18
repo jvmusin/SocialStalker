@@ -19,7 +19,7 @@ public abstract class RelationListPullerBase<
     TRelationType,
     TRelation extends Relation<TUser, TRelationType>,
     TUpdate extends Update<TUser, TRelationType>,
-    TRelationList extends RelationList<TUser, TRelationType, TRelation, ?>>
+    TRelationList extends RelationList<TUser, TRelationType>>
     implements RelationListPuller<ID, TRelationList> {
 
   private final RelationListFactory<TRelationList> relationListFactory;

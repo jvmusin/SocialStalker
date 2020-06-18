@@ -15,23 +15,15 @@ import static java.util.Collections.emptySet;
 public abstract class HashMapRelationList<
     TUser extends User<?>,
     TRelationType,
-    TRelation extends Relation<? extends TUser, ? extends TRelationType>,
-    TUpdate extends Update<? extends TUser, ? extends TRelationType>>
-    implements RelationList<TUser, TRelationType, TRelation, TUpdate> {
+    TRelation extends Relation<? extends TUser, ? extends TRelationType>>
+    implements RelationList<TUser, TRelationType> {
 
   protected final Map<TUser, Set<TRelationType>> userRelations = new HashMap<>();
-  protected final UpdateFactory<TUser, TRelationType, TUpdate> updateFactory;
   protected final RelationFactory<?, TUser, TRelationType, TRelation> relationFactory;
 
   @Override
   public @NotNull Stream<TUser> users() {
     return userRelations.keySet().stream();
-  }
-
-  @Override
-  public @NotNull Stream<TRelation> relations() {
-    return userRelations.entrySet().stream()
-        .flatMap(e -> e.getValue().stream().map(t -> relationFactory.create(e.getKey(), t)));
   }
 
   @Override

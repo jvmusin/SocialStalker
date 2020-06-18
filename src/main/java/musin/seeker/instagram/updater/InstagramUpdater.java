@@ -6,10 +6,7 @@ import musin.seeker.instagram.db.InstagramSeekerService;
 import musin.seeker.instagram.db.InstagramUpdateService;
 import musin.seeker.instagram.notifier.InstagramNotifiableUpdate;
 import musin.seeker.instagram.notifier.InstagramUpdateNotifier;
-import musin.seeker.instagram.relation.InstagramRelationList;
-import musin.seeker.instagram.relation.InstagramRelationType;
-import musin.seeker.instagram.relation.InstagramUpdate;
-import musin.seeker.instagram.relation.InstagramUser;
+import musin.seeker.instagram.relation.*;
 import musin.seeker.updater.PeriodicUpdaterBase;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.task.TaskExecutor;
@@ -31,12 +28,14 @@ public class InstagramUpdater extends PeriodicUpdaterBase<
                           InstagramRelationListPuller relationListPuller,
                           List<InstagramUpdateNotifier> updateNotifiers,
                           TaskExecutor taskExecutor,
-                          InstagramConfigurationProperties config) {
+                          InstagramConfigurationProperties config,
+                          InstagramUpdateFactory updateFactory) {
     super(seekerService,
         updateService,
         relationListPuller,
         updateNotifiers,
         taskExecutor,
-        config.getPeriodBetweenUpdates());
+        config.getPeriodBetweenUpdates(),
+        updateFactory);
   }
 }

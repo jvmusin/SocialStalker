@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.notifier.UpdateNotifier;
 import musin.seeker.relation.RelationList;
+import musin.seeker.relation.UpdateFactory;
 import musin.seeker.relation.User;
 import org.springframework.core.task.TaskExecutor;
 
@@ -19,7 +20,7 @@ public abstract class PeriodicUpdaterBase<
     TUser extends User<?>,
     TRelationType,
     TUpdate,
-    TRelationList extends RelationList<TUser, TRelationType, ?, TUpdate>,
+    TRelationList extends RelationList<TUser, TRelationType>,
     TNotifiableUpdate extends TUpdate>
     implements PeriodicUpdater {
 
@@ -30,6 +31,7 @@ public abstract class PeriodicUpdaterBase<
   private final TaskExecutor taskExecutor;
   @Getter
   private final Duration periodBetweenUpdates;
+  private final UpdateFactory<TUser, TRelationType, TUpdate> updateFactory;
 
   @Override
   public void run() {
@@ -41,7 +43,7 @@ public abstract class PeriodicUpdaterBase<
 
     CompletableFuture<TRelationList> now = relationListPuller.pull(owner);
 
-    was.thenCombine(now, RelationList::updates)
+    was.thenCombine(now, (a, b) -> a.updates(b, updateFactory))
         .thenApply(updates -> updates.collect(toList()))
         .thenApply(updates -> updateService.saveAll(updates, owner))
         .thenAccept(updates -> notifiers.forEach(notifier -> notifier.notify(updates)))
