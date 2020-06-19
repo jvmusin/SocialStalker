@@ -10,11 +10,5 @@ spring:
       hibernate:
         temp.use_jdbc_metadata_defaults: false
     database-platform: org.hibernate.dialect.PostgreSQL95Dialect
-server:
-  port: 8080
-  shutdown: graceful
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
+  main:
+    web-application-type: none

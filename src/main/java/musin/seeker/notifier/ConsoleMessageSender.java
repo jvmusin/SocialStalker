@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsoleMessageSender implements MessageSender {
   @Override
-  public void sendMessage(@NotNull String message) {
-    log.info(message);
+  public void sendMessage(@NotNull String text) {
+    log.info(text);
   }
 }
