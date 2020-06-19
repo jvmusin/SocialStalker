@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VkUpdateFactory implements UpdateFactory<VkUser, VkRelationType, VkUpdate> {
   @Override
-  public VkUpdate create(VkUser user, VkRelationType was, VkRelationType now) {
+  public VkUpdate updating(VkUser user, VkRelationType was, VkRelationType now) {
     return new VkUpdateImpl(user, was, now);
   }
 

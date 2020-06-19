@@ -39,7 +39,7 @@ public abstract class RelationListPullerBase<
         .reduce(completedFuture(empty()), (a, b) -> a.thenCombine(b, Stream::concat))
         .thenApply(relations -> {
           TRelationList list = relationListFactory.create();
-          relations.forEach(r -> list.apply(updateFactory.create(r.getUser(), null, r.getType())));
+          relations.forEach(r -> list.apply(updateFactory.creating(r.getUser(), r.getType())));
           return list;
         });
   }

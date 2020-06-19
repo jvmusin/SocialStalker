@@ -1,7 +1,5 @@
 package musin.seeker.relation;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -12,7 +10,7 @@ public abstract class MultiHashMapRelationList<TUser, TRelationType>
     extends HashMapRelationList<TUser, TRelationType> {
 
   @Override
-  public void apply(@NotNull Update<? extends TUser, ? extends TRelationType> update) {
+  public void apply(Update<? extends TUser, ? extends TRelationType> update) {
     validateUpdate(update);
 
     if ((update.getWas() == null) == (update.getNow() == null))
@@ -33,14 +31,15 @@ public abstract class MultiHashMapRelationList<TUser, TRelationType>
   }
 
   @Override
-  public @NotNull <TUpdate> Stream<TUpdate> updates(@NotNull RelationList<TUser, ? extends TRelationType> newer,
-                                                    @NotNull UpdateFactory<? super TUser, ? super TRelationType, ? extends TUpdate> updateFactory) {
+  public <TUpdate> Stream<TUpdate> updates(
+      RelationList<TUser, ? extends TRelationType> newer,
+      UpdateFactory<? super TUser, ? super TRelationType, ? extends TUpdate> updateFactory) {
     return concat(users(), newer.users()).distinct().flatMap(user -> {
       var curTypes = getAllRelationTypes(user);
       var newerTypes = newer.getAllRelationTypes(user);
       return concat(
-          curTypes.stream().filter(type -> !newerTypes.contains(type)).map(type -> updateFactory.create(user, type, null)),
-          newerTypes.stream().filter(type -> !curTypes.contains(type)).map(type -> updateFactory.create(user, null, type))
+          curTypes.stream().filter(type -> !newerTypes.contains(type)).map(type -> updateFactory.removing(user, type)),
+          newerTypes.stream().filter(type -> !curTypes.contains(type)).map(type -> updateFactory.creating(user, type))
       );
     });
   }

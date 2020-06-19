@@ -1,7 +1,6 @@
 package musin.seeker.relation;
 
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,12 +17,12 @@ public abstract class HashMapRelationList<TUser, TRelationType>
   protected final Map<TUser, Set<TRelationType>> userRelations = new HashMap<>();
 
   @Override
-  public @NotNull Stream<TUser> users() {
+  public Stream<TUser> users() {
     return userRelations.keySet().stream();
   }
 
   @Override
-  public @NotNull Set<TRelationType> getAllRelationTypes(@NotNull TUser user) {
+  public Set<TRelationType> getAllRelationTypes(TUser user) {
     return userRelations.getOrDefault(user, emptySet());
   }
 
@@ -34,7 +33,7 @@ public abstract class HashMapRelationList<TUser, TRelationType>
   }
 
   @Override
-  public TRelationType getRelationType(@NotNull TUser user) {
+  public TRelationType getRelationType(TUser user) {
     Set<TRelationType> types = userRelations.getOrDefault(user, emptySet());
     if (types.isEmpty()) return null;
     if (types.size() == 1) return types.iterator().next();

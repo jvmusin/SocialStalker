@@ -1,7 +1,5 @@
 package musin.seeker.relation;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -10,13 +8,13 @@ public interface RelationList<TUser, TRelationType> {
   /**
    * @return all users in this list
    */
-  @NotNull Stream<TUser> users();
+  Stream<TUser> users();
 
   /**
    * @param user a user to get relations for
    * @return all relation types, associated with a given user
    */
-  @NotNull Set<TRelationType> getAllRelationTypes(@NotNull TUser user);
+  Set<TRelationType> getAllRelationTypes(TUser user);
 
   /**
    * Returns a single relation for a given user.
@@ -27,18 +25,24 @@ public interface RelationList<TUser, TRelationType> {
    * @param user a user to get a relation for
    * @return a single relation, associated with a given user, or null
    */
-  TRelationType getRelationType(@NotNull TUser user);
+  TRelationType getRelationType(TUser user);
 
   /**
    * @param update an update to apply
    */
-  void apply(@NotNull Update<? extends TUser, ? extends TRelationType> update);
+  void apply(Update<? extends TUser, ? extends TRelationType> update);
 
   /**
    * @param newer         a newer list to build updates
    * @param updateFactory a factory to create updates with
    * @return updates between this and newer list
    */
-  @NotNull <TUpdate> Stream<TUpdate> updates(@NotNull RelationList<TUser, ? extends TRelationType> newer,
-                                             @NotNull UpdateFactory<? super TUser, ? super TRelationType, ? extends TUpdate> updateFactory);
+  <TUpdate> Stream<TUpdate> updates(
+      RelationList<TUser, ? extends TRelationType> newer,
+      UpdateFactory<? super TUser, ? super TRelationType, ? extends TUpdate> updateFactory);
+
+  default <TUpdate> Stream<TUpdate> asUpdates(
+      UpdateFactory<? super TUser, ? super TRelationType, ? extends TUpdate> updateFactory) {
+    return users().flatMap(u -> getAllRelationTypes(u).stream().map(t -> updateFactory.creating(u, t)));
+  }
 }
