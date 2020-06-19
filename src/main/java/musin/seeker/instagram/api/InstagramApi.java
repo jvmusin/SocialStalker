@@ -61,11 +61,20 @@ public class InstagramApi {
     users.put(user.getId(), user);
   }
 
-  public InstagramApiUser loadUser(InstagramID userId) {
+  public InstagramApiUser getUserInfo(InstagramID userId) {
     return users.computeIfAbsent(userId, id -> makeRequest(new InstagramGetUserInfoRequest(id.getValue()))
         .thenApply(InstagramSearchUsernameResult::getUser)
         .thenApply(this::mapUser)
         .join());
+  }
+
+  public CompletableFuture<InstagramApiUser> searchUsername(String username) {
+    return makeRequest(new InstagramSearchUsernameRequest(username))
+        .thenApply(InstagramSearchUsernameResult::getUser)
+        .thenApply(this::mapUser)
+        .whenComplete((u, e) -> {
+          if (u != null) saveUser(u);
+        });
   }
 
   private List<InstagramID> usersToIds(List<InstagramUserSummary> users) {
@@ -85,12 +94,12 @@ public class InstagramApi {
   }
 
   @SneakyThrows
-  public CompletableFuture<List<InstagramID>> loadFollowers(InstagramID userId) {
+  public CompletableFuture<List<InstagramID>> getFollowers(InstagramID userId) {
     return load(InstagramGetUserFollowersRequest::new, userId);
   }
 
   @SneakyThrows
-  public CompletableFuture<List<InstagramID>> loadFollowing(InstagramID userId) {
+  public CompletableFuture<List<InstagramID>> getFollowing(InstagramID userId) {
     return load(InstagramGetUserFollowingRequest::new, userId);
   }
 }

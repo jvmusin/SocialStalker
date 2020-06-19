@@ -3,9 +3,6 @@ package musin.seeker.notifier;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.relation.User;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.StringJoiner;
@@ -15,14 +12,11 @@ public class MarkdownUpdateNotifier<
     TUpdate extends NotifiableUpdate<? extends User<?>, ?>>
     implements UpdateNotifier<TUpdate> {
 
-  private static final DateTimeFormatter DATE_TIME_FORMATTER =
-      DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).withZone(ZoneId.systemDefault());
-
   private final MessageSender sender;
 
   @Override
   public void notify(TUpdate update) {
-    sender.sendMessage(buildMessage(update));
+    sender.sendMessage(update.toMultilineMarkdownString());
   }
 
   @Override
@@ -33,21 +27,6 @@ public class MarkdownUpdateNotifier<
 
   private void notifyABunchOfChanges(List<? extends TUpdate> updates) {
     sender.sendMessage(buildMessageForABunchOfUpdates(updates));
-  }
-
-  private String userLink(User<?> user) {
-    return String.format("[%s](%s)", user.getFullyQualifiedName(), user.getLink());
-  }
-
-  private String buildMessage(TUpdate update) {
-    StringJoiner sj = new StringJoiner("\n");
-    sj.add("Update id: " + update.getId());
-    sj.add("Resource: " + update.getResource());
-    sj.add("Time: " + update.getTime().format(DATE_TIME_FORMATTER));
-    sj.add("Owner: " + userLink(update.getOwner()));
-    sj.add("Target: " + userLink(update.getTarget()));
-    sj.add("Type: " + update.getWas() + " to " + update.getNow());
-    return sj.toString();
   }
 
   private String buildMessageForABunchOfUpdates(List<? extends TUpdate> updates) {

@@ -6,4 +6,8 @@ public interface User<ID> {
   String getFullyQualifiedName();
 
   String getLink();
+
+  default String getMarkdownLink() {
+    return String.format("[%s](%s)", getFullyQualifiedName(), getLink());
+  }
 }

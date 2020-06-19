@@ -1,10 +1,14 @@
 package musin.seeker.notifier;
 
 import musin.seeker.relation.Update;
+import musin.seeker.relation.User;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.StringJoiner;
 
-public interface NotifiableUpdate<TUser, TRelationType> extends Update<TUser, TRelationType> {
+public interface NotifiableUpdate<TUser extends User<?>, TRelationType> extends Update<TUser, TRelationType> {
   String getResource();
 
   Integer getId();
@@ -12,4 +16,16 @@ public interface NotifiableUpdate<TUser, TRelationType> extends Update<TUser, TR
   TUser getOwner();
 
   LocalDateTime getTime();
+
+  default String toMultilineMarkdownString() {
+    DateTimeFormatter fmt = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
+    StringJoiner sj = new StringJoiner(System.lineSeparator());
+    sj.add("Update id: " + getId());
+    sj.add("Resource: " + getResource());
+    sj.add("Time: " + getTime().format(fmt));
+    sj.add("Owner: " + getOwner().getMarkdownLink());
+    sj.add("Target: " + getTarget().getMarkdownLink());
+    sj.add("Type: " + getWas() + " to " + getNow());
+    return sj.toString();
+  }
 }

@@ -6,6 +6,7 @@ import musin.seeker.config.ServiceProperties;
 import musin.seeker.db.IdFactory;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.relation.RelationTypeFactory;
+import musin.seeker.relation.User;
 import musin.seeker.relation.UserFactory;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public abstract class NotifiableUpdateFactoryBase<
     ID,
-    TUser,
+    TUser extends User<ID>,
     TRelationType,
     TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
     implements NotifiableUpdateFactory<TUser, TRelationType, TNotifiableUpdate> {

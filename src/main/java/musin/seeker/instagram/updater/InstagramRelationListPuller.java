@@ -25,7 +25,7 @@ public class InstagramRelationListPuller extends RelationListPullerBase<
                                      InstagramUserFactory userFactory,
                                      InstagramApi api) {
     super(relationListFactory, updateFactory, relationFactory, userFactory);
-    registerQuery(api::loadFollowers, FOLLOWER);
-    registerQuery(api::loadFollowing, FOLLOWING);
+    registerQuery(api::getFollowers, FOLLOWER);
+    registerQuery(api::getFollowing, FOLLOWING);
   }
 }

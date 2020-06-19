@@ -2,6 +2,7 @@ package musin.seeker.vk.api;
 
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
+import com.vk.api.sdk.objects.users.UserXtrCounters;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
@@ -9,12 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.vk.api.sdk.client.Lang.EN;
-import static java.util.Collections.singleton;
+import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -24,59 +24,88 @@ public class VkApi {
   private final VkApiClient vkApiClient;
   private final UserActor userActor;
   private final AsyncListenableTaskExecutor taskExecutor;
-  private final Map<VkID, VkApiUser> usersCache = new ConcurrentHashMap<>();
+  private final Map<String, VkApiUser> usersCache = new ConcurrentHashMap<>();
 
   private void saveUser(VkApiUser user) {
-    usersCache.put(user.getId(), user);
+    usersCache.put(user.getId().toString(), user);
+    if (user.getNickname() != null)
+      usersCache.put(user.getNickname(), user);
   }
 
-  public VkApiUser loadUser(VkID userId) {
-    return loadUsers(singleton(userId)).get(0);
+  private VkApiUser mapUser(UserXtrCounters user) {
+    return new VkApiUser(
+        new VkID(user.getId()),
+        user.getNickname(),
+        user.getFirstName(),
+        user.getLastName()
+    );
   }
 
-  private List<VkApiUser> loadUsers(Set<VkID> userIds) {
-    loadUsersToCache(userIds);
-    return userIds.stream()
-        .map(usersCache::get)
-        .collect(toList());
+  public VkApiUser getUser(VkID userId) {
+    return getUser(userId.toString());
+  }
+
+  public VkApiUser getUser(String nicknameOrId) {
+    return usersCache.computeIfAbsent(nicknameOrId, id -> getUsers(singletonList(nicknameOrId)).get(0));
   }
 
   @SneakyThrows
-  private void loadUsersToCache(Set<VkID> userIds) {
-    List<String> asString = userIds.stream()
+  private List<VkApiUser> getUsers(List<String> nicknamesOrIds) {
+    List<String> unknown = nicknamesOrIds.stream()
         .filter(id -> !usersCache.containsKey(id))
-        .distinct()
-        .map(Object::toString)
         .collect(toList());
-    if (asString.isEmpty()) return;
-    vkApiClient.users()
-        .get(userActor)
-        .userIds(asString)
-        .lang(EN)
-        .execute()
-        .forEach(u -> saveUser(new VkApiUser(new VkID(u.getId()), u.getFirstName(), u.getLastName())));
+
+    if (!unknown.isEmpty()) {
+      List<UserXtrCounters> users = vkApiClient
+          .users()
+          .get(userActor)
+          .userIds(unknown)
+          .lang(EN)
+          .execute();
+      users.forEach(user -> saveUser(mapUser(user)));
+    }
+
+    return nicknamesOrIds.stream().map(usersCache::get).collect(toList());
   }
 
-  public CompletableFuture<List<VkID>> loadFriendsAsync(VkID userId) {
-    return taskExecutor.submitListenable(() -> vkApiClient
+  @SneakyThrows
+  private List<VkID> getFriends(VkID userId) {
+    List<Integer> ids = vkApiClient
         .friends()
         .get(userActor)
         .userId(userId.getValue())
         .lang(EN)
         .execute()
-        .getItems()
-    ).completable().thenApply(ids -> ids.stream().map(VkID::new).collect(toList()));
+        .getItems();
+    return ids.stream().map(VkID::new).collect(toList());
   }
 
-  public CompletableFuture<List<VkID>> loadFollowersAsync(VkID userId) {
-    return taskExecutor.submitListenable(() -> vkApiClient
+  @SneakyThrows
+  private List<VkID> getFollowers(VkID userId) {
+    List<Integer> ids = vkApiClient
         .users()
         .getFollowers(userActor)
         .count(1000)
         .userId(userId.getValue())
         .lang(EN)
         .execute()
-        .getItems()
-    ).completable().thenApply(ids -> ids.stream().map(VkID::new).collect(toList()));
+        .getItems();
+    return ids.stream().map(VkID::new).collect(toList());
+  }
+
+  public CompletableFuture<VkApiUser> getUserAsync(String nicknameOrId) {
+    return taskExecutor.submitListenable(() -> getUser(nicknameOrId)).completable();
+  }
+
+  public CompletableFuture<List<VkApiUser>> getUsersAsync(List<String> nicknamesOrIds) {
+    return taskExecutor.submitListenable(() -> getUsers(nicknamesOrIds)).completable();
+  }
+
+  public CompletableFuture<List<VkID>> getFriendsAsync(VkID userId) {
+    return taskExecutor.submitListenable(() -> getFriends(userId)).completable();
+  }
+
+  public CompletableFuture<List<VkID>> getFollowersAsync(VkID userId) {
+    return taskExecutor.submitListenable(() -> getFollowers(userId)).completable();
   }
 }

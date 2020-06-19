@@ -19,7 +19,7 @@ public class InstagramUserFactory implements UserFactory<InstagramID, InstagramU
 
   @Override
   public InstagramUser create(InstagramID id) {
-    return new InstagramUserImpl(id, instagramApi::loadUser);
+    return new InstagramUserImpl(id, instagramApi::getUserInfo);
   }
 
   private static class InstagramUserImpl extends LazyLoadingUser<InstagramID, InstagramApiUser> implements InstagramUser {

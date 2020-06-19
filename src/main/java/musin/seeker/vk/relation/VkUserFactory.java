@@ -17,7 +17,7 @@ public class VkUserFactory implements UserFactory<VkID, VkUser> {
   private final VkApi vkApi;
 
   public VkUser create(VkID id) {
-    return new VkUserImpl(id, vkApi::loadUser);
+    return new VkUserImpl(id, vkApi::getUser);
   }
 
   private static class VkUserImpl extends LazyLoadingUser<VkID, VkApiUser> implements VkUser {
