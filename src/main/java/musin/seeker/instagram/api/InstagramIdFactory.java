@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class InstagramIdFactory implements IdFactory<InstagramID> {
   @Override
-  public InstagramID create(String id) {
+  public InstagramID parse(String id) {
     return new InstagramID(id);
   }
 }

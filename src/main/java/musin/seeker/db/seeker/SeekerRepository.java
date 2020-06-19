@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SeekerRepository extends JpaRepository<Seeker, Integer> {
   List<Seeker> findAllByResource(String resource);
+  void deleteByOwner(String owner);
 }

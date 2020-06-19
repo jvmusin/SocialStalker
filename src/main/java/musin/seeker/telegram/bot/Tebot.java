@@ -3,22 +3,28 @@ package musin.seeker.telegram.bot;
 import lombok.SneakyThrows;
 import musin.seeker.telegram.config.TelegramConfigurationProperties;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.List;
+
 @Component
-public class Tebot extends TelegramLongPollingBot {
+public class Tebot extends TelegramLongPollingCommandBot {
 
   private final TelegramConfigurationProperties config;
 
   @SneakyThrows
-  public Tebot(TelegramConfigurationProperties config) {
+  public Tebot(TelegramConfigurationProperties config, List<IBotCommand> commands) {
     this.config = config;
+    commands.forEach(this::register);
   }
 
   @Override
-  public void onUpdateReceived(Update update) {
-    System.err.println(update);
+  @SneakyThrows
+  public void processNonCommandUpdate(Update update) {
+    execute(new SendMessage(update.getMessage().getChatId(), "Unknown command"));
   }
 
   @Override

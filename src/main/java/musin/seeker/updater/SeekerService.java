@@ -5,7 +5,9 @@ import java.util.List;
 public interface SeekerService<ID> {
   List<ID> findAllOwners();
 
-  void createNewSeeker(ID userId);
+  void createSeeker(ID userId);
+
+  void deleteSeeker(ID userId);
 
   String getResource();
 }

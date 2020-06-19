@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: vk, instagram
+    include: vk, telegram, instagram
   datasource:
     username: postgres
     password: postgres

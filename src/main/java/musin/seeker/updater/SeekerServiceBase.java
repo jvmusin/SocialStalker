@@ -11,6 +11,7 @@ import musin.seeker.relation.UpdateFactory;
 import musin.seeker.relation.User;
 import musin.seeker.relation.list.RelationList;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -34,7 +35,7 @@ public abstract class SeekerServiceBase<
   @Override
   public List<ID> findAllOwners() {
     return seekerRepository.findAllByResource(properties.getResource()).stream()
-        .map(seeker -> idFactory.create(seeker.getOwner()))
+        .map(seeker -> idFactory.parse(seeker.getOwner()))
         .collect(toList());
   }
 
@@ -43,10 +44,18 @@ public abstract class SeekerServiceBase<
   }
 
   @Override
-  public void createNewSeeker(ID userId) {
+  public void createSeeker(ID userId) {
+    deleteSeeker(userId);
     TRelationList list = relationListPuller.pull(userId).join();
     updateService.saveAll(list.asUpdates(updateFactory).collect(toList()), userId);
     save(userId);
+  }
+
+  @Override
+  @Transactional
+  public void deleteSeeker(ID userId) {
+    updateService.removeAllByOwner(userId);
+    seekerRepository.deleteByOwner(userId.toString());
   }
 
   @Override

@@ -11,5 +11,7 @@ public interface UpdateService<
 
   List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID owner);
 
+  void removeAllByOwner(ID owner);
+
   CompletableFuture<TRelationList> buildList(ID owner);
 }

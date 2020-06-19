@@ -43,6 +43,11 @@ public abstract class UpdateServiceBase<
         .collect(toList());
   }
 
+  @Override
+  public void removeAllByOwner(ID owner) {
+    relationUpdateRepository.deleteAllByOwner(owner.toString());
+  }
+
   public CompletableFuture<TRelationList> buildList(ID owner) {
     return relationUpdateRepository.findAllByResourceAndOwnerOrderById(serviceProperties.getResource(), owner.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))

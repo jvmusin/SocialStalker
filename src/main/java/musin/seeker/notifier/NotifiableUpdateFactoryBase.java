@@ -35,8 +35,8 @@ public abstract class NotifiableUpdateFactoryBase<
 
     protected NotifiableUpdateBase(RelationUpdate update) {
       id = update.getId();
-      owner = userFactory.create(idFactory.create(update.getOwner()));
-      target = userFactory.create(idFactory.create(update.getTarget()));
+      owner = userFactory.create(idFactory.parse(update.getOwner()));
+      target = userFactory.create(idFactory.parse(update.getTarget()));
       was = relationTypeFactory.parseNullSafe(update.getWas());
       now = relationTypeFactory.parseNullSafe(update.getNow());
       time = update.getTime();

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VkIdFactory implements IdFactory<VkID> {
   @Override
-  public VkID create(String id) {
+  public VkID parse(String id) {
     return new VkID(id);
   }
 }
