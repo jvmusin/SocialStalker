@@ -10,8 +10,6 @@ import musin.seeker.relation.Update;
 import musin.seeker.relation.UpdateFactory;
 import musin.seeker.relation.User;
 import musin.seeker.relation.list.RelationList;
-import musin.seeker.vk.api.VkID;
-import musin.seeker.vk.relation.VkRelationList;
 
 import java.util.List;
 
@@ -25,6 +23,7 @@ public abstract class SeekerServiceBase<
     TUpdate extends Update<TUser, TRelationType>,
     TRelationList extends RelationList<TUser, TRelationType>,
     TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>> implements SeekerService<ID> {
+
   private final SeekerRepository seekerRepository;
   private final ServiceProperties properties;
   private final IdFactory<ID> idFactory;
@@ -48,5 +47,10 @@ public abstract class SeekerServiceBase<
     TRelationList list = relationListPuller.pull(userId).join();
     updateService.saveAll(list.asUpdates(updateFactory).collect(toList()), userId);
     save(userId);
+  }
+
+  @Override
+  public String getResource() {
+    return properties.getResource();
   }
 }
