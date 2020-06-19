@@ -24,7 +24,9 @@ public class Tebot extends TelegramLongPollingCommandBot {
   @Override
   @SneakyThrows
   public void processNonCommandUpdate(Update update) {
-    execute(new SendMessage(update.getMessage().getChatId(), "Unknown command"));
+    if (update.hasMessage())
+      execute(new SendMessage(update.getMessage().getChatId(), "It's not a command, right?"));
+    System.err.println(update);
   }
 
   @Override

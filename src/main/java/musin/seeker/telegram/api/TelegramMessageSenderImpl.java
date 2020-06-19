@@ -24,7 +24,7 @@ public class TelegramMessageSenderImpl implements TelegramMessageSender {
   @SneakyThrows
   public void sendMessage(@NotNull String text, boolean waitUntilNotSent) {
     SyncSentMessageCallback callback = new SyncSentMessageCallback();
-    telegramAbsSender.executeAsync(new MarkdownSendMessage(text), callback);
+    telegramAbsSender.executeAsync(new MarkdownSendMessage(receiverUid, text), callback);
     if (waitUntilNotSent) callback.waitForSending();
   }
 
@@ -55,14 +55,6 @@ public class TelegramMessageSenderImpl implements TelegramMessageSender {
 
     void waitForSending() {
       lock.lock();
-    }
-  }
-
-  private class MarkdownSendMessage extends SendMessage {
-    MarkdownSendMessage(String text) {
-      setChatId(receiverUid);
-      setText(text);
-      setParseMode("Markdown");
     }
   }
 }

@@ -2,9 +2,11 @@ package musin.seeker.vk.api;
 
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
+import com.vk.api.sdk.objects.users.Fields;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import musin.seeker.api.SocialApi;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,7 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
-public class VkApi {
+public class VkApi implements SocialApi<VkID> {
 
   private final VkApiClient vkApiClient;
   private final UserActor userActor;
@@ -35,7 +37,7 @@ public class VkApi {
   private VkApiUser mapUser(UserXtrCounters user) {
     return new VkApiUser(
         new VkID(user.getId()),
-        user.getNickname(),
+        user.getScreenName(),
         user.getFirstName(),
         user.getLastName()
     );
@@ -46,7 +48,8 @@ public class VkApi {
   }
 
   public VkApiUser getUser(String nicknameOrId) {
-    return usersCache.computeIfAbsent(nicknameOrId, id -> getUsers(singletonList(nicknameOrId)).get(0));
+    if (usersCache.containsKey(nicknameOrId)) return usersCache.get(nicknameOrId);
+    return getUsers(singletonList(nicknameOrId)).get(0);
   }
 
   @SneakyThrows
@@ -60,6 +63,7 @@ public class VkApi {
           .users()
           .get(userActor)
           .userIds(unknown)
+          .fields(Fields.SCREEN_NAME)
           .lang(EN)
           .execute();
       users.forEach(user -> saveUser(mapUser(user)));
@@ -107,5 +111,10 @@ public class VkApi {
 
   public CompletableFuture<List<VkID>> getFollowersAsync(VkID userId) {
     return taskExecutor.submitListenable(() -> getFollowers(userId)).completable();
+  }
+
+  @Override
+  public VkID searchByUsername(String username) {
+    return getUser(username).getId();
   }
 }

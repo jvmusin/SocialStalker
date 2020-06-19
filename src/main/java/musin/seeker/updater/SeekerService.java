@@ -8,6 +8,4 @@ public interface SeekerService<ID> {
   void createSeeker(ID userId);
 
   void deleteSeeker(ID userId);
-
-  String getResource();
 }

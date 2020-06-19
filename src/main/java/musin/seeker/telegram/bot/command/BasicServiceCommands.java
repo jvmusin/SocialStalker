@@ -1,10 +1,14 @@
 package musin.seeker.telegram.bot.command;
 
 import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
+import musin.seeker.api.SocialApi;
 import musin.seeker.db.IdFactory;
 import musin.seeker.relation.UserFactory;
+import musin.seeker.telegram.api.MarkdownSendMessage;
 import musin.seeker.telegram.bot.QueryParams;
 import musin.seeker.updater.SeekerService;
+import org.apache.logging.log4j.Level;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.DefaultBotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -14,17 +18,24 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import static java.lang.System.lineSeparator;
 import static java.util.stream.Collectors.joining;
 
-public class BasicServiceCommands<ID> extends DefaultBotCommand {
+@Log4j2
+public class BasicServiceCommands<ID, TUser extends musin.seeker.relation.User<ID>> extends DefaultBotCommand {
 
   private final SeekerService<ID> seekerService;
   private final IdFactory<ID> idFactory;
-  private final UserFactory<ID, ?> userFactory;
+  private final UserFactory<ID, TUser> userFactory;
+  private final SocialApi<ID> api;
 
-  public BasicServiceCommands(String serviceName, SeekerService<ID> seekerService, IdFactory<ID> idFactory, UserFactory<ID, ?> userFactory) {
+  public BasicServiceCommands(String serviceName,
+                              SeekerService<ID> seekerService,
+                              IdFactory<ID> idFactory,
+                              UserFactory<ID, TUser> userFactory,
+                              SocialApi<ID> api) {
     super(serviceName, "basic commands for " + serviceName);
     this.seekerService = seekerService;
     this.idFactory = idFactory;
     this.userFactory = userFactory;
+    this.api = api;
   }
 
   @Override
@@ -37,10 +48,11 @@ public class BasicServiceCommands<ID> extends DefaultBotCommand {
         case "add" -> handleAdd(params);
         case "delete" -> handleDelete(params);
         case "list" -> handleList(params);
+        case "search" -> handleSearch(params);
         default -> handleUnknown(type, params);
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      log.throwing(Level.WARN, e);
       absSender.execute(new SendMessage(chat.getId(), e.getMessage()));
     }
   }
@@ -72,5 +84,17 @@ public class BasicServiceCommands<ID> extends DefaultBotCommand {
         .collect(joining(lineSeparator()));
     String text = "Seekers for " + getCommandIdentifier() + lineSeparator() + owners;
     params.execute(new SendMessage(params.getChatId(), text));
+  }
+
+  @SneakyThrows
+  private void handleSearch(QueryParams params) {
+    String username = params.getArguments()[1];
+    ID id = api.searchByUsername(username);
+    if (id == null) {
+      params.execute(new SendMessage(params.getChatId(), "User " + username + " not found"));
+    } else {
+      TUser user = userFactory.create(id);
+      params.execute(new MarkdownSendMessage(params.getChatId(), "Found user " + user.getMarkdownLink()));
+    }
   }
 }

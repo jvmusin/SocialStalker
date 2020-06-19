@@ -23,7 +23,8 @@ public abstract class SeekerServiceBase<
     TRelationType,
     TUpdate extends Update<TUser, TRelationType>,
     TRelationList extends RelationList<TUser, TRelationType>,
-    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>> implements SeekerService<ID> {
+    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
+    implements SeekerService<ID> {
 
   private final SeekerRepository seekerRepository;
   private final ServiceProperties properties;
@@ -56,10 +57,5 @@ public abstract class SeekerServiceBase<
   public void deleteSeeker(ID userId) {
     updateService.removeAllByOwner(userId);
     seekerRepository.deleteByOwner(userId.toString());
-  }
-
-  @Override
-  public String getResource() {
-    return properties.getResource();
   }
 }

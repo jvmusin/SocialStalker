@@ -1,6 +1,7 @@
 package musin.seeker.instagram.api;
 
 import lombok.SneakyThrows;
+import musin.seeker.api.SocialApi;
 import musin.seeker.util.AcquireResult;
 import musin.seeker.util.TimedSemaphore;
 import musin.seeker.util.TimedSemaphoreFactory;
@@ -25,7 +26,7 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 @Profile("instagram")
-public class InstagramApi {
+public class InstagramApi implements SocialApi<InstagramID> {
 
   private final Instagram4j instagram;
   private final TimedSemaphore semaphore;
@@ -101,5 +102,10 @@ public class InstagramApi {
   @SneakyThrows
   public CompletableFuture<List<InstagramID>> getFollowing(InstagramID userId) {
     return load(InstagramGetUserFollowingRequest::new, userId);
+  }
+
+  @Override
+  public InstagramID searchByUsername(String username) {
+    return searchUsername(username).thenApply(InstagramApiUser::getId).join();
   }
 }
