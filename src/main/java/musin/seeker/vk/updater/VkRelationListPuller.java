@@ -1,6 +1,6 @@
 package musin.seeker.vk.updater;
 
-import musin.seeker.relation.RelationListFactory;
+import musin.seeker.relation.list.RelationListFactory;
 import musin.seeker.updater.RelationListPullerBase;
 import musin.seeker.vk.api.VkApi;
 import musin.seeker.vk.api.VkID;

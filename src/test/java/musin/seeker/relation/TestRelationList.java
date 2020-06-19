@@ -1,5 +1,6 @@
 package musin.seeker.relation;
 
+import musin.seeker.relation.list.RelationList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;

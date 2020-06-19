@@ -1,4 +1,7 @@
-package musin.seeker.relation;
+package musin.seeker.relation.list;
+
+import musin.seeker.relation.Update;
+import musin.seeker.relation.UpdateFactory;
 
 import java.util.Set;
 import java.util.stream.Stream;

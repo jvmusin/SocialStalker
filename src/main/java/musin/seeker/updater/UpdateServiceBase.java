@@ -6,8 +6,8 @@ import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.notifier.NotifiableUpdate;
 import musin.seeker.notifier.NotifiableUpdateFactory;
-import musin.seeker.relation.RelationList;
-import musin.seeker.relation.RelationListFactory;
+import musin.seeker.relation.list.RelationList;
+import musin.seeker.relation.list.RelationListFactory;
 import musin.seeker.relation.Update;
 import musin.seeker.relation.User;
 

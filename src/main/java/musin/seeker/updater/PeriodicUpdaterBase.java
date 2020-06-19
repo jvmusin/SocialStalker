@@ -3,7 +3,7 @@ package musin.seeker.updater;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.notifier.UpdateNotifier;
-import musin.seeker.relation.RelationList;
+import musin.seeker.relation.list.RelationList;
 import musin.seeker.relation.UpdateFactory;
 import org.springframework.core.task.TaskExecutor;
 

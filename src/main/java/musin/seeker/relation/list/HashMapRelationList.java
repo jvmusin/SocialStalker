@@ -1,6 +1,7 @@
-package musin.seeker.relation;
+package musin.seeker.relation.list;
 
 import lombok.RequiredArgsConstructor;
+import musin.seeker.relation.Update;
 
 import java.util.HashMap;
 import java.util.Map;

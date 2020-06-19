@@ -1,7 +1,7 @@
 package musin.seeker.vk.relation;
 
-import musin.seeker.relation.RelationListFactory;
-import musin.seeker.relation.SingleHashMapRelationList;
+import musin.seeker.relation.list.RelationListFactory;
+import musin.seeker.relation.list.SingleHashMapRelationList;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,7 +1,7 @@
 package musin.seeker.instagram.relation;
 
-import musin.seeker.relation.MultiHashMapRelationList;
-import musin.seeker.relation.RelationListFactory;
+import musin.seeker.relation.list.MultiHashMapRelationList;
+import musin.seeker.relation.list.RelationListFactory;
 import org.springframework.stereotype.Component;
 
 @Component
