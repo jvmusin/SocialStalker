@@ -1,6 +1,3 @@
-spring:
-  profiles:
-    include: telegram, instagram
 vk:
   period-between-updates: 5m
 instagram:
