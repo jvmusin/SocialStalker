@@ -6,20 +6,26 @@ import com.vk.api.sdk.objects.users.Fields;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import musin.seeker.api.SocialApi;
+import org.apache.logging.log4j.Level;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.vk.api.sdk.client.Lang.EN;
 import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class VkApi implements SocialApi<VkID> {
 
@@ -43,13 +49,19 @@ public class VkApi implements SocialApi<VkID> {
     );
   }
 
-  public VkApiUser getUser(VkID userId) {
+  public Optional<VkApiUser> getUser(VkID userId) {
     return getUser(userId.toString());
   }
 
-  public VkApiUser getUser(String nicknameOrId) {
-    if (usersCache.containsKey(nicknameOrId)) return usersCache.get(nicknameOrId);
-    return getUsers(singletonList(nicknameOrId)).get(0);
+  public Optional<VkApiUser> getUser(String nicknameOrId) {
+    if (usersCache.containsKey(nicknameOrId)) return of(usersCache.get(nicknameOrId));
+    try {
+      return of(getUsers(singletonList(nicknameOrId)).get(0));
+    } catch (Exception e) {
+      if (!e.getMessage().contains("Invalid user id"))
+        log.throwing(Level.WARN, e);
+      return empty();
+    }
   }
 
   @SneakyThrows
@@ -97,7 +109,7 @@ public class VkApi implements SocialApi<VkID> {
     return ids.stream().map(VkID::new).collect(toList());
   }
 
-  public CompletableFuture<VkApiUser> getUserAsync(String nicknameOrId) {
+  public CompletableFuture<Optional<VkApiUser>> getUserAsync(String nicknameOrId) {
     return taskExecutor.submitListenable(() -> getUser(nicknameOrId)).completable();
   }
 
@@ -114,7 +126,18 @@ public class VkApi implements SocialApi<VkID> {
   }
 
   @Override
-  public VkID searchByUsername(String username) {
-    return getUser(username).getId();
+  public Optional<VkID> searchByUsername(String username) {
+    try {
+      return getUser(username).map(VkApiUser::getId);
+    } catch (Exception e) {
+      log.throwing(Level.WARN, e);
+      return empty();
+    }
+  }
+
+  @Override
+  public Optional<VkID> searchById(VkID userId) {
+    // actually same as searchByUsername
+    return getUser(userId).map(VkApiUser::getId);
   }
 }

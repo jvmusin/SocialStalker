@@ -1,5 +1,6 @@
 package musin.seeker.instagram.config;
 
+import musin.seeker.config.ServiceNames;
 import musin.seeker.config.ServiceProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -7,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
 public class InstagramServiceProperties implements ServiceProperties {
   @Override
   public String getResource() {
-    return "INSTAGRAM";
+    return ServiceNames.INSTAGRAM;
   }
 }

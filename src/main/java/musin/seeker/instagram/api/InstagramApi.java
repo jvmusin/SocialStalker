@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -105,7 +106,14 @@ public class InstagramApi implements SocialApi<InstagramID> {
   }
 
   @Override
-  public InstagramID searchByUsername(String username) {
-    return searchUsername(username).thenApply(InstagramApiUser::getId).join();
+  public Optional<InstagramID> searchByUsername(String username) {
+    return Optional.ofNullable(searchUsername(username).join())
+        .map(InstagramApiUser::getId);
+  }
+
+  @Override
+  public Optional<InstagramID> searchById(InstagramID userId) {
+    return Optional.ofNullable(getUserInfo(userId))
+        .map(InstagramApiUser::getId);
   }
 }
