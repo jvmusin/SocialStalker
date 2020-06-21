@@ -8,8 +8,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.StringJoiner;
 
-public interface NotifiableUpdate<TUser extends User<?>, TRelationType> extends Update<TUser, TRelationType> {
-  String getResource();
+public interface NotifiableUpdate<TUser extends User<?>, TRelationType>
+    extends Update<TUser, TRelationType> {
+
+  String getNetwork();
 
   Integer getId();
 
@@ -21,10 +23,10 @@ public interface NotifiableUpdate<TUser extends User<?>, TRelationType> extends 
     DateTimeFormatter fmt = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
     StringJoiner sj = new StringJoiner(System.lineSeparator());
     sj.add("Update id: " + getId());
-    sj.add("Resource: " + getResource());
+    sj.add("Network: " + getNetwork());
     sj.add("Time: " + getTime().format(fmt));
     sj.add("Owner: " + getOwner().getMarkdownLink());
-    sj.add("Target: " + getTarget().getMarkdownLink());
+    sj.add("Suspected: " + getSuspected().getMarkdownLink());
     sj.add("Type: " + getWas() + " to " + getNow());
     return sj.toString();
   }

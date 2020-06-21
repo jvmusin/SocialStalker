@@ -19,7 +19,7 @@ public abstract class MultiHashMapRelationList<TUser, TRelationType>
     if ((update.getWas() == null) == (update.getNow() == null))
       throw new IllegalArgumentException("An update should remove or add a relation, not update: " + update);
 
-    Set<TRelationType> types = userRelations.computeIfAbsent(update.getTarget(), t -> new HashSet<>());
+    Set<TRelationType> types = userRelations.computeIfAbsent(update.getSuspected(), t -> new HashSet<>());
 
     if (update.getWas() != null && !types.remove(update.getWas()))
       throw new RuntimeException("The relation is not presented in the list: " + update.getWas());
@@ -30,7 +30,7 @@ public abstract class MultiHashMapRelationList<TUser, TRelationType>
       types.add(update.getNow());
     }
 
-    if (types.isEmpty()) userRelations.remove(update.getTarget());
+    if (types.isEmpty()) userRelations.remove(update.getSuspected());
   }
 
   @Override

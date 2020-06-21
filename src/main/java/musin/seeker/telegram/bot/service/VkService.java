@@ -1,6 +1,6 @@
 package musin.seeker.telegram.bot.service;
 
-import musin.seeker.config.ServiceNames;
+import musin.seeker.config.NetworkNames;
 import musin.seeker.relation.User;
 import musin.seeker.vk.api.VkApi;
 import musin.seeker.vk.api.VkID;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Component(ServiceNames.VK)
+@Component(NetworkNames.VK)
 public class VkService extends ServiceBase<VkID, VkUser> {
   public VkService(VkSeekerService seekerService,
                    VkIdFactory idFactory,

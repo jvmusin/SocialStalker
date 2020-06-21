@@ -4,7 +4,7 @@ import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.notifier.NotifiableUpdateFactoryBase;
 import musin.seeker.vk.api.VkID;
 import musin.seeker.vk.api.VkIdFactory;
-import musin.seeker.vk.config.VkServiceProperties;
+import musin.seeker.vk.config.VkNetworkProperties;
 import musin.seeker.vk.relation.VkRelationType;
 import musin.seeker.vk.relation.VkRelationTypeFactory;
 import musin.seeker.vk.relation.VkUser;
@@ -20,9 +20,9 @@ public class VkNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<
 
   public VkNotifiableUpdateFactory(VkUserFactory userFactory,
                                    VkRelationTypeFactory relationTypeFactory,
-                                   VkServiceProperties vkServiceProperties,
+                                   VkNetworkProperties networkProperties,
                                    VkIdFactory idFactory) {
-    super(userFactory, relationTypeFactory, vkServiceProperties, idFactory);
+    super(userFactory, relationTypeFactory, networkProperties, idFactory);
   }
 
   @Override

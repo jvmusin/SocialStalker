@@ -28,7 +28,7 @@ public abstract class HashMapRelationList<TUser, TRelationType>
   }
 
   protected void validateUpdate(Update<? extends TUser, ? extends TRelationType> update) {
-    if (update.getTarget() == null) throw new IllegalArgumentException("Target is null: " + update);
+    if (update.getSuspected() == null) throw new IllegalArgumentException("Suspected is null: " + update);
     if (Objects.equals(update.getWas(), update.getNow()))
       throw new IllegalArgumentException("Was and now types are same: " + update);
   }

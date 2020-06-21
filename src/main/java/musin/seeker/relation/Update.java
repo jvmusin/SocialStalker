@@ -1,7 +1,7 @@
 package musin.seeker.relation;
 
 public interface Update<TUser, TRelationType> {
-  TUser getTarget();
+  TUser getSuspected();
 
   TRelationType getWas();
 

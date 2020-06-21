@@ -23,7 +23,7 @@ public class Seeker {
   @GeneratedValue(strategy = IDENTITY)
   Integer id;
 
-  String resource;
+  String network;
 
   String owner;
 }

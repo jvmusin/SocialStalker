@@ -13,7 +13,7 @@ public class VkUpdateFactory implements UpdateFactory<VkUser, VkRelationType, Vk
 
   @Data
   private static class VkUpdateImpl implements VkUpdate {
-    private final VkUser target;
+    private final VkUser suspected;
     private final VkRelationType was;
     private final VkRelationType now;
   }

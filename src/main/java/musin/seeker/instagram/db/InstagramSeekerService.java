@@ -3,7 +3,7 @@ package musin.seeker.instagram.db;
 import musin.seeker.db.seeker.SeekerRepository;
 import musin.seeker.instagram.api.InstagramID;
 import musin.seeker.instagram.api.InstagramIdFactory;
-import musin.seeker.instagram.config.InstagramServiceProperties;
+import musin.seeker.instagram.config.InstagramNetworkProperties;
 import musin.seeker.instagram.notifier.InstagramNotifiableUpdate;
 import musin.seeker.instagram.relation.*;
 import musin.seeker.instagram.updater.InstagramRelationListPuller;
@@ -19,7 +19,7 @@ public class InstagramSeekerService extends SeekerServiceBase<
     InstagramRelationList,
     InstagramNotifiableUpdate> {
   public InstagramSeekerService(SeekerRepository seekerRepository,
-                                InstagramServiceProperties properties,
+                                InstagramNetworkProperties properties,
                                 InstagramIdFactory idFactory,
                                 InstagramRelationListPuller relationListPuller,
                                 InstagramUpdateService updateService,

@@ -3,7 +3,7 @@ package musin.seeker.instagram.notifier;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.instagram.api.InstagramID;
 import musin.seeker.instagram.api.InstagramIdFactory;
-import musin.seeker.instagram.config.InstagramServiceProperties;
+import musin.seeker.instagram.config.InstagramNetworkProperties;
 import musin.seeker.instagram.relation.InstagramRelationType;
 import musin.seeker.instagram.relation.InstagramRelationTypeFactory;
 import musin.seeker.instagram.relation.InstagramUser;
@@ -20,9 +20,9 @@ public class InstagramNotifiableUpdateFactory extends NotifiableUpdateFactoryBas
 
   public InstagramNotifiableUpdateFactory(InstagramUserFactory userFactory,
                                           InstagramRelationTypeFactory relationTypeFactory,
-                                          InstagramServiceProperties instagramServiceProperties,
+                                          InstagramNetworkProperties networkProperties,
                                           InstagramIdFactory idFactory) {
-    super(userFactory, relationTypeFactory, instagramServiceProperties, idFactory);
+    super(userFactory, relationTypeFactory, networkProperties, idFactory);
   }
 
   @Override

@@ -16,11 +16,11 @@ public abstract class SingleHashMapRelationList<TUser, TRelationType>
   public void apply(Update<? extends TUser, ? extends TRelationType> update) {
     validateUpdate(update);
 
-    if (!Objects.equals(update.getWas(), getRelationType(update.getTarget())))
+    if (!Objects.equals(update.getWas(), getRelationType(update.getSuspected())))
       throw new RuntimeException("Was and saved types differ for update " + update);
 
-    if (update.getNow() == null) userRelations.remove(update.getTarget());
-    else userRelations.put(update.getTarget(), singleton(update.getNow()));
+    if (update.getNow() == null) userRelations.remove(update.getSuspected());
+    else userRelations.put(update.getSuspected(), singleton(update.getNow()));
   }
 
   @Override

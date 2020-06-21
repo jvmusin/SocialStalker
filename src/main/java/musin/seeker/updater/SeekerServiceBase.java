@@ -1,7 +1,7 @@
 package musin.seeker.updater;
 
 import lombok.RequiredArgsConstructor;
-import musin.seeker.config.ServiceProperties;
+import musin.seeker.config.NetworkProperties;
 import musin.seeker.db.IdFactory;
 import musin.seeker.db.seeker.Seeker;
 import musin.seeker.db.seeker.SeekerRepository;
@@ -27,7 +27,7 @@ public abstract class SeekerServiceBase<
     implements SeekerService<ID> {
 
   private final SeekerRepository seekerRepository;
-  private final ServiceProperties properties;
+  private final NetworkProperties properties;
   private final IdFactory<ID> idFactory;
   private final RelationListPuller<ID, TRelationList> relationListPuller;
   private final UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
@@ -35,13 +35,13 @@ public abstract class SeekerServiceBase<
 
   @Override
   public List<ID> findAllOwners() {
-    return seekerRepository.findAllByResource(properties.getResource()).stream()
+    return seekerRepository.findAllByNetwork(properties.getNetwork()).stream()
         .map(seeker -> idFactory.parse(seeker.getOwner()))
         .collect(toList());
   }
 
   protected void save(ID owner) {
-    seekerRepository.save(new Seeker(null, properties.getResource(), owner.toString()));
+    seekerRepository.save(new Seeker(null, properties.getNetwork(), owner.toString()));
   }
 
   @Override

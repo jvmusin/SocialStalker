@@ -4,7 +4,7 @@ import musin.seeker.db.seeker.SeekerRepository;
 import musin.seeker.updater.SeekerServiceBase;
 import musin.seeker.vk.api.VkID;
 import musin.seeker.vk.api.VkIdFactory;
-import musin.seeker.vk.config.VkServiceProperties;
+import musin.seeker.vk.config.VkNetworkProperties;
 import musin.seeker.vk.notifier.VkNotifiableUpdate;
 import musin.seeker.vk.relation.*;
 import musin.seeker.vk.updater.VkRelationListPuller;
@@ -19,7 +19,7 @@ public class VkSeekerService extends SeekerServiceBase<
     VkRelationList,
     VkNotifiableUpdate> {
   public VkSeekerService(SeekerRepository seekerRepository,
-                         VkServiceProperties properties,
+                         VkNetworkProperties properties,
                          VkIdFactory idFactory,
                          VkRelationListPuller relationListPuller,
                          VkUpdateService updateService,

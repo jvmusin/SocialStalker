@@ -1,7 +1,7 @@
 package musin.seeker.updater;
 
 import lombok.RequiredArgsConstructor;
-import musin.seeker.config.ServiceProperties;
+import musin.seeker.config.NetworkProperties;
 import musin.seeker.db.update.RelationUpdate;
 import musin.seeker.db.update.RelationUpdateRepository;
 import musin.seeker.notifier.NotifiableUpdate;
@@ -30,7 +30,7 @@ public abstract class UpdateServiceBase<
 
   private final RelationUpdateRepository relationUpdateRepository;
   private final NotifiableUpdateFactory<TUser, TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
-  private final ServiceProperties serviceProperties;
+  private final NetworkProperties networkProperties;
   private final RelationListFactory<TRelationList> relationListFactory;
 
   @Override
@@ -49,16 +49,16 @@ public abstract class UpdateServiceBase<
   }
 
   public CompletableFuture<TRelationList> buildList(ID owner) {
-    return relationUpdateRepository.findAllByResourceAndOwnerOrderById(serviceProperties.getResource(), owner.toString())
+    return relationUpdateRepository.findAllByNetworkAndOwnerOrderById(networkProperties.getNetwork(), owner.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);
   }
 
   protected RelationUpdate updateToRelationUpdate(TUpdate update, ID owner) {
     return RelationUpdate.builder()
-        .resource(serviceProperties.getResource())
+        .network(networkProperties.getNetwork())
         .owner(owner.toString())
-        .target(update.getTarget().getId().toString())
+        .suspected(update.getSuspected().getId().toString())
         .was(update.getWas() == null ? null : update.getWas().toString())
         .now(update.getNow() == null ? null : update.getNow().toString())
         .time(LocalDateTime.now())
