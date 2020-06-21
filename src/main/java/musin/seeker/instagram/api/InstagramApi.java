@@ -44,11 +44,7 @@ public class InstagramApi implements SocialApi<InstagramID> {
 
   @SneakyThrows
   private <T> CompletableFuture<T> makeRequest(InstagramRequest<T> request) {
-    return taskExecutor.submitListenable(() -> {
-      try (AcquireResult ignored = semaphore.acquire()) {
-        return instagram.sendRequest(request);
-      }
-    }).completable();
+    return taskExecutor.submitListenable(() -> semaphore.execute(() -> instagram.sendRequest(request))).completable();
   }
 
   private InstagramApiUser mapUser(InstagramUserSummary user) {

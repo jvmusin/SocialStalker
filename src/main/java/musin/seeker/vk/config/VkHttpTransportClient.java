@@ -3,7 +3,6 @@ package musin.seeker.vk.config;
 import com.vk.api.sdk.client.ClientResponse;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import lombok.SneakyThrows;
-import musin.seeker.util.AcquireResult;
 import musin.seeker.util.TimedSemaphore;
 import musin.seeker.util.TimedSemaphoreFactory;
 import org.springframework.stereotype.Component;
@@ -22,10 +21,7 @@ public class VkHttpTransportClient extends HttpTransportClient {
 
   @SneakyThrows
   private <T> T execute(Callable<T> task) {
-    //todo move this pattern to semaphore
-    try (AcquireResult ignored = semaphore.acquire()) {
-      return task.call();
-    }
+    return semaphore.execute(task);
   }
 
   @Override

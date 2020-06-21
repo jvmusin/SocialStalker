@@ -1,5 +1,8 @@
 package musin.seeker.util;
 
+import lombok.SneakyThrows;
+
+import java.util.concurrent.Callable;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -9,6 +12,7 @@ import java.util.concurrent.Semaphore;
  *
  * <p>After acquiring you'll get an {@link AcquireResult} on which you should
  * call {@link AcquireResult#close()} method after doing the work.
+ *
  * <p>Calling {@link AcquireResult#close()} will handle the factory to release a permit in some time.
  *
  * <p>Note that {@link AcquireResult} is {@link AutoCloseable}, so use it in try-with-resources initializer block.
@@ -27,4 +31,18 @@ public interface TimedSemaphore {
    * @see Semaphore#acquire()
    */
   AcquireResult acquire() throws InterruptedException;
+
+  /**
+   * Acquires a permit, executes the task and then releases the permit.
+   *
+   * @param task the task to execute
+   * @param <T>  type of result of the task
+   * @return result of a task
+   */
+  @SneakyThrows
+  default <T> T execute(Callable<T> task) {
+    try (AcquireResult ignored = acquire()) {
+      return task.call();
+    }
+  }
 }
