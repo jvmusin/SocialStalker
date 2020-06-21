@@ -23,8 +23,8 @@ public class RelationUpdate {
   @ManyToOne
   private Stalker stalker;
   private String network;
-  private String targetId;
-  private String suspectedId;
+  private String target;
+  private String suspected;
   private String wasType;
   private String nowType;
   private LocalDateTime createdAt;

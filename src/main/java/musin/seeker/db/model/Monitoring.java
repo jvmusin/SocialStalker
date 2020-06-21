@@ -22,6 +22,6 @@ public class Monitoring {
   @ManyToOne
   private Stalker stalker;
   private String network;
-  private String targetId;
+  private String target;
   private boolean enabled;
 }
