@@ -37,14 +37,14 @@ public abstract class PeriodicUpdaterBase<
     seekerService.findAllOwners().forEach(s -> taskExecutor.execute(() -> run(s)));
   }
 
-  private void run(ID owner) {
-    CompletableFuture<TRelationList> was = updateService.buildList(owner);
+  private void run(ID target) {
+    CompletableFuture<TRelationList> was = updateService.buildList(target);
 
-    CompletableFuture<TRelationList> now = relationListPuller.pull(owner);
+    CompletableFuture<TRelationList> now = relationListPuller.pull(target);
 
     was.thenCombine(now, (a, b) -> a.updates(b, updateFactory))
         .thenApply(updates -> updates.collect(toList()))
-        .thenApply(updates -> updateService.saveAll(updates, owner))
+        .thenApply(updates -> updateService.saveAll(updates, target))
         .thenAccept(updates -> notifiers.forEach(notifier -> notifier.notify(updates)))
         .exceptionally(e -> {
           e.printStackTrace();

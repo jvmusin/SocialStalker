@@ -15,7 +15,7 @@ public interface NotifiableUpdate<TUser extends User<?>, TRelationType>
 
   Integer getId();
 
-  TUser getOwner();
+  TUser getTarget();
 
   LocalDateTime getTime();
 
@@ -25,7 +25,7 @@ public interface NotifiableUpdate<TUser extends User<?>, TRelationType>
     sj.add("Update id: " + getId());
     sj.add("Network: " + getNetwork());
     sj.add("Time: " + getTime().format(fmt));
-    sj.add("Owner: " + getOwner().getMarkdownLink());
+    sj.add("Target: " + getTarget().getMarkdownLink());
     sj.add("Suspected: " + getSuspected().getMarkdownLink());
     sj.add("Type: " + getWas() + " to " + getNow());
     return sj.toString();

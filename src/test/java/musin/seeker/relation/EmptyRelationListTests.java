@@ -88,7 +88,7 @@ interface EmptyRelationListTests<TRelationList extends TestRelationList> {
   }
 
   @Test
-  default void fail_when_target_is_null() {
+  default void fail_when_suspected_is_null() {
     TestUpdate update = new TestUpdate(null, null, new TestRelationType("friend"));
     assertThrows(IllegalArgumentException.class, () -> createList().apply(update));
   }

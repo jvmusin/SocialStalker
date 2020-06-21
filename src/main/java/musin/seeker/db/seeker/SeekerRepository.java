@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SeekerRepository extends JpaRepository<Seeker, Integer> {
   List<Seeker> findAllByNetwork(String network);
-  void deleteByOwner(String owner);
+  void deleteByTarget(String target);
 }

@@ -25,7 +25,7 @@ public class RelationUpdate {
   @GeneratedValue(strategy = IDENTITY)
   Integer id;
   String network;
-  String owner;
+  String target;
   String suspected;
   String was;
   String now;

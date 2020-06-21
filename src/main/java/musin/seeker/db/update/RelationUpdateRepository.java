@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface RelationUpdateRepository extends JpaRepository<RelationUpdate, Integer> {
   @Async
-  CompletableFuture<List<RelationUpdate>> findAllByNetworkAndOwnerOrderById(String network, String owner);
+  CompletableFuture<List<RelationUpdate>> findAllByNetworkAndTargetOrderById(String network, String target);
 
-  void deleteAllByOwner(String owner);
+  void deleteAllByTarget(String target);
 }

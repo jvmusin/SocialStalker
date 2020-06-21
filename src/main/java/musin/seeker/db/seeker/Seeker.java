@@ -25,5 +25,5 @@ public class Seeker {
 
   String network;
 
-  String owner;
+  String target;
 }

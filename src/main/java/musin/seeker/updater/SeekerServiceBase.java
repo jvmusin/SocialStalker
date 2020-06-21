@@ -36,12 +36,12 @@ public abstract class SeekerServiceBase<
   @Override
   public List<ID> findAllOwners() {
     return seekerRepository.findAllByNetwork(properties.getNetwork()).stream()
-        .map(seeker -> idFactory.parse(seeker.getOwner()))
+        .map(seeker -> idFactory.parse(seeker.getTarget()))
         .collect(toList());
   }
 
-  protected void save(ID owner) {
-    seekerRepository.save(new Seeker(null, properties.getNetwork(), owner.toString()));
+  protected void save(ID target) {
+    seekerRepository.save(new Seeker(null, properties.getNetwork(), target.toString()));
   }
 
   @Override
@@ -55,7 +55,7 @@ public abstract class SeekerServiceBase<
   @Override
   @Transactional
   public void deleteSeeker(ID userId) {
-    updateService.removeAllByOwner(userId);
-    seekerRepository.deleteByOwner(userId.toString());
+    updateService.removeAllByTarget(userId);
+    seekerRepository.deleteByTarget(userId.toString());
   }
 }

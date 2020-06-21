@@ -28,7 +28,7 @@ public abstract class NotifiableUpdateFactoryBase<
   protected abstract class NotifiableUpdateBase implements NotifiableUpdate<TUser, TRelationType> {
     private final String network = networkProperties.getNetwork();
     private final Integer id;
-    private final TUser owner;
+    private final TUser target;
     private final TUser suspected;
     private final TRelationType was;
     private final TRelationType now;
@@ -36,7 +36,7 @@ public abstract class NotifiableUpdateFactoryBase<
 
     protected NotifiableUpdateBase(RelationUpdate update) {
       id = update.getId();
-      owner = userFactory.create(idFactory.parse(update.getOwner()));
+      target = userFactory.create(idFactory.parse(update.getTarget()));
       suspected = userFactory.create(idFactory.parse(update.getSuspected()));
       was = relationTypeFactory.parseNullSafe(update.getWas());
       now = relationTypeFactory.parseNullSafe(update.getNow());

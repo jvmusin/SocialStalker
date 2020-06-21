@@ -34,9 +34,9 @@ public abstract class UpdateServiceBase<
   private final RelationListFactory<TRelationList> relationListFactory;
 
   @Override
-  public List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID owner) {
+  public List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID target) {
     List<RelationUpdate> relationUpdates = updates.stream()
-        .map(update -> updateToRelationUpdate(update, owner))
+        .map(update -> updateToRelationUpdate(update, target))
         .collect(toList());
     return relationUpdateRepository.saveAll(relationUpdates).stream()
         .map(notifiableUpdateFactory::create)
@@ -44,20 +44,20 @@ public abstract class UpdateServiceBase<
   }
 
   @Override
-  public void removeAllByOwner(ID owner) {
-    relationUpdateRepository.deleteAllByOwner(owner.toString());
+  public void removeAllByTarget(ID target) {
+    relationUpdateRepository.deleteAllByTarget(target.toString());
   }
 
-  public CompletableFuture<TRelationList> buildList(ID owner) {
-    return relationUpdateRepository.findAllByNetworkAndOwnerOrderById(networkProperties.getNetwork(), owner.toString())
+  public CompletableFuture<TRelationList> buildList(ID target) {
+    return relationUpdateRepository.findAllByNetworkAndTargetOrderById(networkProperties.getNetwork(), target.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);
   }
 
-  protected RelationUpdate updateToRelationUpdate(TUpdate update, ID owner) {
+  protected RelationUpdate updateToRelationUpdate(TUpdate update, ID target) {
     return RelationUpdate.builder()
         .network(networkProperties.getNetwork())
-        .owner(owner.toString())
+        .target(target.toString())
         .suspected(update.getSuspected().getId().toString())
         .was(update.getWas() == null ? null : update.getWas().toString())
         .now(update.getNow() == null ? null : update.getNow().toString())
