@@ -5,6 +5,7 @@ import musin.seeker.relation.User;
 import musin.seeker.telegram.api.MarkdownSendMessage;
 import musin.seeker.telegram.bot.Session;
 import musin.seeker.telegram.bot.service.Service;
+import musin.seeker.telegram.bot.service.ServiceFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.bots.AbsSender;
@@ -17,8 +18,8 @@ public class ListCommand extends TypicalServiceCommand {
 
   public static final String NAME = "/list";
 
-  public ListCommand(Map<String, Service> services) {
-    super(services);
+  public ListCommand(Map<String, ServiceFactory> serviceFactories) {
+    super(serviceFactories);
   }
 
   @Override
@@ -34,7 +35,7 @@ public class ListCommand extends TypicalServiceCommand {
     }
 
     String serviceName = update.getMessage().getText().toUpperCase();
-    Service service = getService(serviceName);
+    Service service = getService(serviceName, session.getStalker());
 
     session.setDone(true);
 

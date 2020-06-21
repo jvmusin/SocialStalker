@@ -1,15 +1,16 @@
 package musin.seeker.telegram.bot;
 
 import lombok.Data;
+import musin.seeker.db.model.Stalker;
 
 @Data
 public class Session {
   boolean done;
-  private Integer userId;
+  private Stalker stalker;//with user id or chat id or something
   private String command;
   private String service;
 
-  public Session(Integer userId) {
-    this.userId = userId;
+  public Session(Stalker stalker) {
+    this.stalker = stalker;
   }
 }

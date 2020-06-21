@@ -2,8 +2,10 @@ package musin.seeker.telegram.bot.command;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import musin.seeker.db.model.Stalker;
 import musin.seeker.telegram.bot.Session;
 import musin.seeker.telegram.bot.service.Service;
+import musin.seeker.telegram.bot.service.ServiceFactory;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -17,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public abstract class TypicalServiceCommand implements Command {
 
-  private final Map<String, Service> services;
+  private final Map<String, ServiceFactory> serviceFactories;
 
   @Override
   public void handle(Session session, Update update, AbsSender sender) {
@@ -40,7 +42,7 @@ public abstract class TypicalServiceCommand implements Command {
 
     List<KeyboardRow> rows = new ArrayList<>();
     KeyboardRow row = new KeyboardRow();
-    services.keySet().forEach(row::add);
+    serviceFactories.keySet().forEach(row::add);
     rows.add(row);
 
     ReplyKeyboardMarkup kb = new ReplyKeyboardMarkup(rows);
@@ -54,7 +56,7 @@ public abstract class TypicalServiceCommand implements Command {
   @SneakyThrows
   protected void handleSetService(Session session, Update update, AbsSender sender) {
     String serviceName = update.getMessage().getText().toUpperCase();
-    getService(serviceName);
+    getService(serviceName, session.getStalker());
     session.setService(serviceName);
 
     sender.execute(new SendMessage(update.getMessage().getChatId(), "Enter username or user id"));
@@ -62,9 +64,9 @@ public abstract class TypicalServiceCommand implements Command {
 
   protected abstract void handleFinish(Session session, Update update, AbsSender sender);
 
-  protected Service getService(String name) {
-    Service service = services.get(name);
+  protected Service getService(String name, Stalker stalker) {
+    ServiceFactory service = serviceFactories.get(name);
     if (service == null) throw new RuntimeException("No such service: " + name);
-    return service;
+    return service.create(stalker);
   }
 }
