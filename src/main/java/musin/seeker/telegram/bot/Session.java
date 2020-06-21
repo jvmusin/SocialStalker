@@ -6,7 +6,7 @@ import musin.seeker.db.model.Stalker;
 @Data
 public class Session {
   boolean done;
-  private Stalker stalker;//with user id or chat id or something
+  private Stalker stalker;
   private String command;
   private String service;
 

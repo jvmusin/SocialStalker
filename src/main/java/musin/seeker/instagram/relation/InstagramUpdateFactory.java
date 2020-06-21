@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class InstagramUpdateFactory
     implements UpdateFactory<InstagramUser, InstagramRelationType, InstagramUpdate> {
+
   @Override
   public InstagramUpdate updating(InstagramUser user, InstagramRelationType was, InstagramRelationType now) {
     return new InstagramUpdateImpl(user, was, now);

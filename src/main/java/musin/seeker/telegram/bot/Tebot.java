@@ -3,7 +3,7 @@ package musin.seeker.telegram.bot;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import musin.seeker.db.StalkerService;
+import musin.seeker.db.service.StalkerService;
 import musin.seeker.telegram.bot.command.Command;
 import musin.seeker.telegram.bot.command.HelpCommand;
 import musin.seeker.telegram.config.TelegramConfigurationProperties;

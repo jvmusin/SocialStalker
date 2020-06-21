@@ -28,7 +28,7 @@ public class VkNetworkFactory implements NetworkFactory {
     return new VkNetwork(stalker);
   }
 
-  class VkNetwork extends NetworkBase<VkID, VkUser> {
+  private class VkNetwork extends NetworkBase<VkID, VkUser> {
     public VkNetwork(Stalker stalker) {
       super(seekerServiceFactory.create(stalker), idFactory, userFactory, api);
     }

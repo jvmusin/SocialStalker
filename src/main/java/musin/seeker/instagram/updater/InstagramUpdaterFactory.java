@@ -15,7 +15,8 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class InstagramUpdaterFactory implements UpdaterFactory {
         seekerServiceFactory.create(stalker),
         updateServiceFactory.create(stalker),
         relationListPuller,
-        notifierFactories.stream().map(f -> f.create(stalker)).collect(Collectors.toList()),
+        notifierFactories.stream().map(f -> f.create(stalker)).collect(toList()),
         taskExecutor,
         config.getPeriodBetweenUpdates(),
         updateFactory

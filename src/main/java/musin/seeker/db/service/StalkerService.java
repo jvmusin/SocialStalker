@@ -1,4 +1,4 @@
-package musin.seeker.db;
+package musin.seeker.db.service;
 
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.model.Stalker;

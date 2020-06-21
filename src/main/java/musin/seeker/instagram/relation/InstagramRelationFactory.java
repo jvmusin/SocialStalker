@@ -5,10 +5,8 @@ import musin.seeker.relation.RelationFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InstagramRelationFactory implements RelationFactory<
-    InstagramUser,
-    InstagramRelationType,
-    InstagramRelation> {
+public class InstagramRelationFactory
+    implements RelationFactory<InstagramUser, InstagramRelationType, InstagramRelation> {
 
   @Override
   public InstagramRelation create(InstagramUser user, InstagramRelationType type) {

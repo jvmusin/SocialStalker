@@ -17,7 +17,7 @@ import static java.util.stream.Stream.empty;
 @RequiredArgsConstructor
 public abstract class RelationListPullerBase<
     ID,
-    TUser,
+    TUser extends User<ID>,
     TRelationType,
     TRelation extends Relation<TUser, TRelationType>,
     TUpdate extends Update<TUser, TRelationType>,
