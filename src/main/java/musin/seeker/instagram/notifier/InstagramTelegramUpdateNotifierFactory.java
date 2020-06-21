@@ -1,4 +1,4 @@
-package musin.seeker.vk.notifier;
+package musin.seeker.instagram.notifier;
 
 import lombok.RequiredArgsConstructor;
 import musin.seeker.db.model.Stalker;
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class VkTelegramUpdateNotifierFactory implements UpdateNotifierFactory<VkNotifiableUpdate> {
-  private final TelegramUpdateNotifierFactory<VkNotifiableUpdate> updateNotifierFactory;
+public class InstagramTelegramUpdateNotifierFactory implements UpdateNotifierFactory<InstagramNotifiableUpdate> {
+  private final TelegramUpdateNotifierFactory<InstagramNotifiableUpdate> updateNotifierFactory;
 
   @Override
-  public UpdateNotifier<VkNotifiableUpdate> create(Stalker stalker) {
+  public UpdateNotifier<InstagramNotifiableUpdate> create(Stalker stalker) {
     return updateNotifierFactory.create(stalker);
   }
 }
