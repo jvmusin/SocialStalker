@@ -13,7 +13,7 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-public class ServiceBase<ID, TUser extends User<ID>> implements Service {
+public class NetworkBase<ID, TUser extends User<ID>> implements Network {
   private final SeekerService<ID> seekerService;
   private final IdFactory<ID> idFactory;
   private final UserFactory<ID, TUser> userFactory;
@@ -42,7 +42,7 @@ public class ServiceBase<ID, TUser extends User<ID>> implements Service {
   }
 
   @Override
-  public List<User<?>> listSeekers() {
+  public List<User<?>> listTargets() {
     return seekerService.findAllTargets().stream()
         .map(userFactory::create)
         .collect(toList());

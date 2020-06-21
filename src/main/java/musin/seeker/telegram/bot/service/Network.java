@@ -5,7 +5,7 @@ import musin.seeker.relation.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface Service {
+public interface Network {
   Optional<User<?>> searchByUsername(String username);
 
   Optional<User<?>> searchById(String id);
@@ -19,5 +19,5 @@ public interface Service {
 
   void delete(String id);
 
-  List<User<?>> listSeekers();
+  List<User<?>> listTargets();
 }

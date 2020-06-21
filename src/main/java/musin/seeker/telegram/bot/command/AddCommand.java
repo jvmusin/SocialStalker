@@ -3,8 +3,8 @@ package musin.seeker.telegram.bot.command;
 import lombok.SneakyThrows;
 import musin.seeker.relation.User;
 import musin.seeker.telegram.bot.Session;
-import musin.seeker.telegram.bot.service.Service;
-import musin.seeker.telegram.bot.service.ServiceFactory;
+import musin.seeker.telegram.bot.service.Network;
+import musin.seeker.telegram.bot.service.NetworkFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -18,8 +18,8 @@ public class AddCommand extends TypicalServiceCommand {
 
   public static final String NAME = "/add";
 
-  public AddCommand(Map<String, ServiceFactory> serviceFactories) {
-    super(serviceFactories);
+  public AddCommand(Map<String, NetworkFactory> networkFactories) {
+    super(networkFactories);
   }
 
   @Override
@@ -30,11 +30,11 @@ public class AddCommand extends TypicalServiceCommand {
   @Override
   @SneakyThrows
   protected void handleFinish(Session session, Update update, AbsSender sender) {
-    Service service = getService(session.getService(), session.getStalker());
+    Network network = getNetwork(session.getService(), session.getStalker());
     String usernameOrId = update.getMessage().getText();
-    Optional<User<?>> user = service.searchByUsernameOrId(usernameOrId);
+    Optional<User<?>> user = network.searchByUsernameOrId(usernameOrId);
     if (user.isPresent()) {
-      service.add(user.get().getId().toString());
+      network.add(user.get().getId().toString());
       session.setDone(true);
       sender.execute(new SendMessage(update.getMessage().getChatId(), "User " + usernameOrId + " successfully added"));
     } else {

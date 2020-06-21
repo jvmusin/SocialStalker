@@ -4,8 +4,8 @@ import lombok.SneakyThrows;
 import musin.seeker.relation.User;
 import musin.seeker.telegram.api.MarkdownSendMessage;
 import musin.seeker.telegram.bot.Session;
-import musin.seeker.telegram.bot.service.Service;
-import musin.seeker.telegram.bot.service.ServiceFactory;
+import musin.seeker.telegram.bot.service.Network;
+import musin.seeker.telegram.bot.service.NetworkFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.bots.AbsSender;
@@ -18,8 +18,8 @@ public class ListCommand extends TypicalServiceCommand {
 
   public static final String NAME = "/list";
 
-  public ListCommand(Map<String, ServiceFactory> serviceFactories) {
-    super(serviceFactories);
+  public ListCommand(Map<String, NetworkFactory> networkFactories) {
+    super(networkFactories);
   }
 
   @Override
@@ -34,15 +34,15 @@ public class ListCommand extends TypicalServiceCommand {
       return;
     }
 
-    String serviceName = update.getMessage().getText().toUpperCase();
-    Service service = getService(serviceName, session.getStalker());
+    String networkName = update.getMessage().getText().toUpperCase();
+    Network network = getNetwork(networkName, session.getStalker());
 
     session.setDone(true);
 
     String ls = System.lineSeparator();
-    String text = service.listSeekers().stream()
+    String text = network.listTargets().stream()
         .map(User::getMarkdownLink)
-        .collect(Collectors.joining(ls, "Found seekers:" + ls, ""));
+        .collect(Collectors.joining(ls, "Found targets:" + ls, ""));
     sender.execute(new MarkdownSendMessage(update.getMessage().getChatId(), text));
   }
 

@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Component(NetworkNames.VK)
 @RequiredArgsConstructor
-public class VkServiceFactory implements ServiceFactory {
+public class VkNetworkFactory implements NetworkFactory {
 
   private final VkSeekerServiceFactory seekerServiceFactory;
   private final VkIdFactory idFactory;
@@ -24,12 +24,12 @@ public class VkServiceFactory implements ServiceFactory {
   private final VkApi api;
 
   @Override
-  public Service create(Stalker stalker) {
-    return new VkService(stalker);
+  public Network create(Stalker stalker) {
+    return new VkNetwork(stalker);
   }
 
-  class VkService extends ServiceBase<VkID, VkUser> {
-    public VkService(Stalker stalker) {
+  class VkNetwork extends NetworkBase<VkID, VkUser> {
+    public VkNetwork(Stalker stalker) {
       super(seekerServiceFactory.create(stalker), idFactory, userFactory, api);
     }
 

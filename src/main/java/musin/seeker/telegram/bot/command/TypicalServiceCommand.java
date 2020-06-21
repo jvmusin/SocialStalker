@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import musin.seeker.db.model.Stalker;
 import musin.seeker.telegram.bot.Session;
-import musin.seeker.telegram.bot.service.Service;
-import musin.seeker.telegram.bot.service.ServiceFactory;
+import musin.seeker.telegram.bot.service.Network;
+import musin.seeker.telegram.bot.service.NetworkFactory;
+import musin.seeker.telegram.bot.service.NoSuchNetworkException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -19,7 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public abstract class TypicalServiceCommand implements Command {
 
-  private final Map<String, ServiceFactory> serviceFactories;
+  private final Map<String, NetworkFactory> networkFactories;
 
   @Override
   public void handle(Session session, Update update, AbsSender sender) {
@@ -38,11 +39,11 @@ public abstract class TypicalServiceCommand implements Command {
   protected void handleSetCommand(Session session, Update update, AbsSender sender) {
     session.setCommand(getName());
 
-    SendMessage sendMessage = new SendMessage(update.getMessage().getChatId(), "Select a service");
+    SendMessage sendMessage = new SendMessage(update.getMessage().getChatId(), "Select a network");
 
     List<KeyboardRow> rows = new ArrayList<>();
     KeyboardRow row = new KeyboardRow();
-    serviceFactories.keySet().forEach(row::add);
+    networkFactories.keySet().forEach(row::add);
     rows.add(row);
 
     ReplyKeyboardMarkup kb = new ReplyKeyboardMarkup(rows);
@@ -56,7 +57,7 @@ public abstract class TypicalServiceCommand implements Command {
   @SneakyThrows
   protected void handleSetService(Session session, Update update, AbsSender sender) {
     String serviceName = update.getMessage().getText().toUpperCase();
-    getService(serviceName, session.getStalker());
+    getNetwork(serviceName, session.getStalker());
     session.setService(serviceName);
 
     sender.execute(new SendMessage(update.getMessage().getChatId(), "Enter username or user id"));
@@ -64,9 +65,9 @@ public abstract class TypicalServiceCommand implements Command {
 
   protected abstract void handleFinish(Session session, Update update, AbsSender sender);
 
-  protected Service getService(String name, Stalker stalker) {
-    ServiceFactory service = serviceFactories.get(name);
-    if (service == null) throw new RuntimeException("No such service: " + name);
+  protected Network getNetwork(String name, Stalker stalker) {
+    NetworkFactory service = networkFactories.get(name);
+    if (service == null) throw new NoSuchNetworkException("No such network: " + name);
     return service.create(stalker);
   }
 }
