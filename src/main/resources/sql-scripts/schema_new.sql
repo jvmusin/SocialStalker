@@ -7,20 +7,19 @@ CREATE TABLE stalker
 CREATE TABLE monitoring
 (
     id         SERIAL PRIMARY KEY,
-    stalker_id INT     NOT NULL REFERENCES stalker (id),
-    network    TEXT    NOT NULL,
-    target_id  INT     NOT NULL,
-    enabled    BOOLEAN NOT NULL
+    stalker_id INT  NOT NULL REFERENCES stalker (id),
+    network    TEXT NOT NULL,
+    target     INT  NOT NULL
 );
 
 CREATE TABLE relation_update
 (
-    id           SERIAL PRIMARY KEY,
-    stalker_id   INT       NOT NULL REFERENCES stalker (id),
-    network      TEXT      NOT NULL,
-    target_id    TEXT      NOT NULL,
-    suspected_id TEXT      NOT NULL,
-    was_type     TEXT,
-    now_type     TEXT,
-    created_at   TIMESTAMP NOT NULL
+    id         SERIAL PRIMARY KEY,
+    stalker_id INT       NOT NULL REFERENCES stalker (id),
+    network    TEXT      NOT NULL,
+    target     TEXT      NOT NULL,
+    suspected  TEXT      NOT NULL,
+    was        TEXT,
+    now        TEXT,
+    time       TIMESTAMP NOT NULL
 );

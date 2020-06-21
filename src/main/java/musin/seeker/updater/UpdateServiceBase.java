@@ -2,14 +2,15 @@ package musin.seeker.updater;
 
 import lombok.RequiredArgsConstructor;
 import musin.seeker.config.NetworkProperties;
-import musin.seeker.db.update.RelationUpdate;
-import musin.seeker.db.update.RelationUpdateRepository;
+import musin.seeker.db.model.RelationUpdate;
+import musin.seeker.db.model.Stalker;
+import musin.seeker.db.repository.RelationUpdateRepository;
 import musin.seeker.notifier.NotifiableUpdate;
 import musin.seeker.notifier.NotifiableUpdateFactory;
-import musin.seeker.relation.list.RelationList;
-import musin.seeker.relation.list.RelationListFactory;
 import musin.seeker.relation.Update;
 import musin.seeker.relation.User;
+import musin.seeker.relation.list.RelationList;
+import musin.seeker.relation.list.RelationListFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-public abstract class UpdateServiceBase<
+public class UpdateServiceBase<
     ID,
     TUser extends User<ID>,
     TRelationType,
@@ -28,6 +29,7 @@ public abstract class UpdateServiceBase<
     TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
     implements UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> {
 
+  private final Stalker stalker;
   private final RelationUpdateRepository relationUpdateRepository;
   private final NotifiableUpdateFactory<TUser, TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
   private final NetworkProperties networkProperties;
@@ -45,7 +47,7 @@ public abstract class UpdateServiceBase<
 
   @Override
   public void removeAllByTarget(ID target) {
-    relationUpdateRepository.deleteAllByTarget(target.toString());
+    relationUpdateRepository.deleteAllByStalkerAndTarget(stalker, target.toString());
   }
 
   public CompletableFuture<TRelationList> buildList(ID target) {

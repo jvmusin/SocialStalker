@@ -1,6 +1,6 @@
 package musin.seeker.instagram.notifier;
 
-import musin.seeker.db.update.RelationUpdate;
+import musin.seeker.db.model.RelationUpdate;
 import musin.seeker.instagram.api.InstagramID;
 import musin.seeker.instagram.api.InstagramIdFactory;
 import musin.seeker.instagram.config.InstagramNetworkProperties;

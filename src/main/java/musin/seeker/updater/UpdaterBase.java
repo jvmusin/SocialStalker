@@ -2,9 +2,12 @@ package musin.seeker.updater;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import musin.seeker.notifier.NotifiableUpdate;
 import musin.seeker.notifier.UpdateNotifier;
-import musin.seeker.relation.list.RelationList;
+import musin.seeker.relation.Update;
 import musin.seeker.relation.UpdateFactory;
+import musin.seeker.relation.User;
+import musin.seeker.relation.list.RelationList;
 import org.springframework.core.task.TaskExecutor;
 
 import java.time.Duration;
@@ -14,14 +17,14 @@ import java.util.concurrent.CompletableFuture;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-public abstract class PeriodicUpdaterBase<
+public class UpdaterBase<
     ID,
-    TUser,
+    TUser extends User<ID>,
     TRelationType,
-    TUpdate,
+    TUpdate extends Update<TUser, TRelationType>,
     TRelationList extends RelationList<TUser, TRelationType>,
-    TNotifiableUpdate>
-    implements PeriodicUpdater {
+    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
+    implements Updater {
 
   private final SeekerService<ID> seekerService;
   private final UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
@@ -34,7 +37,7 @@ public abstract class PeriodicUpdaterBase<
 
   @Override
   public void run() {
-    seekerService.findAllOwners().forEach(s -> taskExecutor.execute(() -> run(s)));
+    seekerService.findAllTargets().forEach(s -> taskExecutor.execute(() -> run(s)));
   }
 
   private void run(ID target) {

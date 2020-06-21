@@ -1,6 +1,7 @@
 package musin.seeker.db.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RelationUpdate {
@@ -25,7 +27,7 @@ public class RelationUpdate {
   private String network;
   private String target;
   private String suspected;
-  private String wasType;
-  private String nowType;
-  private LocalDateTime createdAt;
+  private String was;
+  private String now;
+  private LocalDateTime time;
 }

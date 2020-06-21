@@ -2,6 +2,6 @@ package musin.seeker.updater;
 
 import java.time.Duration;
 
-public interface PeriodicUpdater extends Runnable {
+public interface Updater extends Runnable {
   Duration getPeriodBetweenUpdates();
 }

@@ -23,5 +23,4 @@ public class Monitoring {
   private Stalker stalker;
   private String network;
   private String target;
-  private boolean enabled;
 }

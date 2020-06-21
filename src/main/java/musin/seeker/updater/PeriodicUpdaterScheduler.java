@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class PeriodicUpdaterScheduler {
-  private final List<PeriodicUpdater> updaters;
+  private final List<Updater> updaters;
   private final TaskScheduler taskScheduler;
 
   @EventListener(ApplicationReadyEvent.class)

@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import musin.seeker.config.NetworkProperties;
 import musin.seeker.db.IdFactory;
-import musin.seeker.db.update.RelationUpdate;
+import musin.seeker.db.model.RelationUpdate;
 import musin.seeker.relation.RelationTypeFactory;
 import musin.seeker.relation.User;
 import musin.seeker.relation.UserFactory;

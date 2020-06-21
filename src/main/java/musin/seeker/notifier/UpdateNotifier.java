@@ -2,10 +2,10 @@ package musin.seeker.notifier;
 
 import java.util.List;
 
-public interface UpdateNotifier<TUpdate> {
-  void notify(TUpdate update);
+public interface UpdateNotifier<TNotifiableUpdate extends NotifiableUpdate<?, ?>> {
+  void notify(TNotifiableUpdate update);
 
-  default void notify(List<? extends TUpdate> updates) {
+  default void notify(List<? extends TNotifiableUpdate> updates) {
     updates.forEach(this::notify);
   }
 }

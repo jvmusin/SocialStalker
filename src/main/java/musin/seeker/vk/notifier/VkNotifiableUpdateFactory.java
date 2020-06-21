@@ -1,6 +1,6 @@
 package musin.seeker.vk.notifier;
 
-import musin.seeker.db.update.RelationUpdate;
+import musin.seeker.db.model.RelationUpdate;
 import musin.seeker.notifier.NotifiableUpdateFactoryBase;
 import musin.seeker.vk.api.VkID;
 import musin.seeker.vk.api.VkIdFactory;

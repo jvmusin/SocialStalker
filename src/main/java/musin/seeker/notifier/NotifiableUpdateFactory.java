@@ -1,6 +1,6 @@
 package musin.seeker.notifier;
 
-import musin.seeker.db.update.RelationUpdate;
+import musin.seeker.db.model.RelationUpdate;
 import musin.seeker.relation.User;
 
 public interface NotifiableUpdateFactory<

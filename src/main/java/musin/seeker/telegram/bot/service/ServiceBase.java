@@ -43,7 +43,7 @@ public class ServiceBase<ID, TUser extends User<ID>> implements Service {
 
   @Override
   public List<User<?>> listSeekers() {
-    return seekerService.findAllOwners().stream()
+    return seekerService.findAllTargets().stream()
         .map(userFactory::create)
         .collect(toList());
   }

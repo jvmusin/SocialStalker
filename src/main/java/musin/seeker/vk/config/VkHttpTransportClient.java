@@ -22,6 +22,7 @@ public class VkHttpTransportClient extends HttpTransportClient {
 
   @SneakyThrows
   private <T> T execute(Callable<T> task) {
+    //todo move this pattern to semaphore
     try (AcquireResult ignored = semaphore.acquire()) {
       return task.call();
     }
