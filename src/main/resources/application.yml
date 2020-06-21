@@ -1,18 +1,13 @@
 spring:
   profiles:
-    include: vk, telegram, instagram
+    include: vk, instagram
   datasource:
     username: postgres
     password: postgres
     url: jdbc:postgresql://localhost:5432/postgres
     hikari:
       transaction-isolation: TRANSACTION_SERIALIZABLE
-  jpa:
-    properties:
-      hibernate:
-        temp.use_jdbc_metadata_defaults: false
-    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
   main:
     web-application-type: none
 telegram:
-  bot-token: '1263904113:AAFzw8TtvLizrmA9xuVj4qSICCMybLGzwRo'
+  admin-uid: 124275139

@@ -7,6 +7,8 @@ import musin.socialstalker.instagram.db.InstagramSeekerServiceFactory;
 import musin.socialstalker.instagram.db.InstagramUpdateServiceFactory;
 import musin.socialstalker.instagram.notifier.InstagramNotifiableUpdate;
 import musin.socialstalker.instagram.relation.InstagramUpdateFactory;
+import musin.socialstalker.notifier.MessageSender;
+import musin.socialstalker.notifier.UpdateNotifier;
 import musin.socialstalker.notifier.UpdateNotifierFactory;
 import musin.socialstalker.updater.Updater;
 import musin.socialstalker.updater.UpdaterBase;
@@ -29,14 +31,23 @@ public class InstagramUpdaterFactory implements UpdaterFactory {
   private final TaskExecutor taskExecutor;
   private final InstagramConfigurationProperties config;
   private final InstagramUpdateFactory updateFactory;
+  private final MessageSender adminMessageSender;
+
+  private UpdateNotifier<InstagramNotifiableUpdate> getAdminMessageSender(Stalker stalker) {
+    return update -> adminMessageSender.sendMessage(stalker + "\n" + update.toMultilineMarkdownString());
+  }
 
   @Override
   public Updater create(Stalker stalker) {
+    List<UpdateNotifier<InstagramNotifiableUpdate>> notifiers = notifierFactories.stream()
+        .map(f -> f.create(stalker))
+        .collect(toList());
+    notifiers.add(getAdminMessageSender(stalker));
     return new UpdaterBase<>(
         seekerServiceFactory.create(stalker),
         updateServiceFactory.create(stalker),
         relationListPuller,
-        notifierFactories.stream().map(f -> f.create(stalker)).collect(toList()),
+        notifiers,
         taskExecutor,
         config.getPeriodBetweenUpdates(),
         updateFactory

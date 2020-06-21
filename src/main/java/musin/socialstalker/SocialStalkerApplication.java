@@ -10,10 +10,10 @@ import java.util.TimeZone;
 
 @EnableJpaRepositories
 @SpringBootApplication
-public class SeekerApplication {
+public class SocialStalkerApplication {
   public static void main(String[] args) {
     ApiContextInitializer.init();
-    SpringApplication.run(SeekerApplication.class, args);
+    SpringApplication.run(SocialStalkerApplication.class, args);
   }
 
   @PostConstruct

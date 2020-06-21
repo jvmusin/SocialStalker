@@ -1,18 +1,25 @@
-CREATE TABLE seeker
+CREATE TABLE stalker
 (
-    id       SERIAL NOT NULL PRIMARY KEY,
-    resource TEXT   NOT NULL,
-    owner    TEXT   NOT NULL
+    id          SERIAL PRIMARY KEY,
+    telegram_id BIGINT NOT NULL
+);
+
+CREATE TABLE monitoring
+(
+    id         SERIAL PRIMARY KEY,
+    stalker_id INT  NOT NULL REFERENCES stalker (id),
+    network    TEXT NOT NULL,
+    target     INT  NOT NULL
 );
 
 CREATE TABLE relation_update
 (
-    id       SERIAL    NOT NULL PRIMARY KEY,
-    resource TEXT      NOT NULL,
-    owner    TEXT      NOT NULL,
-    target   TEXT      NOT NULL,
-    was      TEXT      NULL,
-    now      TEXT      NULL,
-    time     TIMESTAMP NOT NULL,
-    hidden   BOOLEAN   NOT NULL
+    id         SERIAL PRIMARY KEY,
+    stalker_id INT       NOT NULL REFERENCES stalker (id),
+    network    TEXT      NOT NULL,
+    target     TEXT      NOT NULL,
+    suspected  TEXT      NOT NULL,
+    was        TEXT,
+    now        TEXT,
+    time       TIMESTAMP NOT NULL
 );
