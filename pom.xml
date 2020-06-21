@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>musin</groupId>
-    <artifactId>seeker</artifactId>
+    <artifactId>socialstalker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>seeker</name>
-    <description>Demo project for Spring Boot</description>
+    <name>The social Stalker Project</name>
+    <description>The Project helps to stalker for people subscriptions in instagram and vk</description>
 
     <properties>
         <java.version>14</java.version>
