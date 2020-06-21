@@ -9,7 +9,7 @@ CREATE TABLE monitoring
     id         SERIAL PRIMARY KEY,
     stalker_id INT  NOT NULL REFERENCES stalker (id),
     network    TEXT NOT NULL,
-    target     INT  NOT NULL
+    target     TEXT NOT NULL
 );
 
 CREATE TABLE relation_update
