@@ -138,6 +138,6 @@ public class VkApi implements SocialApi<VkID> {
   @Override
   public Optional<VkID> searchById(VkID userId) {
     // actually same as searchByUsername
-    return getUser(userId).map(VkApiUser::getId);
+    return searchByUsername(userId.toString());
   }
 }
