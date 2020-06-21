@@ -5,7 +5,7 @@ import java.util.List;
 public interface SeekerService<ID> {
   List<ID> findAllTargets();
 
-  void createSeeker(ID userId);
+  void addTarget(ID userId);
 
-  void deleteSeeker(ID userId);
+  void deleteTarget(ID userId);
 }

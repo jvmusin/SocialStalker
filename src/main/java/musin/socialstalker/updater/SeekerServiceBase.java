@@ -45,8 +45,7 @@ public class SeekerServiceBase<
 
   @Override
   @Transactional
-  public void createSeeker(ID userId) {
-    deleteSeeker(userId);
+  public void addTarget(ID userId) {
     TRelationList list = relationListPuller.pull(userId).join();
     updateService.saveAll(list.asUpdates(updateFactory).collect(toList()), userId);
     monitoringRepository.save(new Monitoring(null, stalker, properties.getNetwork(), userId.toString()));
@@ -54,7 +53,7 @@ public class SeekerServiceBase<
 
   @Override
   @Transactional
-  public void deleteSeeker(ID userId) {
+  public void deleteTarget(ID userId) {
     updateService.removeAllByTarget(userId);
     monitoringRepository.deleteByStalkerAndTarget(stalker, userId.toString());
   }

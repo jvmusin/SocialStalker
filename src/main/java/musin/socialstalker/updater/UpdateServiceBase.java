@@ -58,6 +58,7 @@ public class UpdateServiceBase<
 
   protected RelationUpdate updateToRelationUpdate(TUpdate update, ID target) {
     return RelationUpdate.builder()
+        .stalker(stalker)
         .network(networkProperties.getNetwork())
         .target(target.toString())
         .suspected(update.getSuspected().getId().toString())

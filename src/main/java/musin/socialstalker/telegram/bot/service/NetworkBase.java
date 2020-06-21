@@ -33,12 +33,12 @@ public class NetworkBase<ID, TUser extends User<ID>> implements Network {
 
   @Override
   public void add(String id) {
-    seekerService.createSeeker(idFactory.parse(id));
+    seekerService.addTarget(idFactory.parse(id));
   }
 
   @Override
   public void delete(String id) {
-    seekerService.deleteSeeker(idFactory.parse(id));
+    seekerService.deleteTarget(idFactory.parse(id));
   }
 
   @Override
