@@ -51,7 +51,6 @@ public class InstagramUpdaterFactory implements UpdaterFactory {
         relationListPuller,
         notifiers,
         taskExecutor,
-        config.getPeriodBetweenUpdates(),
         updateFactory
     );
   }

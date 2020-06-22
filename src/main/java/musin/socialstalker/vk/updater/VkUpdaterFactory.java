@@ -50,7 +50,6 @@ public class VkUpdaterFactory implements UpdaterFactory {
         relationListPuller,
         notifiers,
         taskExecutor,
-        config.getPeriodBetweenUpdates(),
         updateFactory
     );
   }
