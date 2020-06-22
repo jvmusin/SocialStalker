@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component(ListCommand.NAME)
-public class ListCommand extends TypicalServiceCommand {
+public class ListCommand extends TypicalNetworkCommand {
 
   public static final String NAME = "/list";
 

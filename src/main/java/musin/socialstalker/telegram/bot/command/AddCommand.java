@@ -2,6 +2,7 @@ package musin.socialstalker.telegram.bot.command;
 
 import lombok.SneakyThrows;
 import musin.socialstalker.relation.User;
+import musin.socialstalker.telegram.api.MarkdownSendMessage;
 import musin.socialstalker.telegram.bot.Session;
 import musin.socialstalker.telegram.bot.service.Network;
 import musin.socialstalker.telegram.bot.service.NetworkFactory;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component(AddCommand.NAME)
-public class AddCommand extends TypicalServiceCommand {
+public class AddCommand extends TypicalNetworkCommand {
 
   public static final String NAME = "/add";
 
@@ -34,9 +35,9 @@ public class AddCommand extends TypicalServiceCommand {
     String usernameOrId = update.getMessage().getText();
     Optional<User<?>> user = network.searchByUsernameOrId(usernameOrId);
     if (user.isPresent()) {
-      network.add(user.get().getId().toString());
+      network.addMonitoring(user.get().getId().toString());
       session.setDone(true);
-      sender.execute(new SendMessage(update.getMessage().getChatId(), "User " + user.get() + " successfully added"));
+      sender.execute(new MarkdownSendMessage(update.getMessage().getChatId(), "User " + user.get().getMarkdownLink() + " successfully added"));
     } else {
       sender.execute(new SendMessage(update.getMessage().getChatId(), "User " + usernameOrId + " not found"));
     }

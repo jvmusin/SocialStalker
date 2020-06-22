@@ -7,7 +7,7 @@ import java.util.List;
 public interface GeneralMonitoringService<ID> {
   List<ID> findAllTargets(Stalker stalker);
 
-  void addTarget(Stalker stalker, ID userId);
+  void createMonitoring(Stalker stalker, ID targetId);
 
-  void deleteTarget(Stalker stalker, ID userId);
+  void deleteMonitoring(Stalker stalker, ID targetId);
 }

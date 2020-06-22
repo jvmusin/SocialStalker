@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public abstract class TypicalServiceCommand implements Command {
+public abstract class TypicalNetworkCommand implements Command {
 
   private final Map<String, NetworkFactory> networkFactories;
 

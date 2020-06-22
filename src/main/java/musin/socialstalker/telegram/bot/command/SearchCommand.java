@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component(SearchCommand.NAME)
-public class SearchCommand extends TypicalServiceCommand {
+public class SearchCommand extends TypicalNetworkCommand {
 
   public static final String NAME = "/search";
 

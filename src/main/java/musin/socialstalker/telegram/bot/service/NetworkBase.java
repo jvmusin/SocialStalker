@@ -32,13 +32,13 @@ public class NetworkBase<ID, TUser extends User<ID>> implements Network {
   }
 
   @Override
-  public void add(String id) {
-    monitoringService.addTarget(idFactory.parse(id));
+  public void addMonitoring(String targetUsernameOrId) {
+    monitoringService.createMonitoring(idFactory.parse(targetUsernameOrId));
   }
 
   @Override
-  public void delete(String id) {
-    monitoringService.deleteTarget(idFactory.parse(id));
+  public void deleteMonitoring(String targetUsernameOrId) {
+    monitoringService.deleteMonitoring(idFactory.parse(targetUsernameOrId));
   }
 
   @Override

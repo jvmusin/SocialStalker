@@ -15,9 +15,9 @@ public interface Network {
         .or(() -> searchById(usernameOrId));
   }
 
-  void add(String id);
+  void addMonitoring(String targetUsernameOrId);
 
-  void delete(String id);
+  void deleteMonitoring(String targetUsernameOrId);
 
   List<User<?>> listTargets();
 }

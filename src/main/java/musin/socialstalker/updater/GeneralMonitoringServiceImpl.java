@@ -44,16 +44,16 @@ public class GeneralMonitoringServiceImpl<
 
   @Override
   @Transactional
-  public void addTarget(Stalker stalker, ID userId) {
-    TRelationList list = relationListPuller.pull(userId).join();
-    updateService.saveAll(stalker, list.asUpdates(updateFactory).collect(toList()), userId);
-    monitoringRepository.save(new Monitoring(null, stalker, properties.getNetwork(), userId.toString()));
+  public void createMonitoring(Stalker stalker, ID targetId) {
+    TRelationList list = relationListPuller.pull(targetId).join();
+    monitoringRepository.save(new Monitoring(null, stalker, properties.getNetwork(), targetId.toString()));
+    updateService.saveAll(stalker, list.asUpdates(updateFactory).collect(toList()), targetId);
   }
 
   @Override
   @Transactional
-  public void deleteTarget(Stalker stalker, ID userId) {
-    updateService.removeAllByTarget(stalker, userId);
-    monitoringRepository.deleteByStalkerAndTarget(stalker, userId.toString());
+  public void deleteMonitoring(Stalker stalker, ID targetId) {
+    updateService.removeAllByTarget(stalker, targetId);
+    monitoringRepository.deleteByStalkerAndTarget(stalker, targetId.toString());
   }
 }

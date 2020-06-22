@@ -2,6 +2,7 @@ package musin.socialstalker.telegram.bot.command;
 
 import lombok.SneakyThrows;
 import musin.socialstalker.relation.User;
+import musin.socialstalker.telegram.api.MarkdownSendMessage;
 import musin.socialstalker.telegram.bot.Session;
 import musin.socialstalker.telegram.bot.service.Network;
 import musin.socialstalker.telegram.bot.service.NetworkFactory;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component(DeleteCommand.NAME)
-public class DeleteCommand extends TypicalServiceCommand {
+public class DeleteCommand extends TypicalNetworkCommand {
 
   public static final String NAME = "/delete";
 
@@ -34,9 +35,9 @@ public class DeleteCommand extends TypicalServiceCommand {
     String usernameOrId = update.getMessage().getText();
     Optional<User<?>> user = network.searchByUsernameOrId(usernameOrId);
     if (user.isPresent()) {
-      network.delete(user.get().getId().toString());
+      network.deleteMonitoring(user.get().getId().toString());
       session.setDone(true);
-      sender.execute(new SendMessage(update.getMessage().getChatId(), "User " + usernameOrId + " successfully deleted"));
+      sender.execute(new MarkdownSendMessage(update.getMessage().getChatId(), "User " + user.get().getMarkdownLink() + " successfully deleted"));
     } else {
       sender.execute(new SendMessage(update.getMessage().getChatId(), "User " + usernameOrId + " not found"));
     }

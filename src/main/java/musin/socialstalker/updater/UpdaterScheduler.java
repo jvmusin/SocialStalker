@@ -10,12 +10,13 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class PeriodicUpdaterScheduler {
+public class UpdaterScheduler {
   private final List<Updater> updaters;
   private final TaskScheduler taskScheduler;
 
   @EventListener(ApplicationReadyEvent.class)
   public void scheduleUpdates() {
+    // todo use updater factories, bc updaters are creating for each stalker independently
     updaters.forEach(updater -> taskScheduler.scheduleWithFixedDelay(updater, updater.getPeriodBetweenUpdates()));
   }
 }
