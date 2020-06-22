@@ -5,7 +5,7 @@ import musin.socialstalker.db.model.Stalker;
 
 @Data
 public class Session {
-  boolean done;
+  private boolean done;
   private Stalker stalker;
   private String command;
   private String service;

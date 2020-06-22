@@ -2,6 +2,7 @@ package musin.socialstalker.telegram.bot.command;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import musin.socialstalker.telegram.api.MarkdownSendMessage;
 import musin.socialstalker.telegram.bot.Session;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -34,9 +35,9 @@ public class HelpCommand implements Command {
   public void handle(Session session, Update update, AbsSender sender) {
     String ls = System.lineSeparator();
     String text = commands.values().stream()
-        .map(c -> c.getName() + " -- " + c.getDescription())
+        .map(c -> c.getName() + " - " + c.getDescription())
         .collect(joining(ls, "Available commands are:" + ls + ls, ""));
-    SendMessage method = new SendMessage(update.getMessage().getChatId(), text);
+    SendMessage method = new MarkdownSendMessage(update.getMessage().getChatId(), text);
     method.setReplyMarkup(new ReplyKeyboardRemove());
     sender.execute(method);
   }

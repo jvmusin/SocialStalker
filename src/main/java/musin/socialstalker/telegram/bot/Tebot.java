@@ -54,7 +54,11 @@ public class Tebot extends TelegramLongPollingBot {
     try {
       Command command = commands.get(text.split(" ")[0].toLowerCase());
       if (command != null) {
-        sessions.put(userId, session = new Session(stalkerService.get(message.getChatId())));
+        if (command != helpCommand) {
+          sessions.put(userId, session = new Session(stalkerService.get(message.getChatId())));
+        } else {
+          sessions.remove(userId);
+        }
         command.handle(session, update, this);
         return;
       }
@@ -71,7 +75,10 @@ public class Tebot extends TelegramLongPollingBot {
       handleHelp(update);
       if (session != null) sessions.remove(userId);
     } finally {
-      if (session != null && session.isDone()) sessions.remove(userId);
+      if (session != null && session.isDone()) {
+        sessions.remove(userId);
+        handleHelp(update);
+      }
     }
   }
 

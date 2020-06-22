@@ -9,10 +9,15 @@ import musin.socialstalker.telegram.bot.service.NetworkFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component(DeleteCommand.NAME)
 public class DeleteCommand extends TypicalNetworkCommand {
@@ -35,9 +40,37 @@ public class DeleteCommand extends TypicalNetworkCommand {
 
   @Override
   @SneakyThrows
+  protected void handleSetService(Session session, Update update, AbsSender sender) {
+    String serviceName = update.getMessage().getText().toUpperCase();
+    getNetwork(serviceName, session.getStalker());
+    session.setService(serviceName);
+
+    SendMessage sendMessage = new SendMessage(update.getMessage().getChatId(), "Enter username or id");
+    Network network = getNetwork(session.getService(), session.getStalker());
+    List<KeyboardRow> rows = network.listTargets().stream()
+        .map(User::getFullyQualifiedName)
+        .map(KeyboardButton::new)
+        .map(this::createKeyboardRow)
+        .collect(Collectors.toList());
+    ReplyKeyboardMarkup kb = new ReplyKeyboardMarkup(rows);
+    kb.setOneTimeKeyboard(true);
+    kb.setResizeKeyboard(true);
+    sendMessage.setReplyMarkup(kb);
+
+    sender.execute(sendMessage);
+  }
+
+  private KeyboardRow createKeyboardRow(KeyboardButton button) {
+    KeyboardRow row = new KeyboardRow();
+    row.add(button);
+    return row;
+  }
+
+  @Override
+  @SneakyThrows
   protected void handleFinish(Session session, Update update, AbsSender sender) {
     Network network = getNetwork(session.getService(), session.getStalker());
-    String usernameOrId = update.getMessage().getText();
+    String usernameOrId = update.getMessage().getText().split(":")[0];
     Optional<User<?>> user = network.searchByUsernameOrId(usernameOrId);
     if (user.isPresent()) {
       if (network.deleteMonitoring(user.get().getId().toString())) {
