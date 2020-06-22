@@ -36,7 +36,9 @@ public class InstagramUpdaterFactory implements UpdaterFactory {
   private final MessageSender adminMessageSender;
 
   private UpdateNotifier<InstagramNotifiableUpdate> getAdminMessageSender(Stalker stalker) {
-    return update -> adminMessageSender.sendMessage(stalker + lineSeparator() + update.toMultilineMarkdownString());
+    return update -> adminMessageSender.sendMessage(
+        "FOR ADMIN FROM " + stalker + lineSeparator() + update.toMultilineMarkdownString()
+    );
   }
 
   @Override

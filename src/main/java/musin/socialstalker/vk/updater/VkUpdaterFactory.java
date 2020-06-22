@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.util.List;
 
+import static java.lang.System.lineSeparator;
 import static java.util.stream.Collectors.toList;
 
 @Component
@@ -35,7 +36,9 @@ public class VkUpdaterFactory implements UpdaterFactory {
   private final MessageSender adminMessageSender;
 
   private UpdateNotifier<VkNotifiableUpdate> getAdminNotifier(Stalker stalker) {
-    return update -> adminMessageSender.sendMessage(stalker + "\n" + update.toMultilineMarkdownString());
+    return update -> adminMessageSender.sendMessage(
+        "FOR ADMIN FROM " + stalker + lineSeparator() + update.toMultilineMarkdownString()
+    );
   }
 
   @Override
