@@ -29,6 +29,11 @@ public class AddCommand extends TypicalNetworkCommand {
   }
 
   @Override
+  public String getDescription() {
+    return "Add a new target for stalkering";
+  }
+
+  @Override
   @SneakyThrows
   protected void handleFinish(Session session, Update update, AbsSender sender) {
     Network network = getNetwork(session.getService(), session.getStalker());

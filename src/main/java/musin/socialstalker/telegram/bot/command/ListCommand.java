@@ -27,6 +27,11 @@ public class ListCommand extends TypicalNetworkCommand {
     return NAME;
   }
 
+  @Override
+  public String getDescription() {
+    return "List stalkered people.";
+  }
+
   @SneakyThrows
   protected void handleSetService(Session session, Update update, AbsSender sender) {
     if (session.getCommand() == null) {

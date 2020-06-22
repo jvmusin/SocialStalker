@@ -9,7 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRem
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.util.Map;
-import java.util.StringJoiner;
+
+import static java.util.stream.Collectors.joining;
 
 @RequiredArgsConstructor
 public class HelpCommand implements Command {
@@ -24,12 +25,18 @@ public class HelpCommand implements Command {
   }
 
   @Override
+  public String getDescription() {
+    return "Show help";
+  }
+
+  @Override
   @SneakyThrows
   public void handle(Session session, Update update, AbsSender sender) {
-    StringJoiner sj = new StringJoiner(System.lineSeparator());
-    sj.add("Available commands are:" + System.lineSeparator());
-    commands.keySet().forEach(sj::add);
-    SendMessage method = new SendMessage(update.getMessage().getChatId(), sj.toString());
+    String ls = System.lineSeparator();
+    String text = commands.values().stream()
+        .map(c -> c.getName() + " -- " + c.getDescription())
+        .collect(joining(ls, "Available commands are:" + ls + ls, ""));
+    SendMessage method = new SendMessage(update.getMessage().getChatId(), text);
     method.setReplyMarkup(new ReplyKeyboardRemove());
     sender.execute(method);
   }

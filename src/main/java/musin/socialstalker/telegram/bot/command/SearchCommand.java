@@ -28,6 +28,11 @@ public class SearchCommand extends TypicalNetworkCommand {
   }
 
   @Override
+  public String getDescription() {
+    return "Search a user by username or user id";
+  }
+
+  @Override
   @SneakyThrows
   protected void handleFinish(Session session, Update update, AbsSender sender) {
     Network network = getNetwork(session.getService(), session.getStalker());
