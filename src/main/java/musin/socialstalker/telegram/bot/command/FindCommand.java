@@ -13,12 +13,12 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import java.util.Map;
 import java.util.Optional;
 
-@Component(SearchCommand.NAME)
-public class SearchCommand extends TypicalNetworkCommand {
+@Component(FindCommand.NAME)
+public class FindCommand extends TypicalNetworkCommand {
 
-  public static final String NAME = "/search";
+  public static final String NAME = "/find";
 
-  public SearchCommand(Map<String, NetworkFactory> networkFactories) {
+  public FindCommand(Map<String, NetworkFactory> networkFactories) {
     super(networkFactories);
   }
 
@@ -29,7 +29,7 @@ public class SearchCommand extends TypicalNetworkCommand {
 
   @Override
   public String getDescription() {
-    return "Search a user by username or user id";
+    return "find a user by username or user id";
   }
 
   @Override

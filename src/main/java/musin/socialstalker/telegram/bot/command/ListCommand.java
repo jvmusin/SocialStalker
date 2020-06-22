@@ -29,7 +29,7 @@ public class ListCommand extends TypicalNetworkCommand {
 
   @Override
   public String getDescription() {
-    return "List stalkered people.";
+    return "list stalkered people";
   }
 
   @SneakyThrows

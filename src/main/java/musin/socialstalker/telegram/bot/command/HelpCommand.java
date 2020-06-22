@@ -27,7 +27,7 @@ public class HelpCommand implements Command {
 
   @Override
   public String getDescription() {
-    return "Show help";
+    return "show help";
   }
 
   @Override

@@ -30,7 +30,7 @@ public class AddCommand extends TypicalNetworkCommand {
 
   @Override
   public String getDescription() {
-    return "Add a new target for stalkering";
+    return "add a new target for stalkering";
   }
 
   @Override

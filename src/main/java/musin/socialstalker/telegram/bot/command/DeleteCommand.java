@@ -35,7 +35,7 @@ public class DeleteCommand extends TypicalNetworkCommand {
 
   @Override
   public String getDescription() {
-    return "Add a target for stalkering";
+    return "delete a target for stalkering";
   }
 
   @Override
@@ -53,8 +53,8 @@ public class DeleteCommand extends TypicalNetworkCommand {
         .map(this::createKeyboardRow)
         .collect(Collectors.toList());
     if (rows.isEmpty()) {
-      sender.execute(new SendMessage(update.getMessage().getChatId(), "Nobody to delete!"));
       session.setDone(true);
+      sender.execute(new SendMessage(update.getMessage().getChatId(), "Nobody to delete!"));
       return;
     }
     ReplyKeyboardMarkup kb = new ReplyKeyboardMarkup(rows);
