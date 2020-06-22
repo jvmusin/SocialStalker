@@ -16,6 +16,7 @@ import musin.socialstalker.vk.relation.VkUpdateFactory;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -24,7 +25,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class VkUpdaterFactory implements UpdaterFactory {
 
-  private final VkMonitoringServiceFactory seekerServiceFactory;
+  private final VkMonitoringServiceFactory monitoringServiceFactory;
   private final VkUpdateServiceFactory updateServiceFactory;
   private final VkRelationListPuller relationListPuller;
   private final List<UpdateNotifierFactory<VkNotifiableUpdate>> notifierFactories;
@@ -33,7 +34,7 @@ public class VkUpdaterFactory implements UpdaterFactory {
   private final VkUpdateFactory updateFactory;
   private final MessageSender adminMessageSender;
 
-  private UpdateNotifier<VkNotifiableUpdate> getAdminMessageSender(Stalker stalker) {
+  private UpdateNotifier<VkNotifiableUpdate> getAdminNotifier(Stalker stalker) {
     return update -> adminMessageSender.sendMessage(stalker + "\n" + update.toMultilineMarkdownString());
   }
 
@@ -42,9 +43,9 @@ public class VkUpdaterFactory implements UpdaterFactory {
     List<UpdateNotifier<VkNotifiableUpdate>> notifiers = notifierFactories.stream()
         .map(f -> f.create(stalker))
         .collect(toList());
-    notifiers.add(getAdminMessageSender(stalker));
+    notifiers.add(getAdminNotifier(stalker));
     return new UpdaterImpl<>(
-        seekerServiceFactory.create(stalker),
+        monitoringServiceFactory.create(stalker),
         updateServiceFactory.create(stalker),
         relationListPuller,
         notifiers,
@@ -52,5 +53,10 @@ public class VkUpdaterFactory implements UpdaterFactory {
         config.getPeriodBetweenUpdates(),
         updateFactory
     );
+  }
+
+  @Override
+  public Duration getPeriodBetweenUpdates() {
+    return config.getPeriodBetweenUpdates();
   }
 }

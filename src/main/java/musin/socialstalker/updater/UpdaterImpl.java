@@ -1,6 +1,5 @@
 package musin.socialstalker.updater;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import musin.socialstalker.notifier.NotifiableUpdate;
@@ -12,7 +11,6 @@ import musin.socialstalker.relation.list.RelationList;
 import org.apache.logging.log4j.Level;
 import org.springframework.core.task.TaskExecutor;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -34,8 +32,6 @@ public class UpdaterImpl<
   private final RelationListPuller<ID, TRelationList> relationListPuller;
   private final List<? extends UpdateNotifier<? super TNotifiableUpdate>> notifiers;
   private final TaskExecutor taskExecutor;
-  @Getter
-  private final Duration periodBetweenUpdates;
   private final UpdateFactory<TUser, TRelationType, TUpdate> updateFactory;
 
   @Override

@@ -1,6 +1,7 @@
 package musin.socialstalker.updater;
 
 import lombok.RequiredArgsConstructor;
+import musin.socialstalker.db.repository.StalkerRepository;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.TaskScheduler;
@@ -11,12 +12,19 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class UpdaterScheduler {
-  private final List<Updater> updaters;
+  private final StalkerRepository stalkerRepository;
+  private final List<UpdaterFactory> factories;
   private final TaskScheduler taskScheduler;
 
   @EventListener(ApplicationReadyEvent.class)
   public void scheduleUpdates() {
-    // todo use updater factories, bc updaters are creating for each stalker independently
-    updaters.forEach(updater -> taskScheduler.scheduleWithFixedDelay(updater, updater.getPeriodBetweenUpdates()));
+    factories.forEach(
+        factory -> taskScheduler.scheduleWithFixedDelay(
+            () -> stalkerRepository.findAll().stream()
+                .map(factory::create)
+                .forEach(Runnable::run),
+            factory.getPeriodBetweenUpdates()
+        )
+    );
   }
 }

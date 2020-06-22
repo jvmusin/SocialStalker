@@ -16,8 +16,10 @@ import musin.socialstalker.updater.UpdaterImpl;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.List;
 
+import static java.lang.System.lineSeparator;
 import static java.util.stream.Collectors.toList;
 
 @Component
@@ -34,7 +36,7 @@ public class InstagramUpdaterFactory implements UpdaterFactory {
   private final MessageSender adminMessageSender;
 
   private UpdateNotifier<InstagramNotifiableUpdate> getAdminMessageSender(Stalker stalker) {
-    return update -> adminMessageSender.sendMessage(stalker + "\n" + update.toMultilineMarkdownString());
+    return update -> adminMessageSender.sendMessage(stalker + lineSeparator() + update.toMultilineMarkdownString());
   }
 
   @Override
@@ -52,5 +54,10 @@ public class InstagramUpdaterFactory implements UpdaterFactory {
         config.getPeriodBetweenUpdates(),
         updateFactory
     );
+  }
+
+  @Override
+  public Duration getPeriodBetweenUpdates() {
+    return config.getPeriodBetweenUpdates();
   }
 }
