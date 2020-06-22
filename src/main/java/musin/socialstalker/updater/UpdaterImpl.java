@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-public class UpdaterBase<
+public class UpdaterImpl<
     ID,
     TUser extends User<ID>,
     TRelationType,
@@ -26,7 +26,7 @@ public class UpdaterBase<
     TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
     implements Updater {
 
-  private final SeekerService<ID> seekerService;
+  private final MonitoringService<ID> monitoringService;
   private final UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
   private final RelationListPuller<ID, TRelationList> relationListPuller;
   private final List<? extends UpdateNotifier<? super TNotifiableUpdate>> notifiers;
@@ -37,7 +37,7 @@ public class UpdaterBase<
 
   @Override
   public void run() {
-    seekerService.findAllTargets().forEach(s -> taskExecutor.execute(() -> run(s)));
+    monitoringService.findAllTargets().forEach(s -> taskExecutor.execute(() -> run(s)));
   }
 
   private void run(ID target) {

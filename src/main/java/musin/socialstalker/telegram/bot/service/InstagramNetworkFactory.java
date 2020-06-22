@@ -3,20 +3,20 @@ package musin.socialstalker.telegram.bot.service;
 import lombok.RequiredArgsConstructor;
 import musin.socialstalker.config.NetworkNames;
 import musin.socialstalker.db.model.Stalker;
-import musin.socialstalker.vk.api.VkApi;
-import musin.socialstalker.vk.api.VkIdFactory;
-import musin.socialstalker.vk.db.VkSeekerServiceFactory;
-import musin.socialstalker.vk.relation.VkUserFactory;
+import musin.socialstalker.instagram.api.InstagramApi;
+import musin.socialstalker.instagram.api.InstagramIdFactory;
+import musin.socialstalker.instagram.db.InstagramMonitoringServiceFactory;
+import musin.socialstalker.instagram.relation.InstagramUserFactory;
 import org.springframework.stereotype.Component;
 
 @Component(NetworkNames.INSTAGRAM)
 @RequiredArgsConstructor
 public class InstagramNetworkFactory implements NetworkFactory {
 
-  private final VkSeekerServiceFactory seekerServiceFactory;
-  private final VkIdFactory idFactory;
-  private final VkUserFactory userFactory;
-  private final VkApi api;
+  private final InstagramMonitoringServiceFactory seekerServiceFactory;
+  private final InstagramIdFactory idFactory;
+  private final InstagramUserFactory userFactory;
+  private final InstagramApi api;
 
   @Override
   public Network create(Stalker stalker) {

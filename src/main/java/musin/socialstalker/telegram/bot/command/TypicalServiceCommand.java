@@ -66,8 +66,8 @@ public abstract class TypicalServiceCommand implements Command {
   protected abstract void handleFinish(Session session, Update update, AbsSender sender);
 
   protected Network getNetwork(String name, Stalker stalker) {
-    NetworkFactory service = networkFactories.get(name);
-    if (service == null) throw new NoSuchNetworkException("No such network: " + name);
-    return service.create(stalker);
+    NetworkFactory networkFactory = networkFactories.get(name);
+    if (networkFactory == null) throw new NoSuchNetworkException("No such network: " + name);
+    return networkFactory.create(stalker);
   }
 }

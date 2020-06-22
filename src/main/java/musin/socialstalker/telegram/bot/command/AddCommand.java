@@ -36,7 +36,7 @@ public class AddCommand extends TypicalServiceCommand {
     if (user.isPresent()) {
       network.add(user.get().getId().toString());
       session.setDone(true);
-      sender.execute(new SendMessage(update.getMessage().getChatId(), "User " + usernameOrId + " successfully added"));
+      sender.execute(new SendMessage(update.getMessage().getChatId(), "User " + user.get() + " successfully added"));
     } else {
       sender.execute(new SendMessage(update.getMessage().getChatId(), "User " + usernameOrId + " not found"));
     }

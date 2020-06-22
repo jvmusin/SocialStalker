@@ -20,43 +20,31 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-public class UpdateServiceBase<
+public class GeneralUpdateServiceImpl<
     ID,
     TUser extends User<ID>,
     TRelationType,
     TUpdate extends Update<TUser, TRelationType>,
     TRelationList extends RelationList<TUser, TRelationType>,
     TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
-    implements UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> {
+    implements GeneralUpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> {
 
-  private final Stalker stalker;
   private final RelationUpdateRepository relationUpdateRepository;
   private final NotifiableUpdateFactory<TUser, TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
   private final NetworkProperties networkProperties;
   private final RelationListFactory<TRelationList> relationListFactory;
 
   @Override
-  public List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID target) {
+  public List<TNotifiableUpdate> saveAll(Stalker stalker, List<? extends TUpdate> updates, ID target) {
     List<RelationUpdate> relationUpdates = updates.stream()
-        .map(update -> updateToRelationUpdate(update, target))
+        .map(update -> updateToRelationUpdate(stalker, update, target))
         .collect(toList());
     return relationUpdateRepository.saveAll(relationUpdates).stream()
         .map(notifiableUpdateFactory::create)
         .collect(toList());
   }
 
-  @Override
-  public void removeAllByTarget(ID target) {
-    relationUpdateRepository.deleteAllByStalkerAndTarget(stalker, target.toString());
-  }
-
-  public CompletableFuture<TRelationList> buildList(ID target) {
-    return relationUpdateRepository.findAllByNetworkAndTargetOrderById(networkProperties.getNetwork(), target.toString())
-        .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
-        .thenApply(this::createList);
-  }
-
-  protected RelationUpdate updateToRelationUpdate(TUpdate update, ID target) {
+  protected RelationUpdate updateToRelationUpdate(Stalker stalker, TUpdate update, ID target) {
     return RelationUpdate.builder()
         .stalker(stalker)
         .network(networkProperties.getNetwork())
@@ -66,6 +54,18 @@ public class UpdateServiceBase<
         .now(update.getNow() == null ? null : update.getNow().toString())
         .time(LocalDateTime.now())
         .build();
+  }
+
+  @Override
+  public void removeAllByTarget(Stalker stalker, ID target) {
+    relationUpdateRepository.deleteAllByStalkerAndTarget(stalker, target.toString());
+  }
+
+  @Override
+  public CompletableFuture<TRelationList> buildList(Stalker stalker, ID target) {
+    return relationUpdateRepository.findAllByNetworkAndTargetOrderById(networkProperties.getNetwork(), target.toString())
+        .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
+        .thenApply(this::createList);
   }
 
   private TRelationList createList(Stream<? extends Update<? extends TUser, ? extends TRelationType>> updates) {

@@ -1,15 +1,15 @@
 package musin.socialstalker.telegram.bot.service;
 
 import lombok.RequiredArgsConstructor;
+import musin.socialstalker.api.SocialApi;
 import musin.socialstalker.config.NetworkNames;
+import musin.socialstalker.db.IdFactory;
 import musin.socialstalker.db.model.Stalker;
 import musin.socialstalker.relation.User;
-import musin.socialstalker.vk.api.VkApi;
+import musin.socialstalker.relation.UserFactory;
+import musin.socialstalker.updater.MonitoringServiceFactory;
 import musin.socialstalker.vk.api.VkID;
-import musin.socialstalker.vk.api.VkIdFactory;
-import musin.socialstalker.vk.db.VkSeekerServiceFactory;
 import musin.socialstalker.vk.relation.VkUser;
-import musin.socialstalker.vk.relation.VkUserFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -18,10 +18,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VkNetworkFactory implements NetworkFactory {
 
-  private final VkSeekerServiceFactory seekerServiceFactory;
-  private final VkIdFactory idFactory;
-  private final VkUserFactory userFactory;
-  private final VkApi api;
+  private final MonitoringServiceFactory<VkID> monitoringServiceFactory;
+  private final IdFactory<VkID> idFactory;
+  private final UserFactory<VkID, VkUser> userFactory;
+  private final SocialApi<VkID> api;
 
   @Override
   public Network create(Stalker stalker) {
@@ -30,7 +30,7 @@ public class VkNetworkFactory implements NetworkFactory {
 
   private class VkNetwork extends NetworkBase<VkID, VkUser> {
     public VkNetwork(Stalker stalker) {
-      super(seekerServiceFactory.create(stalker), idFactory, userFactory, api);
+      super(monitoringServiceFactory.create(stalker), idFactory, userFactory, api);
     }
 
     @Override

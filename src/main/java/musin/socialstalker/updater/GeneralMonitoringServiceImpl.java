@@ -18,26 +18,25 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-public class SeekerServiceBase<
+public class GeneralMonitoringServiceImpl<
     ID,
     TUser extends User<ID>,
     TRelationType,
     TUpdate extends Update<TUser, TRelationType>,
     TRelationList extends RelationList<TUser, TRelationType>,
     TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
-    implements SeekerService<ID> {
+    implements GeneralMonitoringService<ID> {
 
-  private final Stalker stalker;
   private final MonitoringRepository monitoringRepository;
   private final NetworkProperties properties;
   private final IdFactory<ID> idFactory;
   private final RelationListPuller<ID, TRelationList> relationListPuller;
-  private final UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
+  private final GeneralUpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
   private final UpdateFactory<TUser, TRelationType, TUpdate> updateFactory;
 
   @Override
   @Transactional
-  public List<ID> findAllTargets() {
+  public List<ID> findAllTargets(Stalker stalker) {
     return monitoringRepository.findAllByStalkerAndNetwork(stalker, properties.getNetwork()).stream()
         .map(seeker -> idFactory.parse(seeker.getTarget()))
         .collect(toList());
@@ -45,16 +44,16 @@ public class SeekerServiceBase<
 
   @Override
   @Transactional
-  public void addTarget(ID userId) {
+  public void addTarget(Stalker stalker, ID userId) {
     TRelationList list = relationListPuller.pull(userId).join();
-    updateService.saveAll(list.asUpdates(updateFactory).collect(toList()), userId);
+    updateService.saveAll(stalker, list.asUpdates(updateFactory).collect(toList()), userId);
     monitoringRepository.save(new Monitoring(null, stalker, properties.getNetwork(), userId.toString()));
   }
 
   @Override
   @Transactional
-  public void deleteTarget(ID userId) {
-    updateService.removeAllByTarget(userId);
+  public void deleteTarget(Stalker stalker, ID userId) {
+    updateService.removeAllByTarget(stalker, userId);
     monitoringRepository.deleteByStalkerAndTarget(stalker, userId.toString());
   }
 }

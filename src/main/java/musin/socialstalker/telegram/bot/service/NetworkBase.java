@@ -5,7 +5,7 @@ import musin.socialstalker.api.SocialApi;
 import musin.socialstalker.db.IdFactory;
 import musin.socialstalker.relation.User;
 import musin.socialstalker.relation.UserFactory;
-import musin.socialstalker.updater.SeekerService;
+import musin.socialstalker.updater.MonitoringService;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 public class NetworkBase<ID, TUser extends User<ID>> implements Network {
-  private final SeekerService<ID> seekerService;
+  private final MonitoringService<ID> monitoringService;
   private final IdFactory<ID> idFactory;
   private final UserFactory<ID, TUser> userFactory;
   private final SocialApi<ID> api;
@@ -33,17 +33,17 @@ public class NetworkBase<ID, TUser extends User<ID>> implements Network {
 
   @Override
   public void add(String id) {
-    seekerService.addTarget(idFactory.parse(id));
+    monitoringService.addTarget(idFactory.parse(id));
   }
 
   @Override
   public void delete(String id) {
-    seekerService.deleteTarget(idFactory.parse(id));
+    monitoringService.deleteTarget(idFactory.parse(id));
   }
 
   @Override
   public List<User<?>> listTargets() {
-    return seekerService.findAllTargets().stream()
+    return monitoringService.findAllTargets().stream()
         .map(userFactory::create)
         .collect(toList());
   }
