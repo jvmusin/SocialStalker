@@ -52,6 +52,11 @@ public class DeleteCommand extends TypicalNetworkCommand {
         .map(KeyboardButton::new)
         .map(this::createKeyboardRow)
         .collect(Collectors.toList());
+    if (rows.isEmpty()) {
+      sender.execute(new SendMessage(update.getMessage().getChatId(), "Nobody to delete!"));
+      session.setDone(true);
+      return;
+    }
     ReplyKeyboardMarkup kb = new ReplyKeyboardMarkup(rows);
     kb.setOneTimeKeyboard(true);
     kb.setResizeKeyboard(true);
