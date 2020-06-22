@@ -81,7 +81,7 @@ public class GeneralUpdateServiceImpl<
   @Override
   @Transactional
   public CompletableFuture<TRelationList> buildList(Stalker stalker, ID target) {
-    return relationUpdateRepository.findAllByNetworkAndTargetOrderById(networkProperties.getNetwork(), target.toString())
+    return relationUpdateRepository.findAllByStalkerAndNetworkAndTargetOrderById(stalker, networkProperties.getNetwork(), target.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);
   }

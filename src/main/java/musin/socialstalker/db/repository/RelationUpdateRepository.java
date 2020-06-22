@@ -10,5 +10,5 @@ import java.util.concurrent.CompletableFuture;
 public interface RelationUpdateRepository extends JpaRepository<RelationUpdate, Integer> {
   void deleteAllByStalkerAndTarget(Stalker stalker, String target);
 
-  CompletableFuture<List<RelationUpdate>> findAllByNetworkAndTargetOrderById(String network, String target);
+  CompletableFuture<List<RelationUpdate>> findAllByStalkerAndNetworkAndTargetOrderById(Stalker stalker, String network, String target);
 }
