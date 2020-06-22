@@ -22,10 +22,10 @@ class TelegramMessageSenderImpl implements TelegramMessageSender {
 
   @Override
   @SneakyThrows
-  public void sendMessage(@NotNull String text, boolean waitUntilNotSent) {
+  public void sendMessage(@NotNull String text, boolean waitUntilSent) {
     SyncSentMessageCallback callback = new SyncSentMessageCallback();
     telegramAbsSender.executeAsync(new MarkdownSendMessage(receiverUid, text), callback);
-    if (waitUntilNotSent) callback.waitForSending();
+    if (waitUntilSent) callback.waitForSending();
   }
 
   @Override
@@ -35,6 +35,10 @@ class TelegramMessageSenderImpl implements TelegramMessageSender {
 
   private static class SyncSentMessageCallback implements SentCallback<Message> {
     final Lock lock = new ReentrantLock();
+
+    SyncSentMessageCallback() {
+      lock.lock();
+    }
 
     @Override
     public void onResult(BotApiMethod<Message> method, Message response) {
