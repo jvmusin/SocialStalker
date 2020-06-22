@@ -29,10 +29,6 @@ public class UpdateServiceImpl<
   }
 
   @Override
-  public void removeAllByTarget(ID target) {
-    generalUpdateService.removeAllByTarget(stalker, target);
-  }
-
   public CompletableFuture<TRelationList> buildList(ID target) {
     return generalUpdateService.buildList(stalker, target);
   }

@@ -1,5 +1,6 @@
 package musin.socialstalker.vk.db;
 
+import musin.socialstalker.db.repository.MonitoringRepository;
 import musin.socialstalker.db.repository.RelationUpdateRepository;
 import musin.socialstalker.notifier.NotifiableUpdateFactory;
 import musin.socialstalker.relation.list.RelationListFactory;
@@ -22,10 +23,12 @@ public class VkGeneralUpdateService extends GeneralUpdateServiceImpl<
     VkRelationList,
     VkNotifiableUpdate> {
 
-  public VkGeneralUpdateService(RelationUpdateRepository relationUpdateRepository,
-                                NotifiableUpdateFactory<VkUser, VkRelationType, VkNotifiableUpdate> notifiableUpdateFactory,
-                                VkNetworkProperties networkProperties,
-                                RelationListFactory<VkRelationList> relationListFactory) {
-    super(relationUpdateRepository, notifiableUpdateFactory, networkProperties, relationListFactory);
+  public VkGeneralUpdateService(
+      MonitoringRepository monitoringRepository,
+      RelationUpdateRepository relationUpdateRepository,
+      NotifiableUpdateFactory<VkUser, VkRelationType, VkNotifiableUpdate> notifiableUpdateFactory,
+      VkNetworkProperties networkProperties,
+      RelationListFactory<VkRelationList> relationListFactory) {
+    super(monitoringRepository, relationUpdateRepository, notifiableUpdateFactory, networkProperties, relationListFactory);
   }
 }

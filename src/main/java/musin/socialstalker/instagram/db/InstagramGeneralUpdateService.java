@@ -1,5 +1,6 @@
 package musin.socialstalker.instagram.db;
 
+import musin.socialstalker.db.repository.MonitoringRepository;
 import musin.socialstalker.db.repository.RelationUpdateRepository;
 import musin.socialstalker.instagram.api.InstagramID;
 import musin.socialstalker.instagram.config.InstagramNetworkProperties;
@@ -22,10 +23,12 @@ public class InstagramGeneralUpdateService extends GeneralUpdateServiceImpl<
     InstagramRelationList,
     InstagramNotifiableUpdate> {
 
-  public InstagramGeneralUpdateService(RelationUpdateRepository relationUpdateRepository,
-                                       NotifiableUpdateFactory<InstagramUser, InstagramRelationType, InstagramNotifiableUpdate> notifiableUpdateFactory,
-                                       InstagramNetworkProperties networkProperties,
-                                       RelationListFactory<InstagramRelationList> relationListFactory) {
-    super(relationUpdateRepository, notifiableUpdateFactory, networkProperties, relationListFactory);
+  public InstagramGeneralUpdateService(
+      MonitoringRepository monitoringRepository,
+      RelationUpdateRepository relationUpdateRepository,
+      NotifiableUpdateFactory<InstagramUser, InstagramRelationType, InstagramNotifiableUpdate> notifiableUpdateFactory,
+      InstagramNetworkProperties networkProperties,
+      RelationListFactory<InstagramRelationList> relationListFactory) {
+    super(monitoringRepository, relationUpdateRepository, notifiableUpdateFactory, networkProperties, relationListFactory);
   }
 }

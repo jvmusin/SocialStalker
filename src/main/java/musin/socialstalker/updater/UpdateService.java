@@ -15,7 +15,5 @@ public interface UpdateService<
 
   List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID target);
 
-  void removeAllByTarget(ID target);
-
   CompletableFuture<TRelationList> buildList(ID target);
 }

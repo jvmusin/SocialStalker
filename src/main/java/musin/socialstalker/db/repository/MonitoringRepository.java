@@ -10,4 +10,6 @@ public interface MonitoringRepository extends JpaRepository<Monitoring, Integer>
   List<Monitoring> findAllByStalkerAndNetwork(Stalker stalker, String network);
 
   void deleteByStalkerAndTarget(Stalker stalker, String target);
+
+  boolean existsByStalkerAndNetworkAndTarget(Stalker stalker, String network, String target);
 }
