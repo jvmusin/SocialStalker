@@ -35,11 +35,20 @@ public class AddCommand extends TypicalNetworkCommand {
     String usernameOrId = update.getMessage().getText();
     Optional<User<?>> user = network.searchByUsernameOrId(usernameOrId);
     if (user.isPresent()) {
-      network.addMonitoring(user.get().getId().toString());
-      session.setDone(true);
-      sender.execute(new MarkdownSendMessage(update.getMessage().getChatId(), "User " + user.get().getMarkdownLink() + " successfully added"));
+      if (network.addMonitoring(user.get().getId().toString())) {
+        sender.execute(new MarkdownSendMessage(
+            update.getMessage().getChatId(),
+            "User " + user.get().getMarkdownLink() + " successfully added!"
+        ));
+      } else {
+        sender.execute(new MarkdownSendMessage(
+            update.getMessage().getChatId(),
+            "User " + user.get().getMarkdownLink() + " not added. Probably already exists"
+        ));
+      }
     } else {
       sender.execute(new SendMessage(update.getMessage().getChatId(), "User " + usernameOrId + " not found"));
     }
+    session.setDone(true);
   }
 }

@@ -17,12 +17,12 @@ public class MonitoringServiceImpl<ID> implements MonitoringService<ID> {
   }
 
   @Override
-  public void createMonitoring(ID targetId) {
-    generalMonitoringService.createMonitoring(stalker, targetId);
+  public boolean createMonitoring(ID targetId) {
+    return generalMonitoringService.createMonitoring(stalker, targetId);
   }
 
   @Override
-  public void deleteMonitoring(ID targetId) {
-    generalMonitoringService.deleteMonitoring(stalker, targetId);
+  public boolean deleteMonitoring(ID targetId) {
+    return generalMonitoringService.deleteMonitoring(stalker, targetId);
   }
 }

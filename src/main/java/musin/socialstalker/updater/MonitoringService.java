@@ -5,7 +5,7 @@ import java.util.List;
 public interface MonitoringService<ID> {
   List<ID> findAllTargets();
 
-  void createMonitoring(ID targetId);
+  boolean createMonitoring(ID targetId);
 
-  void deleteMonitoring(ID targetId);
+  boolean deleteMonitoring(ID targetId);
 }

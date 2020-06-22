@@ -44,16 +44,26 @@ public class GeneralMonitoringServiceImpl<
 
   @Override
   @Transactional
-  public void createMonitoring(Stalker stalker, ID targetId) {
-    TRelationList list = relationListPuller.pull(targetId).join();
-    monitoringRepository.save(new Monitoring(null, stalker, properties.getNetwork(), targetId.toString()));
-    updateService.saveAll(stalker, list.asUpdates(updateFactory).collect(toList()), targetId);
+  public boolean exists(Stalker stalker, ID targetId) {
+    return monitoringRepository.existsByStalkerAndNetworkAndTarget(stalker, properties.getNetwork(), targetId.toString());
   }
 
   @Override
   @Transactional
-  public void deleteMonitoring(Stalker stalker, ID targetId) {
+  public boolean createMonitoring(Stalker stalker, ID targetId) {
+    if (exists(stalker, targetId)) return false;
+    TRelationList list = relationListPuller.pull(targetId).join();
+    monitoringRepository.save(new Monitoring(null, stalker, properties.getNetwork(), targetId.toString()));
+    updateService.saveAll(stalker, list.asUpdates(updateFactory).collect(toList()), targetId);
+    return true;
+  }
+
+  @Override
+  @Transactional
+  public boolean deleteMonitoring(Stalker stalker, ID targetId) {
+    if (!exists(stalker, targetId)) return false;
     updateService.removeAllByTarget(stalker, targetId);
     monitoringRepository.deleteByStalkerAndTarget(stalker, targetId.toString());
+    return true;
   }
 }

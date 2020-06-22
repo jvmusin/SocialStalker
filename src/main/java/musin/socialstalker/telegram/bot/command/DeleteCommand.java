@@ -35,11 +35,20 @@ public class DeleteCommand extends TypicalNetworkCommand {
     String usernameOrId = update.getMessage().getText();
     Optional<User<?>> user = network.searchByUsernameOrId(usernameOrId);
     if (user.isPresent()) {
-      network.deleteMonitoring(user.get().getId().toString());
-      session.setDone(true);
-      sender.execute(new MarkdownSendMessage(update.getMessage().getChatId(), "User " + user.get().getMarkdownLink() + " successfully deleted"));
+      if (network.deleteMonitoring(user.get().getId().toString())) {
+        sender.execute(new MarkdownSendMessage(
+            update.getMessage().getChatId(),
+            "User " + user.get().getMarkdownLink() + " successfully deleted!"
+        ));
+      } else {
+        sender.execute(new MarkdownSendMessage(
+            update.getMessage().getChatId(),
+            "User " + user.get().getMarkdownLink() + " not deleted. Probably the target didn't exist."
+        ));
+      }
     } else {
       sender.execute(new SendMessage(update.getMessage().getChatId(), "User " + usernameOrId + " not found"));
     }
+    session.setDone(true);
   }
 }

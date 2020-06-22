@@ -7,7 +7,9 @@ import java.util.List;
 public interface GeneralMonitoringService<ID> {
   List<ID> findAllTargets(Stalker stalker);
 
-  void createMonitoring(Stalker stalker, ID targetId);
+  boolean exists(Stalker stalker, ID targetId);
 
-  void deleteMonitoring(Stalker stalker, ID targetId);
+  boolean createMonitoring(Stalker stalker, ID targetId);
+
+  boolean deleteMonitoring(Stalker stalker, ID targetId);
 }
