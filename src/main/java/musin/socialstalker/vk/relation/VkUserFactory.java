@@ -27,7 +27,7 @@ public class VkUserFactory implements UserFactory<VkID, VkUser> {
 
     @Override
     public String getFullyQualifiedName() {
-      return String.format("%s: %s %s", user().getId(), user().getFirstName(), user().getLastName());
+      return String.format("%s: %s %s (%s)", user().getId(), user().getFirstName(), user().getLastName(), user().getNickname());
     }
 
     @Override
