@@ -26,7 +26,7 @@ public class InstagramGeneralUpdateService extends GeneralUpdateServiceImpl<
   public InstagramGeneralUpdateService(
       MonitoringRepository monitoringRepository,
       RelationUpdateRepository relationUpdateRepository,
-      NotifiableUpdateFactory<InstagramUser, InstagramRelationType, InstagramNotifiableUpdate> notifiableUpdateFactory,
+      NotifiableUpdateFactory<InstagramRelationType, InstagramNotifiableUpdate> notifiableUpdateFactory,
       InstagramNetworkProperties networkProperties,
       RelationListFactory<InstagramRelationList> relationListFactory) {
     super(monitoringRepository, relationUpdateRepository, notifiableUpdateFactory, networkProperties, relationListFactory);

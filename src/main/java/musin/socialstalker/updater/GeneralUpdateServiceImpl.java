@@ -36,7 +36,7 @@ public class GeneralUpdateServiceImpl<
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;
-  private final NotifiableUpdateFactory<TUser, TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
+  private final NotifiableUpdateFactory<TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
   private final NetworkProperties networkProperties;
   private final RelationListFactory<TRelationList> relationListFactory;
 

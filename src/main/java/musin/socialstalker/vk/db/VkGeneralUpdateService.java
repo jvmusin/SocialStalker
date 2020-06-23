@@ -26,7 +26,7 @@ public class VkGeneralUpdateService extends GeneralUpdateServiceImpl<
   public VkGeneralUpdateService(
       MonitoringRepository monitoringRepository,
       RelationUpdateRepository relationUpdateRepository,
-      NotifiableUpdateFactory<VkUser, VkRelationType, VkNotifiableUpdate> notifiableUpdateFactory,
+      NotifiableUpdateFactory<VkRelationType, VkNotifiableUpdate> notifiableUpdateFactory,
       VkNetworkProperties networkProperties,
       RelationListFactory<VkRelationList> relationListFactory) {
     super(monitoringRepository, relationUpdateRepository, notifiableUpdateFactory, networkProperties, relationListFactory);

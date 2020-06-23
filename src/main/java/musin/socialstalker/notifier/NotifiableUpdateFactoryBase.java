@@ -17,7 +17,7 @@ public abstract class NotifiableUpdateFactoryBase<
     TUser extends User<ID>,
     TRelationType,
     TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
-    implements NotifiableUpdateFactory<TUser, TRelationType, TNotifiableUpdate> {
+    implements NotifiableUpdateFactory<TRelationType, TNotifiableUpdate> {
 
   private final UserFactory<ID> userFactory;
   private final RelationTypeFactory<TRelationType> relationTypeFactory;
