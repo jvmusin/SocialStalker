@@ -3,7 +3,7 @@ package musin.socialstalker.updater;
 import java.util.List;
 
 public interface MonitoringService<ID> {
-  List<ID> findAllTargets();
+  List<? extends ID> findAllTargets();
 
   boolean createMonitoring(ID targetId);
 
