@@ -2,7 +2,6 @@ package musin.socialstalker.updater;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.notifier.UpdateNotifier;
 import musin.socialstalker.relation.UpdateFactory;
 import musin.socialstalker.relation.list.RelationList;
@@ -31,7 +30,7 @@ public class UpdaterImpl<ID, TRelationType> implements Updater {
   }
 
   private void run(ID target) {
-    CompletableFuture<RelationList<TRelationType>> was = updateService.buildList(target);
+    CompletableFuture<? extends RelationList<TRelationType>> was = updateService.buildList(target);
 
     CompletableFuture<RelationList<TRelationType>> now = relationListPuller.pull(target);
 

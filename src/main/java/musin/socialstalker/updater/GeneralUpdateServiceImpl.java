@@ -9,7 +9,6 @@ import musin.socialstalker.db.repository.MonitoringRepository;
 import musin.socialstalker.db.repository.RelationUpdateRepository;
 import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.notifier.NotifiableUpdateFactory;
-import musin.socialstalker.relation.Relation;
 import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.list.RelationList;
 import musin.socialstalker.relation.list.RelationListFactory;
@@ -25,14 +24,13 @@ import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Log4j2
-public class GeneralUpdateServiceImpl<ID, TRelationType>
-    implements GeneralUpdateService<ID, TRelationType> {
+public class GeneralUpdateServiceImpl<ID, TRelationType> implements GeneralUpdateService<ID, TRelationType> {
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;
   private final NotifiableUpdateFactory<TRelationType> notifiableUpdateFactory;
   private final NetworkProperties networkProperties;
-  private final RelationListFactory<RelationList<TRelationType>> relationListFactory;
+  private final RelationListFactory<? extends RelationList<TRelationType>> relationListFactory;
 
   @Override
   @Transactional

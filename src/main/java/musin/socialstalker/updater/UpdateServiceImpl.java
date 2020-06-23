@@ -16,12 +16,12 @@ public class UpdateServiceImpl<ID, TRelationType> implements UpdateService<ID, T
   private final GeneralUpdateService<ID, TRelationType> generalUpdateService;
 
   @Override
-  public List<NotifiableUpdate<TRelationType>> saveAll(List<? extends Update<?>> updates, ID target) {
+  public List<? extends NotifiableUpdate<TRelationType>> saveAll(List<? extends Update<?>> updates, ID target) {
     return generalUpdateService.saveAll(stalker, updates, target);
   }
 
   @Override
-  public CompletableFuture<RelationList<TRelationType>> buildList(ID target) {
+  public CompletableFuture<? extends RelationList<TRelationType>> buildList(ID target) {
     return generalUpdateService.buildList(stalker, target);
   }
 }
