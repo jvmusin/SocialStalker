@@ -30,7 +30,7 @@ public class UpdaterImpl<
   private final RelationListPuller<ID, TRelationType> relationListPuller;
   private final List<? extends UpdateNotifier<TRelationType>> notifiers;
   private final TaskExecutor taskExecutor;
-  private final UpdateFactory<TRelationType, Update<TRelationType>> updateFactory;
+  private final UpdateFactory<TRelationType> updateFactory;
 
   @Override
   public void run() {

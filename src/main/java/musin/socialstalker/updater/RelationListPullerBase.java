@@ -19,7 +19,7 @@ public abstract class RelationListPullerBase<ID, TRelationType>
     implements RelationListPuller<ID, TRelationType> {
 
   private final RelationListFactory<? extends RelationList<TRelationType>> relationListFactory;
-  private final UpdateFactory<TRelationType, ? extends Update<? extends TRelationType>> updateFactory;
+  private final UpdateFactory<TRelationType> updateFactory;
   private final RelationFactory<TRelationType> relationFactory;
   private final UserFactory<ID> userFactory;
   private final List<Query> queries = new ArrayList<>();

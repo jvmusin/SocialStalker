@@ -1,6 +1,6 @@
 package musin.socialstalker.relation;
 
-public interface UpdateFactory<TRelationType, TUpdate> {
+public interface UpdateFactory<TRelationType> {
   Update<TRelationType> updating(User<?> user, TRelationType was, TRelationType now);
 
   default Update<TRelationType> creating(User<?> user, TRelationType type) {
