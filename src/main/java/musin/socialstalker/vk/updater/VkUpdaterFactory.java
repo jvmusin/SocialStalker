@@ -9,10 +9,7 @@ import musin.socialstalker.relation.UpdateFactory;
 import musin.socialstalker.updater.*;
 import musin.socialstalker.vk.api.VkID;
 import musin.socialstalker.vk.config.VkConfigurationProperties;
-import musin.socialstalker.vk.db.VkMonitoringServiceFactory;
-import musin.socialstalker.vk.db.VkUpdateServiceFactory;
 import musin.socialstalker.vk.relation.VkRelationType;
-import musin.socialstalker.vk.relation.VkUpdateFactory;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 

@@ -6,7 +6,6 @@ import musin.socialstalker.instagram.api.InstagramID;
 import musin.socialstalker.instagram.config.InstagramNetworkProperties;
 import musin.socialstalker.instagram.relation.InstagramRelationType;
 import musin.socialstalker.notifier.NotifiableUpdateFactory;
-import musin.socialstalker.relation.list.RelationList;
 import musin.socialstalker.relation.list.RelationListFactory;
 import musin.socialstalker.updater.GeneralUpdateServiceImpl;
 import org.springframework.stereotype.Component;
