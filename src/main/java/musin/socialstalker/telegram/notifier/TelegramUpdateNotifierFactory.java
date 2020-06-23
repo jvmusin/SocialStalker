@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class TelegramUpdateNotifierFactory<TNotifiableUpdate extends NotifiableUpdate<?, ?>>
+public class TelegramUpdateNotifierFactory<TNotifiableUpdate extends NotifiableUpdate<?>>
     implements UpdateNotifierFactory<TNotifiableUpdate> {
 
   private final TelegramMessageSenderFactory messageSenderFactory;

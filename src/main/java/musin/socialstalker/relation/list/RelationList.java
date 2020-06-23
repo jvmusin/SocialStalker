@@ -2,22 +2,23 @@ package musin.socialstalker.relation.list;
 
 import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.UpdateFactory;
+import musin.socialstalker.relation.User;
 
 import java.util.Set;
 import java.util.stream.Stream;
 
-public interface RelationList<TUser, TRelationType> {
+public interface RelationList<TRelationType> {
 
   /**
    * @return all users in this list
    */
-  Stream<TUser> users();
+  Stream<User<?>> users();
 
   /**
    * @param user a user to get relations for
    * @return all relation types, associated with a given user
    */
-  Set<TRelationType> getAllRelationTypes(TUser user);
+  Set<TRelationType> getAllRelationTypes(User<?> user);
 
   /**
    * Returns a single relation for a given user.
@@ -28,12 +29,12 @@ public interface RelationList<TUser, TRelationType> {
    * @param user a user to get a relation for
    * @return a single relation, associated with a given user, or null
    */
-  TRelationType getRelationType(TUser user);
+  TRelationType getRelationType(User<?> user);
 
   /**
    * @param update an update to apply
    */
-  void apply(Update<? extends TUser, ? extends TRelationType> update);
+  void apply(Update<? extends TRelationType> update);
 
   /**
    * @param newer         a newer list to build updates
@@ -41,11 +42,11 @@ public interface RelationList<TUser, TRelationType> {
    * @return updates between this and newer list
    */
   <TUpdate> Stream<TUpdate> updates(
-      RelationList<TUser, ? extends TRelationType> newer,
-      UpdateFactory<? super TUser, ? super TRelationType, ? extends TUpdate> updateFactory);
+      RelationList<? extends TRelationType> newer,
+      UpdateFactory<? super TRelationType, ? extends TUpdate> updateFactory);
 
   default <TUpdate> Stream<TUpdate> asUpdates(
-      UpdateFactory<? super TUser, ? super TRelationType, ? extends TUpdate> updateFactory) {
+      UpdateFactory<? super TRelationType, ? extends TUpdate> updateFactory) {
     return users().flatMap(u -> getAllRelationTypes(u).stream().map(t -> updateFactory.creating(u, t)));
   }
 }

@@ -9,7 +9,6 @@ import musin.socialstalker.db.repository.MonitoringRepository;
 import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.UpdateFactory;
-import musin.socialstalker.relation.User;
 import musin.socialstalker.relation.list.RelationList;
 
 import javax.transaction.Transactional;
@@ -20,11 +19,10 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class GeneralMonitoringServiceImpl<
     ID,
-    TUser extends User<ID>,
     TRelationType,
-    TUpdate extends Update<TUser, TRelationType>,
-    TRelationList extends RelationList<TUser, TRelationType>,
-    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
+    TUpdate extends Update<TRelationType>,
+    TRelationList extends RelationList<TRelationType>,
+    TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
     implements GeneralMonitoringService<ID> {
 
   private final MonitoringRepository monitoringRepository;
@@ -32,7 +30,7 @@ public class GeneralMonitoringServiceImpl<
   private final IdFactory<ID> idFactory;
   private final RelationListPuller<ID, TRelationList> relationListPuller;
   private final GeneralUpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
-  private final UpdateFactory<TUser, TRelationType, TUpdate> updateFactory;
+  private final UpdateFactory<TRelationType, TUpdate> updateFactory;
 
   @Override
   @Transactional

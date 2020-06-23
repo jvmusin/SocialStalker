@@ -6,6 +6,6 @@ import musin.socialstalker.relation.User;
 public interface NotifiableUpdateFactory<
     TUser extends User<?>,
     TRelationType,
-    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>> {
+    TNotifiableUpdate extends NotifiableUpdate<TRelationType>> {
   TNotifiableUpdate create(RelationUpdate relationUpdate);
 }

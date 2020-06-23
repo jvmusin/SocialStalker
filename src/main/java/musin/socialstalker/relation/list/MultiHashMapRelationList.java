@@ -13,7 +13,7 @@ public abstract class MultiHashMapRelationList<TUser, TRelationType>
     extends HashMapRelationList<TUser, TRelationType> {
 
   @Override
-  public void apply(Update<? extends TUser, ? extends TRelationType> update) {
+  public void apply(Update<? extends TRelationType> update) {
     validateUpdate(update);
 
     if ((update.getWas() == null) == (update.getNow() == null))
@@ -35,8 +35,8 @@ public abstract class MultiHashMapRelationList<TUser, TRelationType>
 
   @Override
   public <TUpdate> Stream<TUpdate> updates(
-      RelationList<TUser, ? extends TRelationType> newer,
-      UpdateFactory<? super TUser, ? super TRelationType, ? extends TUpdate> updateFactory) {
+      RelationList<? extends TRelationType> newer,
+      UpdateFactory<? super TRelationType, ? extends TUpdate> updateFactory) {
     return concat(users(), newer.users()).distinct().flatMap(user -> {
       var curTypes = getAllRelationTypes(user);
       var newerTypes = newer.getAllRelationTypes(user);

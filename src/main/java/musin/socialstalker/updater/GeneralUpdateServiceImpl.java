@@ -29,9 +29,9 @@ public class GeneralUpdateServiceImpl<
     ID,
     TUser extends User<ID>,
     TRelationType,
-    TUpdate extends Update<TUser, TRelationType>,
-    TRelationList extends RelationList<TUser, TRelationType>,
-    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
+    TUpdate extends Update<TRelationType>,
+    TRelationList extends RelationList<TRelationType>,
+    TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
     implements GeneralUpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> {
 
   private final MonitoringRepository monitoringRepository;
@@ -86,7 +86,7 @@ public class GeneralUpdateServiceImpl<
         .thenApply(this::createList);
   }
 
-  private TRelationList createList(Stream<? extends Update<? extends TUser, ? extends TRelationType>> updates) {
+  private TRelationList createList(Stream<? extends Update<? extends TRelationType>> updates) {
     TRelationList list = relationListFactory.create();
     updates.forEach(list::apply);
     return list;

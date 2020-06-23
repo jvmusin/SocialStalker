@@ -15,9 +15,9 @@ public class UpdateServiceImpl<
     ID,
     TUser extends User<ID>,
     TRelationType,
-    TUpdate extends Update<TUser, TRelationType>,
-    TRelationList extends RelationList<TUser, TRelationType>,
-    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
+    TUpdate extends Update<TRelationType>,
+    TRelationList extends RelationList<TRelationType>,
+    TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
     implements UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> {
 
   private final Stalker stalker;

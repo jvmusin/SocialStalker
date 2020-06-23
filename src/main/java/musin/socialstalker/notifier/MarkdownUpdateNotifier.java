@@ -1,7 +1,6 @@
 package musin.socialstalker.notifier;
 
 import lombok.RequiredArgsConstructor;
-import musin.socialstalker.relation.User;
 
 import java.util.IntSummaryStatistics;
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.StringJoiner;
 
 @RequiredArgsConstructor
 public class MarkdownUpdateNotifier<
-    TUpdate extends NotifiableUpdate<? extends User<?>, ?>>
+    TUpdate extends NotifiableUpdate<?>>
     implements UpdateNotifier<TUpdate> {
 
   private final MessageSender sender;

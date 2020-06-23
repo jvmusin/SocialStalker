@@ -22,9 +22,9 @@ public class UpdaterImpl<
     ID,
     TUser extends User<ID>,
     TRelationType,
-    TUpdate extends Update<TUser, TRelationType>,
-    TRelationList extends RelationList<TUser, TRelationType>,
-    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
+    TUpdate extends Update<TRelationType>,
+    TRelationList extends RelationList<TRelationType>,
+    TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
     implements Updater {
 
   private final MonitoringService<ID> monitoringService;
@@ -32,7 +32,7 @@ public class UpdaterImpl<
   private final RelationListPuller<ID, TRelationList> relationListPuller;
   private final List<? extends UpdateNotifier<? super TNotifiableUpdate>> notifiers;
   private final TaskExecutor taskExecutor;
-  private final UpdateFactory<TUser, TRelationType, TUpdate> updateFactory;
+  private final UpdateFactory<TRelationType, TUpdate> updateFactory;
 
   @Override
   public void run() {

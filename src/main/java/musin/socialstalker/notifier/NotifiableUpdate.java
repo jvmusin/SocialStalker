@@ -8,14 +8,14 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.StringJoiner;
 
-public interface NotifiableUpdate<TUser extends User<?>, TRelationType>
-    extends Update<TUser, TRelationType> {
+public interface NotifiableUpdate<TRelationType>
+    extends Update<TRelationType> {
 
   String getNetwork();
 
   Integer getId();
 
-  TUser getTarget();
+  User<?> getTarget();
 
   LocalDateTime getTime();
 

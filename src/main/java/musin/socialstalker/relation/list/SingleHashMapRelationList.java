@@ -13,7 +13,7 @@ public abstract class SingleHashMapRelationList<TUser, TRelationType>
     extends HashMapRelationList<TUser, TRelationType> {
 
   @Override
-  public void apply(Update<? extends TUser, ? extends TRelationType> update) {
+  public void apply(Update<? extends TRelationType> update) {
     validateUpdate(update);
 
     if (!Objects.equals(update.getWas(), getRelationType(update.getSuspected())))
@@ -25,8 +25,8 @@ public abstract class SingleHashMapRelationList<TUser, TRelationType>
 
   @Override
   public <TUpdate> Stream<TUpdate> updates(
-      RelationList<TUser, ? extends TRelationType> newer,
-      UpdateFactory<? super TUser, ? super TRelationType, ? extends TUpdate> updateFactory) {
+      RelationList<? extends TRelationType> newer,
+      UpdateFactory<? super TRelationType, ? extends TUpdate> updateFactory) {
     return concat(users(), newer.users()).distinct()
         .filter(u -> !Objects.equals(getRelationType(u), newer.getRelationType(u)))
         .map(u -> updateFactory.updating(u, getRelationType(u), newer.getRelationType(u)));

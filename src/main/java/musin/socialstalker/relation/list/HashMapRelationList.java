@@ -2,6 +2,7 @@ package musin.socialstalker.relation.list;
 
 import lombok.RequiredArgsConstructor;
 import musin.socialstalker.relation.Update;
+import musin.socialstalker.relation.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,28 +14,28 @@ import static java.util.Collections.emptySet;
 
 @RequiredArgsConstructor
 public abstract class HashMapRelationList<TUser, TRelationType>
-    implements RelationList<TUser, TRelationType> {
+    implements RelationList<TRelationType> {
 
-  protected final Map<TUser, Set<TRelationType>> userRelations = new HashMap<>();
+  protected final Map<User<?>, Set<TRelationType>> userRelations = new HashMap<>();
 
   @Override
-  public Stream<TUser> users() {
+  public Stream<User<?>> users() {
     return userRelations.keySet().stream();
   }
 
   @Override
-  public Set<TRelationType> getAllRelationTypes(TUser user) {
+  public Set<TRelationType> getAllRelationTypes(User<?> user) {
     return userRelations.getOrDefault(user, emptySet());
   }
 
-  protected void validateUpdate(Update<? extends TUser, ? extends TRelationType> update) {
+  protected void validateUpdate(Update<? extends TRelationType> update) {
     if (update.getSuspected() == null) throw new IllegalArgumentException("Suspected is null: " + update);
     if (Objects.equals(update.getWas(), update.getNow()))
       throw new IllegalArgumentException("Was and now types are same: " + update);
   }
 
   @Override
-  public TRelationType getRelationType(TUser user) {
+  public TRelationType getRelationType(User<?> user) {
     Set<TRelationType> types = userRelations.getOrDefault(user, emptySet());
     if (types.isEmpty()) return null;
     if (types.size() == 1) return types.iterator().next();

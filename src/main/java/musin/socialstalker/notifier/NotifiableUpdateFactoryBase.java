@@ -16,7 +16,7 @@ public abstract class NotifiableUpdateFactoryBase<
     ID,
     TUser extends User<ID>,
     TRelationType,
-    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
+    TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
     implements NotifiableUpdateFactory<TUser, TRelationType, TNotifiableUpdate> {
 
   private final UserFactory<ID, TUser> userFactory;
@@ -25,7 +25,7 @@ public abstract class NotifiableUpdateFactoryBase<
   private final IdFactory<ID> idFactory;
 
   @Data
-  protected abstract class NotifiableUpdateBase implements NotifiableUpdate<TUser, TRelationType> {
+  protected abstract class NotifiableUpdateBase implements NotifiableUpdate<TRelationType> {
     private final String network = networkProperties.getNetwork();
     private final Integer id;
     private final TUser target;
