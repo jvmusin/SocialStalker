@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.StringJoiner;
 
-public interface NotifiableUpdate<TRelationType> extends Update {
+public interface NotifiableUpdate extends Update {
   Integer getId();
 
   String getNetwork();

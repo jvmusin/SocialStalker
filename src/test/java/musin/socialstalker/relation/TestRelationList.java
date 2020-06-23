@@ -1,16 +1,15 @@
 package musin.socialstalker.relation;
 
 import musin.socialstalker.relation.list.RelationList;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-public interface TestRelationList extends RelationList<RelationType> {
-  default @NotNull Stream<Update> updates(@NotNull RelationList<RelationType> newer) {
+public interface TestRelationList extends RelationList {
+  default Stream<Update> updates(RelationList newer) {
     return updates(newer, new TestUpdateFactory());
   }
 
-  default @NotNull Stream<TestRelation> relations() {
+  default Stream<TestRelation> relations() {
     return users().flatMap(u -> getAllRelationTypes(u).stream().map(t -> new TestRelation(u, t)));
   }
 }

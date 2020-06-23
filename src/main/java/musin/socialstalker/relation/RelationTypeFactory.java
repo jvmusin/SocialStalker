@@ -1,5 +1,5 @@
 package musin.socialstalker.relation;
 
-public interface RelationTypeFactory<T> {
-  T parseNullSafe(String type);
+public interface RelationTypeFactory {
+  RelationType parseNullSafe(String type);
 }

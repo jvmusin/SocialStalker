@@ -8,10 +8,10 @@ import musin.socialstalker.relation.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InstagramRelationFactory implements RelationFactory<RelationType> {
+public class InstagramRelationFactory implements RelationFactory {
 
   @Override
-  public Relation<RelationType> create(User<?> user, RelationType type) {
+  public Relation create(User<?> user, RelationType type) {
     return new InstagramRelationImpl(user, type);
   }
 

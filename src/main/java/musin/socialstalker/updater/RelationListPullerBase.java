@@ -15,12 +15,11 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Stream.empty;
 
 @RequiredArgsConstructor
-public abstract class RelationListPullerBase<ID, TRelationType extends RelationType>
-    implements RelationListPuller<ID, TRelationType> {
+public abstract class RelationListPullerBase<ID> implements RelationListPuller<ID> {
 
-  private final RelationListFactory<RelationType> relationListFactory;
-  private final UpdateFactory<RelationType> updateFactory;
-  private final RelationFactory<RelationType> relationFactory;
+  private final RelationListFactory relationListFactory;
+  private final UpdateFactory updateFactory;
+  private final RelationFactory relationFactory;
   private final UserFactory<ID> userFactory;
   private final List<Query> queries = new ArrayList<>();
 
@@ -29,12 +28,12 @@ public abstract class RelationListPullerBase<ID, TRelationType extends RelationT
   }
 
   @Override
-  public CompletableFuture<RelationList<RelationType>> pull(ID userId) {
+  public CompletableFuture<RelationList> pull(ID userId) {
     return queries.stream()
         .map(q -> q.call(userId))
         .reduce(completedFuture(empty()), (a, b) -> a.thenCombine(b, Stream::concat))
         .thenApply(relations -> {
-          RelationList<RelationType> list = relationListFactory.create();
+          RelationList list = relationListFactory.create();
           relations.forEach(r -> list.apply(updateFactory.creating(r.getUser(), r.getType())));
           return list;
         });
@@ -45,7 +44,7 @@ public abstract class RelationListPullerBase<ID, TRelationType extends RelationT
     final Function<ID, CompletableFuture<List<ID>>> query;
     final RelationType type;
 
-    CompletableFuture<Stream<Relation<RelationType>>> call(ID userId) {
+    CompletableFuture<Stream<Relation>> call(ID userId) {
       return query.apply(userId).thenApply(
           list -> list.stream().map(
               id -> relationFactory.create(userFactory.create(id), type)

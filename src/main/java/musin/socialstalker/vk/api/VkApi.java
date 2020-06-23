@@ -109,14 +109,6 @@ public class VkApi implements SocialApi<VkID> {
     return ids.stream().map(VkID::new).collect(toList());
   }
 
-  public CompletableFuture<Optional<VkApiUser>> getUserAsync(String nicknameOrId) {
-    return taskExecutor.submitListenable(() -> getUser(nicknameOrId)).completable();
-  }
-
-  public CompletableFuture<List<VkApiUser>> getUsersAsync(List<String> nicknamesOrIds) {
-    return taskExecutor.submitListenable(() -> getUsers(nicknamesOrIds)).completable();
-  }
-
   public CompletableFuture<List<VkID>> getFriendsAsync(VkID userId) {
     return taskExecutor.submitListenable(() -> getFriends(userId)).completable();
   }

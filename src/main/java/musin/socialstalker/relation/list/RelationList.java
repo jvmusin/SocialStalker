@@ -8,7 +8,7 @@ import musin.socialstalker.relation.User;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public interface RelationList<TRelationType extends RelationType> {
+public interface RelationList {
 
   /**
    * @return all users in this list
@@ -42,12 +42,9 @@ public interface RelationList<TRelationType extends RelationType> {
    * @param updateFactory a factory to create updates with
    * @return updates between this and newer list
    */
-  Stream<Update> updates(
-      RelationList<RelationType> newer,
-      UpdateFactory<RelationType> updateFactory
-  );
+  Stream<Update> updates(RelationList newer, UpdateFactory updateFactory);
 
-  default Stream<Update> asUpdates(UpdateFactory<RelationType> updateFactory) {
+  default Stream<Update> asUpdates(UpdateFactory updateFactory) {
     return users().flatMap(u -> getAllRelationTypes(u).stream().map(t -> updateFactory.creating(u, t)));
   }
 }

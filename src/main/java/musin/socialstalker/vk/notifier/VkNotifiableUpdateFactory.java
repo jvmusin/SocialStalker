@@ -2,17 +2,15 @@ package musin.socialstalker.vk.notifier;
 
 import musin.socialstalker.db.model.RelationUpdate;
 import musin.socialstalker.notifier.NotifiableUpdateFactoryBase;
-import musin.socialstalker.relation.RelationType;
 import musin.socialstalker.vk.api.VkID;
 import musin.socialstalker.vk.api.VkIdFactory;
 import musin.socialstalker.vk.config.VkNetworkProperties;
-import musin.socialstalker.vk.relation.VkRelationType;
 import musin.socialstalker.vk.relation.VkRelationTypeFactory;
 import musin.socialstalker.vk.relation.VkUserFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VkNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<VkID, RelationType> {
+public class VkNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<VkID> {
 
   public VkNotifiableUpdateFactory(VkUserFactory userFactory,
                                    VkRelationTypeFactory relationTypeFactory,

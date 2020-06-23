@@ -9,7 +9,6 @@ import musin.socialstalker.db.repository.MonitoringRepository;
 import musin.socialstalker.db.repository.RelationUpdateRepository;
 import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.notifier.NotifiableUpdateFactory;
-import musin.socialstalker.relation.RelationType;
 import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.list.RelationList;
 import musin.socialstalker.relation.list.RelationListFactory;
@@ -25,17 +24,17 @@ import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Log4j2
-public class GeneralUpdateServiceImpl<ID, TRelationType extends RelationType> implements GeneralUpdateService<ID, TRelationType> {
+public class GeneralUpdateServiceImpl<ID> implements GeneralUpdateService<ID> {
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;
-  private final NotifiableUpdateFactory<TRelationType> notifiableUpdateFactory;
+  private final NotifiableUpdateFactory notifiableUpdateFactory;
   private final NetworkProperties networkProperties;
-  private final RelationListFactory<TRelationType> relationListFactory;
+  private final RelationListFactory relationListFactory;
 
   @Override
   @Transactional
-  public List<NotifiableUpdate<RelationType>> saveAll(Stalker stalker, List<Update> updates, ID target) {
+  public List<NotifiableUpdate> saveAll(Stalker stalker, List<Update> updates, ID target) {
     if (updates.isEmpty()) return emptyList();
     if (monitoringRepository.existsByStalkerAndNetworkAndTarget(stalker, networkProperties.getNetwork(), target.toString())) {
       List<RelationUpdate> relationUpdates = updates.stream()
@@ -73,14 +72,14 @@ public class GeneralUpdateServiceImpl<ID, TRelationType extends RelationType> im
 
   @Override
   @Transactional
-  public CompletableFuture<RelationList<RelationType>> buildList(Stalker stalker, ID target) {
+  public CompletableFuture<RelationList> buildList(Stalker stalker, ID target) {
     return relationUpdateRepository.findAllByStalkerAndNetworkAndTargetOrderById(stalker, networkProperties.getNetwork(), target.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);
   }
 
-  private RelationList<RelationType> createList(Stream<NotifiableUpdate<RelationType>> updates) {
-    RelationList<RelationType> list = relationListFactory.create();
+  private RelationList createList(Stream<NotifiableUpdate> updates) {
+    RelationList list = relationListFactory.create();
     updates.forEach(list::apply);
     return list;
   }

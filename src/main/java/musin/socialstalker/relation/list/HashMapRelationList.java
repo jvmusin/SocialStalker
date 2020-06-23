@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 import static java.util.Collections.emptySet;
 
 @RequiredArgsConstructor
-public abstract class HashMapRelationList<TRelationType extends RelationType> implements RelationList<TRelationType> {
+public abstract class HashMapRelationList implements RelationList {
 
   protected final Map<User<?>, Set<RelationType>> userRelations = new HashMap<>();
 

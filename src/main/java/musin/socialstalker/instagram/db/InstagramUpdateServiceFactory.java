@@ -3,8 +3,6 @@ package musin.socialstalker.instagram.db;
 import lombok.RequiredArgsConstructor;
 import musin.socialstalker.db.model.Stalker;
 import musin.socialstalker.instagram.api.InstagramID;
-import musin.socialstalker.instagram.relation.InstagramRelationType;
-import musin.socialstalker.relation.RelationType;
 import musin.socialstalker.updater.GeneralUpdateService;
 import musin.socialstalker.updater.UpdateService;
 import musin.socialstalker.updater.UpdateServiceFactory;
@@ -13,12 +11,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class InstagramUpdateServiceFactory implements UpdateServiceFactory<InstagramID, RelationType> {
+public class InstagramUpdateServiceFactory implements UpdateServiceFactory<InstagramID> {
 
-  private final GeneralUpdateService<InstagramID, RelationType> generalUpdateService;
+  private final GeneralUpdateService<InstagramID> generalUpdateService;
 
   @Override
-  public UpdateService<InstagramID, RelationType> create(Stalker stalker) {
+  public UpdateService<InstagramID> create(Stalker stalker) {
     return new UpdateServiceImpl<>(stalker, generalUpdateService);
   }
 }

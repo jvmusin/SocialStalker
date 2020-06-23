@@ -1,10 +1,5 @@
 package musin.socialstalker.vk.updater;
 
-import musin.socialstalker.relation.RelationFactory;
-import musin.socialstalker.relation.RelationType;
-import musin.socialstalker.relation.UpdateFactory;
-import musin.socialstalker.relation.UserFactory;
-import musin.socialstalker.relation.list.RelationListFactory;
 import musin.socialstalker.updater.RelationListPullerBase;
 import musin.socialstalker.vk.api.VkApi;
 import musin.socialstalker.vk.api.VkID;
@@ -15,7 +10,7 @@ import static musin.socialstalker.vk.relation.VkRelationType.FOLLOWER;
 import static musin.socialstalker.vk.relation.VkRelationType.FRIEND;
 
 @Component
-public class VkRelationListPuller extends RelationListPullerBase<VkID, RelationType> {
+public class VkRelationListPuller extends RelationListPullerBase<VkID> {
   public VkRelationListPuller(VkRelationListFactory relationListFactory,
                               VkUpdateFactory updateFactory,
                               VkRelationFactory relationFactory,

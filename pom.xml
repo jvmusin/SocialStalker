@@ -11,7 +11,7 @@
     <groupId>musin</groupId>
     <artifactId>socialstalker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>The social Stalker Project</name>
+    <name>The Social Stalker Project</name>
     <description>The Project helps to stalker for people subscriptions in instagram and vk</description>
 
     <properties>
