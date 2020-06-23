@@ -6,15 +6,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.stream.Stream;
 
 public interface TestRelationList extends RelationList<TestRelationType> {
-  default @NotNull Stream<TestUpdate> updates(@NotNull RelationList<? extends TestRelationType> newer) {
+  default @NotNull Stream<Update<TestRelationType>> updates(@NotNull RelationList<TestRelationType> newer) {
     return updates(newer, new TestUpdateFactory());
   }
 
   default @NotNull Stream<TestRelation> relations() {
-    return users().flatMap(u -> getAllRelationTypes(u).stream().map(t -> {
-      User<?> u1 = u;
-      TestRelationType t1 = t;
-      return new TestRelation(u1, t1);
-    }));
+    return users().flatMap(u -> getAllRelationTypes(u).stream().map(t -> new TestRelation(u, t)));
   }
 }

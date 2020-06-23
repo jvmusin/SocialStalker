@@ -14,7 +14,7 @@ public interface GeneralUpdateService<
     TRelationList extends RelationList<?>,
     TNotifiableUpdate extends NotifiableUpdate<?>> {
 
-  List<TNotifiableUpdate> saveAll(Stalker stalker, List<? extends TUpdate> updates, ID target);
+  List<TNotifiableUpdate> saveAll(Stalker stalker, List<? extends Update<?>> updates, ID target);
 
   void removeAllByTarget(Stalker stalker, ID target);
 

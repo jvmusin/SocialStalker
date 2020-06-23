@@ -23,9 +23,9 @@ public abstract class SingleHashMapRelationList<TRelationType> extends HashMapRe
   }
 
   @Override
-  public <TUpdate> Stream<TUpdate> updates(
-      RelationList<? extends TRelationType> newer,
-      UpdateFactory<? super TRelationType, ? extends TUpdate> updateFactory) {
+  public Stream<Update<TRelationType>> updates(
+      RelationList<TRelationType> newer,
+      UpdateFactory<TRelationType, Update<TRelationType>> updateFactory) {
     return concat(users(), newer.users()).distinct()
         .filter(u -> !Objects.equals(getRelationType(u), newer.getRelationType(u)))
         .map(u -> updateFactory.updating(u, getRelationType(u), newer.getRelationType(u)));

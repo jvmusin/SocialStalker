@@ -42,7 +42,7 @@ public class GeneralUpdateServiceImpl<
 
   @Override
   @Transactional
-  public List<TNotifiableUpdate> saveAll(Stalker stalker, List<? extends TUpdate> updates, ID target) {
+  public List<TNotifiableUpdate> saveAll(Stalker stalker, List<? extends Update<?>> updates, ID target) {
     if (updates.isEmpty()) return emptyList();
     if (monitoringRepository.existsByStalkerAndNetworkAndTarget(stalker, networkProperties.getNetwork(), target.toString())) {
       List<RelationUpdate> relationUpdates = updates.stream()
@@ -60,7 +60,7 @@ public class GeneralUpdateServiceImpl<
     }
   }
 
-  private RelationUpdate updateToRelationUpdate(Stalker stalker, TUpdate update, ID target) {
+  private RelationUpdate updateToRelationUpdate(Stalker stalker, Update<?> update, ID target) {
     return RelationUpdate.builder()
         .stalker(stalker)
         .network(networkProperties.getNetwork())

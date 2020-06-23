@@ -30,7 +30,7 @@ public class GeneralMonitoringServiceImpl<
   private final IdFactory<ID> idFactory;
   private final RelationListPuller<ID, TRelationType> relationListPuller;
   private final GeneralUpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
-  private final UpdateFactory<TRelationType, TUpdate> updateFactory;
+  private final UpdateFactory<TRelationType, Update<TRelationType>> updateFactory;
 
   @Override
   @Transactional

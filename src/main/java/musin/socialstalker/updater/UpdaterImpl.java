@@ -32,7 +32,7 @@ public class UpdaterImpl<
   private final RelationListPuller<ID, TRelationType> relationListPuller;
   private final List<? extends UpdateNotifier<? super TNotifiableUpdate>> notifiers;
   private final TaskExecutor taskExecutor;
-  private final UpdateFactory<TRelationType, TUpdate> updateFactory;
+  private final UpdateFactory<TRelationType, Update<TRelationType>> updateFactory;
 
   @Override
   public void run() {

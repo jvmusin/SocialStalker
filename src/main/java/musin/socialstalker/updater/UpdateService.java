@@ -13,7 +13,7 @@ public interface UpdateService<
     TRelationList,
     TNotifiableUpdate> {
 
-  List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID target);
+  List<TNotifiableUpdate> saveAll(List<? extends Update<?>> updates, ID target);
 
   CompletableFuture<TRelationList> buildList(ID target);
 }

@@ -8,6 +8,7 @@ import musin.socialstalker.instagram.notifier.InstagramNotifiableUpdate;
 import musin.socialstalker.instagram.relation.InstagramRelationList;
 import musin.socialstalker.instagram.relation.InstagramRelationType;
 import musin.socialstalker.instagram.relation.InstagramUpdate;
+import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.UpdateFactory;
 import musin.socialstalker.updater.GeneralMonitoringServiceImpl;
 import musin.socialstalker.updater.GeneralUpdateService;
@@ -28,7 +29,7 @@ public class InstagramGeneralMonitoringService extends GeneralMonitoringServiceI
       IdFactory<InstagramID> idFactory,
       RelationListPuller<InstagramID, InstagramRelationType> relationListPuller,
       GeneralUpdateService<InstagramID, InstagramUpdate, InstagramRelationList, InstagramNotifiableUpdate> updateService,
-      UpdateFactory<InstagramRelationType, InstagramUpdate> updateFactory) {
+      UpdateFactory<InstagramRelationType, Update<InstagramRelationType>> updateFactory) {
     super(monitoringRepository, properties, idFactory, relationListPuller, updateService, updateFactory);
   }
 }

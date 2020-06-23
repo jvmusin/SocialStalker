@@ -41,12 +41,12 @@ public interface RelationList<TRelationType> {
    * @param updateFactory a factory to create updates with
    * @return updates between this and newer list
    */
-  <TUpdate> Stream<TUpdate> updates(
-      RelationList<? extends TRelationType> newer,
-      UpdateFactory<? super TRelationType, ? extends TUpdate> updateFactory);
+  Stream<Update<TRelationType>> updates(
+      RelationList<TRelationType> newer,
+      UpdateFactory<TRelationType, Update<TRelationType>> updateFactory);
 
-  default <TUpdate> Stream<TUpdate> asUpdates(
-      UpdateFactory<? super TRelationType, ? extends TUpdate> updateFactory) {
+  default Stream<Update<TRelationType>> asUpdates(
+      UpdateFactory<TRelationType, Update<TRelationType>> updateFactory) {
     return users().flatMap(u -> getAllRelationTypes(u).stream().map(t -> updateFactory.creating(u, t)));
   }
 }

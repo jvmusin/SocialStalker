@@ -24,7 +24,7 @@ public class UpdateServiceImpl<
   private final GeneralUpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> generalUpdateService;
 
   @Override
-  public List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID target) {
+  public List<TNotifiableUpdate> saveAll(List<? extends Update<?>> updates, ID target) {
     return generalUpdateService.saveAll(stalker, updates, target);
   }
 
