@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 @RequiredArgsConstructor
-public class MarkdownUpdateNotifier<TUpdate extends NotifiableUpdate<?>, TRelationType>
+public class MarkdownUpdateNotifier<TRelationType>
     implements UpdateNotifier<TRelationType> {
 
   private final MessageSender sender;

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.notifier.UpdateNotifier;
-import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.UpdateFactory;
 import musin.socialstalker.relation.list.RelationList;
 import org.apache.logging.log4j.Level;
@@ -17,14 +16,10 @@ import static java.util.stream.Collectors.toList;
 
 @Log4j2
 @RequiredArgsConstructor
-public class UpdaterImpl<
-    ID,
-    TRelationType,
-    TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
-    implements Updater {
+public class UpdaterImpl<ID, TRelationType> implements Updater {
 
   private final MonitoringService<ID> monitoringService;
-  private final UpdateService<ID, NotifiableUpdate<TRelationType>, TRelationType> updateService;
+  private final UpdateService<ID, TRelationType> updateService;
   private final RelationListPuller<ID, TRelationType> relationListPuller;
   private final List<? extends UpdateNotifier<TRelationType>> notifiers;
   private final TaskExecutor taskExecutor;

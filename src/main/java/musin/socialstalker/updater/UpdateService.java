@@ -7,10 +7,7 @@ import musin.socialstalker.relation.list.RelationList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public interface UpdateService<
-    ID,
-    TNotifiableUpdate,
-    TRelationType> {
+public interface UpdateService<ID, TRelationType> {
 
   List<NotifiableUpdate<TRelationType>> saveAll(List<? extends Update<?>> updates, ID target);
 

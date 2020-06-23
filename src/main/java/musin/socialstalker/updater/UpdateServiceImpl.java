@@ -10,13 +10,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
-public class UpdateServiceImpl<
-    ID,
-    TRelationType,
-    TUpdate extends Update<TRelationType>,
-    TRelationList extends RelationList<TRelationType>,
-    TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
-    implements UpdateService<ID, TNotifiableUpdate, TRelationType> {
+public class UpdateServiceImpl<ID, TRelationType> implements UpdateService<ID, TRelationType> {
 
   private final Stalker stalker;
   private final GeneralUpdateService<ID, TRelationType> generalUpdateService;

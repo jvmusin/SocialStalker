@@ -11,10 +11,7 @@ import musin.socialstalker.notifier.NotifiableUpdateFactoryBase;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InstagramNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<
-    InstagramID,
-    InstagramRelationType
-    > {
+public class InstagramNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<InstagramID, InstagramRelationType> {
 
   public InstagramNotifiableUpdateFactory(InstagramUserFactory userFactory,
                                           InstagramRelationTypeFactory relationTypeFactory,

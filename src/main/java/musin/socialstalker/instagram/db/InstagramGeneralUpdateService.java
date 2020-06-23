@@ -12,10 +12,7 @@ import musin.socialstalker.updater.GeneralUpdateServiceImpl;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InstagramGeneralUpdateService extends GeneralUpdateServiceImpl<
-    InstagramID,
-    InstagramRelationType
-    > {
+public class InstagramGeneralUpdateService extends GeneralUpdateServiceImpl<InstagramID, InstagramRelationType> {
 
   public InstagramGeneralUpdateService(
       MonitoringRepository monitoringRepository,
