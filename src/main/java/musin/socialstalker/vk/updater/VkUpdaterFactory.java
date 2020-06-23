@@ -12,6 +12,7 @@ import musin.socialstalker.vk.api.VkID;
 import musin.socialstalker.vk.config.VkConfigurationProperties;
 import musin.socialstalker.vk.db.VkMonitoringServiceFactory;
 import musin.socialstalker.vk.db.VkUpdateServiceFactory;
+import musin.socialstalker.vk.notifier.VkUpdateNotifierFactory;
 import musin.socialstalker.vk.relation.VkRelationType;
 import musin.socialstalker.vk.relation.VkUpdateFactory;
 import org.springframework.core.task.TaskExecutor;
@@ -31,7 +32,7 @@ public class VkUpdaterFactory implements UpdaterFactory {
   private final VkMonitoringServiceFactory monitoringServiceFactory;
   private final VkUpdateServiceFactory updateServiceFactory;
   private final VkRelationListPuller relationListPuller;
-  private final List<UpdateNotifierFactory<VkRelationType>> notifierFactories;
+  private final List<VkUpdateNotifierFactory> notifierFactories;
   private final TaskExecutor taskExecutor;
   private final VkConfigurationProperties config;
   private final VkUpdateFactory updateFactory;
@@ -45,11 +46,9 @@ public class VkUpdaterFactory implements UpdaterFactory {
 
   @Override
   public Updater create(Stalker stalker) {
-//    List<UpdateNotifier<VkRelationType>> notifiers = notifierFactories.stream()
-//        .map(f -> f.create(stalker))
-//        .collect(toList());
-    //todo fix it
-    List<UpdateNotifier<RelationType>> notifiers = new ArrayList<>();
+    List<UpdateNotifier<RelationType>> notifiers = notifierFactories.stream()
+        .map(f -> f.create(stalker))
+        .collect(toList());
     notifiers.add(getAdminNotifier(stalker));
     return new UpdaterImpl<>(
         monitoringServiceFactory.create(stalker),
