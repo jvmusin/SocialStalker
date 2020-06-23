@@ -29,7 +29,7 @@ public class UpdaterImpl<
 
   private final MonitoringService<ID> monitoringService;
   private final UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
-  private final RelationListPuller<ID, TRelationList, TRelationType> relationListPuller;
+  private final RelationListPuller<ID, TRelationType> relationListPuller;
   private final List<? extends UpdateNotifier<? super TNotifiableUpdate>> notifiers;
   private final TaskExecutor taskExecutor;
   private final UpdateFactory<TRelationType, TUpdate> updateFactory;

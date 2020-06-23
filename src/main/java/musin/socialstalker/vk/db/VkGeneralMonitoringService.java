@@ -24,7 +24,7 @@ public class VkGeneralMonitoringService extends GeneralMonitoringServiceImpl<
   public VkGeneralMonitoringService(MonitoringRepository monitoringRepository,
                                     VkNetworkProperties properties,
                                     IdFactory<VkID> idFactory,
-                                    RelationListPuller<VkID, VkRelationList, VkRelationType> relationListPuller,
+                                    RelationListPuller<VkID, VkRelationType> relationListPuller,
                                     VkGeneralUpdateService generalUpdateService,
                                     UpdateFactory<VkRelationType, VkUpdate> updateFactory) {
     super(monitoringRepository, properties, idFactory, relationListPuller, generalUpdateService, updateFactory);

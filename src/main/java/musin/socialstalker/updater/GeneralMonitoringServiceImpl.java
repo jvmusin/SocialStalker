@@ -28,7 +28,7 @@ public class GeneralMonitoringServiceImpl<
   private final MonitoringRepository monitoringRepository;
   private final NetworkProperties properties;
   private final IdFactory<ID> idFactory;
-  private final RelationListPuller<ID, TRelationList, TRelationType> relationListPuller;
+  private final RelationListPuller<ID, TRelationType> relationListPuller;
   private final GeneralUpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
   private final UpdateFactory<TRelationType, TUpdate> updateFactory;
 
