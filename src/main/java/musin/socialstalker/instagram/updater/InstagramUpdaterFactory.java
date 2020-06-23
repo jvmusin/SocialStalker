@@ -5,6 +5,7 @@ import musin.socialstalker.db.model.Stalker;
 import musin.socialstalker.instagram.api.InstagramID;
 import musin.socialstalker.instagram.config.InstagramConfigurationProperties;
 import musin.socialstalker.instagram.db.InstagramUpdateServiceFactory;
+import musin.socialstalker.instagram.notifier.InstagramUpdateNotifierFactory;
 import musin.socialstalker.instagram.relation.InstagramRelationType;
 import musin.socialstalker.instagram.relation.InstagramUpdateFactory;
 import musin.socialstalker.notifier.MessageSender;
@@ -30,7 +31,7 @@ public class InstagramUpdaterFactory implements UpdaterFactory {
   private final MonitoringServiceFactory<InstagramID> seekerServiceFactory;
   private final InstagramUpdateServiceFactory updateServiceFactory;
   private final InstagramRelationListPuller relationListPuller;
-  private final List<UpdateNotifierFactory<InstagramRelationType>> notifierFactories;
+  private final List<InstagramUpdateNotifierFactory> notifierFactories;
   private final TaskExecutor taskExecutor;
   private final InstagramConfigurationProperties config;
   private final InstagramUpdateFactory updateFactory;
@@ -44,12 +45,9 @@ public class InstagramUpdaterFactory implements UpdaterFactory {
 
   @Override
   public Updater create(Stalker stalker) {
-//    List<UpdateNotifier<RelationType>> notifiers = notifierFactories.stream()
-//        .map(f -> f.create(stalker))
-//        .map(f -> f)
-//        .collect(toList());
-    //todo fix it
-    List<UpdateNotifier<RelationType>> notifiers = new ArrayList<>();
+    List<UpdateNotifier<RelationType>> notifiers = notifierFactories.stream()
+        .map(f -> f.create(stalker))
+        .collect(toList());
     notifiers.add(getAdminMessageSender(stalker));
     return new UpdaterImpl<>(
         seekerServiceFactory.create(stalker),
