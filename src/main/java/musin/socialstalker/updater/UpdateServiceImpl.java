@@ -16,7 +16,7 @@ public class UpdateServiceImpl<ID, TRelationType> implements UpdateService<ID, T
   private final GeneralUpdateService<ID, TRelationType> generalUpdateService;
 
   @Override
-  public List<? extends NotifiableUpdate<TRelationType>> saveAll(List<? extends Update<?>> updates, ID target) {
+  public List<? extends NotifiableUpdate<? extends TRelationType>> saveAll(List<? extends Update<?>> updates, ID target) {
     return generalUpdateService.saveAll(stalker, updates, target);
   }
 
