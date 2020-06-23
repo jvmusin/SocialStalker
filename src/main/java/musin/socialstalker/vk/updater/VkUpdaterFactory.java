@@ -5,9 +5,9 @@ import musin.socialstalker.db.model.Stalker;
 import musin.socialstalker.notifier.MessageSender;
 import musin.socialstalker.notifier.UpdateNotifier;
 import musin.socialstalker.notifier.UpdateNotifierFactory;
-import musin.socialstalker.updater.Updater;
-import musin.socialstalker.updater.UpdaterFactory;
-import musin.socialstalker.updater.UpdaterImpl;
+import musin.socialstalker.relation.UpdateFactory;
+import musin.socialstalker.updater.*;
+import musin.socialstalker.vk.api.VkID;
 import musin.socialstalker.vk.config.VkConfigurationProperties;
 import musin.socialstalker.vk.db.VkMonitoringServiceFactory;
 import musin.socialstalker.vk.db.VkUpdateServiceFactory;
@@ -26,13 +26,13 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class VkUpdaterFactory implements UpdaterFactory {
 
-  private final VkMonitoringServiceFactory monitoringServiceFactory;
-  private final VkUpdateServiceFactory updateServiceFactory;
-  private final VkRelationListPuller relationListPuller;
+  private final MonitoringServiceFactory<VkID> monitoringServiceFactory;
+  private final UpdateServiceFactory<VkID, VkRelationType> updateServiceFactory;
+  private final RelationListPuller<VkID, VkRelationType> relationListPuller;
   private final List<UpdateNotifierFactory<VkRelationType>> notifierFactories;
   private final TaskExecutor taskExecutor;
   private final VkConfigurationProperties config;
-  private final VkUpdateFactory updateFactory;
+  private final UpdateFactory<VkRelationType> updateFactory;
   private final MessageSender adminMessageSender;
 
   private UpdateNotifier<VkRelationType> getAdminNotifier(Stalker stalker) {

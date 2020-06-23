@@ -9,7 +9,6 @@ import musin.socialstalker.relation.User;
 import musin.socialstalker.relation.UserFactory;
 import musin.socialstalker.updater.MonitoringServiceFactory;
 import musin.socialstalker.vk.api.VkID;
-import musin.socialstalker.vk.relation.VkUser;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -28,7 +27,7 @@ public class VkNetworkFactory implements NetworkFactory {
     return new VkNetwork(stalker);
   }
 
-  private class VkNetwork extends NetworkBase<VkID, VkUser> {
+  private class VkNetwork extends NetworkBase<VkID> {
     public VkNetwork(Stalker stalker) {
       super(monitoringServiceFactory.create(stalker), idFactory, userFactory, api);
     }

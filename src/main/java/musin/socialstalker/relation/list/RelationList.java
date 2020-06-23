@@ -43,10 +43,10 @@ public interface RelationList<TRelationType> {
    */
   Stream<Update<TRelationType>> updates(
       RelationList<TRelationType> newer,
-      UpdateFactory<TRelationType> updateFactory);
+      UpdateFactory<TRelationType> updateFactory
+  );
 
-  default Stream<Update<TRelationType>> asUpdates(
-      UpdateFactory<TRelationType> updateFactory) {
+  default Stream<Update<TRelationType>> asUpdates(UpdateFactory<TRelationType> updateFactory) {
     return users().flatMap(u -> getAllRelationTypes(u).stream().map(t -> updateFactory.creating(u, t)));
   }
 }

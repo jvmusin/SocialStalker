@@ -3,7 +3,7 @@ package musin.socialstalker.relation;
 public interface User<ID> {
   ID getId();
 
-  //should start with "id:" ("123: name")
+  //should start with "id:" (ex. "123: name (nickname)")
   String getFullyQualifiedName();
 
   String getLink();

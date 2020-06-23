@@ -13,7 +13,7 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-public class NetworkBase<ID, TUser extends User<ID>> implements Network {
+public class NetworkBase<ID> implements Network {
   private final MonitoringService<ID> monitoringService;
   private final IdFactory<ID> idFactory;
   private final UserFactory<ID> userFactory;

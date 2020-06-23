@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class VkUpdateServiceFactory
-    implements UpdateServiceFactory<VkID, VkRelationType> {
+public class VkUpdateServiceFactory implements UpdateServiceFactory<VkID, VkRelationType> {
 
   private final VkGeneralUpdateService generalUpdateService;
 

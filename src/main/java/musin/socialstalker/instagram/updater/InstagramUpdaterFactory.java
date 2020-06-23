@@ -2,17 +2,14 @@ package musin.socialstalker.instagram.updater;
 
 import lombok.RequiredArgsConstructor;
 import musin.socialstalker.db.model.Stalker;
+import musin.socialstalker.instagram.api.InstagramID;
 import musin.socialstalker.instagram.config.InstagramConfigurationProperties;
-import musin.socialstalker.instagram.db.InstagramMonitoringServiceFactory;
-import musin.socialstalker.instagram.db.InstagramUpdateServiceFactory;
 import musin.socialstalker.instagram.relation.InstagramRelationType;
-import musin.socialstalker.instagram.relation.InstagramUpdateFactory;
 import musin.socialstalker.notifier.MessageSender;
 import musin.socialstalker.notifier.UpdateNotifier;
 import musin.socialstalker.notifier.UpdateNotifierFactory;
-import musin.socialstalker.updater.Updater;
-import musin.socialstalker.updater.UpdaterFactory;
-import musin.socialstalker.updater.UpdaterImpl;
+import musin.socialstalker.relation.UpdateFactory;
+import musin.socialstalker.updater.*;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -26,13 +23,13 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class InstagramUpdaterFactory implements UpdaterFactory {
 
-  private final InstagramMonitoringServiceFactory seekerServiceFactory;
-  private final InstagramUpdateServiceFactory updateServiceFactory;
-  private final InstagramRelationListPuller relationListPuller;
+  private final MonitoringServiceFactory<InstagramID> seekerServiceFactory;
+  private final UpdateServiceFactory<InstagramID, InstagramRelationType> updateServiceFactory;
+  private final RelationListPuller<InstagramID, InstagramRelationType> relationListPuller;
   private final List<UpdateNotifierFactory<InstagramRelationType>> notifierFactories;
   private final TaskExecutor taskExecutor;
   private final InstagramConfigurationProperties config;
-  private final InstagramUpdateFactory updateFactory;
+  private final UpdateFactory<InstagramRelationType> updateFactory;
   private final MessageSender adminMessageSender;
 
   private UpdateNotifier<InstagramRelationType> getAdminMessageSender(Stalker stalker) {

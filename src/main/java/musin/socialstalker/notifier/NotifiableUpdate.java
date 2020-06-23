@@ -9,10 +9,9 @@ import java.time.format.FormatStyle;
 import java.util.StringJoiner;
 
 public interface NotifiableUpdate<TRelationType> extends Update<TRelationType> {
+  Integer getId();
 
   String getNetwork();
-
-  Integer getId();
 
   User<?> getTarget();
 

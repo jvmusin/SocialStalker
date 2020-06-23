@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public interface UpdateService<ID, TRelationType> {
-
   List<NotifiableUpdate<TRelationType>> saveAll(List<Update<TRelationType>> updates, ID target);
 
   CompletableFuture<RelationList<TRelationType>> buildList(ID target);
