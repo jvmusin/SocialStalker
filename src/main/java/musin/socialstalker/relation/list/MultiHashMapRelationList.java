@@ -33,8 +33,8 @@ public abstract class MultiHashMapRelationList<TRelationType> extends HashMapRel
   }
 
   @Override
-  public Stream<Update<TRelationType>> updates(
-      RelationList<TRelationType> newer,
+  public Stream<? extends Update<? extends TRelationType>> updates(
+      RelationList<? extends TRelationType> newer,
       UpdateFactory<TRelationType> updateFactory) {
     return concat(users(), newer.users()).distinct().flatMap(user -> {
       var curTypes = getAllRelationTypes(user);

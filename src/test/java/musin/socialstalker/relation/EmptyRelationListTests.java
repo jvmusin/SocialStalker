@@ -80,7 +80,7 @@ interface EmptyRelationListTests<TRelationList extends TestRelationList> {
   default void return_correct_updates_on_not_empty_list() {
     TRelationList a = createList();
     TRelationList b = createList(someRelations());
-    List<Update<TestRelationType>> result = a.updates(b).collect(toList());
+    List<? extends Update<? extends TestRelationType>> result = a.updates(b).collect(toList());
     TestUpdate[] expected = someRelations().stream()
         .map(TestRelation::asAdd)
         .toArray(TestUpdate[]::new);

@@ -18,12 +18,12 @@ public abstract class HashMapRelationList<TRelationType> implements RelationList
   protected final Map<User<?>, Set<TRelationType>> userRelations = new HashMap<>();
 
   @Override
-  public Stream<User<?>> users() {
+  public Stream<? extends User<?>> users() {
     return userRelations.keySet().stream();
   }
 
   @Override
-  public Set<TRelationType> getAllRelationTypes(User<?> user) {
+  public Set<? extends TRelationType> getAllRelationTypes(User<?> user) {
     return userRelations.getOrDefault(user, emptySet());
   }
 
