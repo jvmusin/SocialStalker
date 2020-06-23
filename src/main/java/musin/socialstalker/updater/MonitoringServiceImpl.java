@@ -12,7 +12,7 @@ public class MonitoringServiceImpl<ID> implements MonitoringService<ID> {
   private final GeneralMonitoringService<ID> generalMonitoringService;
 
   @Override
-  public List<? extends ID> findAllTargets() {
+  public List<ID> findAllTargets() {
     return generalMonitoringService.findAllTargets(stalker);
   }
 

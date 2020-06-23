@@ -19,14 +19,14 @@ public class GeneralMonitoringServiceImpl<ID, TRelationType> implements GeneralM
 
   private final MonitoringRepository monitoringRepository;
   private final NetworkProperties properties;
-  private final IdFactory<? extends ID> idFactory;
+  private final IdFactory<ID> idFactory;
   private final RelationListPuller<ID, TRelationType> relationListPuller;
   private final GeneralUpdateService<ID, TRelationType> updateService;
   private final UpdateFactory<TRelationType> updateFactory;
 
   @Override
   @Transactional
-  public List<? extends ID> findAllTargets(Stalker stalker) {
+  public List<ID> findAllTargets(Stalker stalker) {
     return monitoringRepository.findAllByStalkerAndNetwork(stalker, properties.getNetwork()).stream()
         .map(seeker -> idFactory.parse(seeker.getTarget()))
         .collect(toList());
