@@ -9,9 +9,9 @@ import java.util.concurrent.CompletableFuture;
 
 public interface UpdateService<
     ID,
-    TUpdate extends Update<?>,
-    TRelationList extends RelationList<?>,
-    TNotifiableUpdate extends NotifiableUpdate<?>> {
+    TUpdate,
+    TRelationList,
+    TNotifiableUpdate> {
 
   List<TNotifiableUpdate> saveAll(List<? extends TUpdate> updates, ID target);
 

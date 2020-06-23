@@ -15,7 +15,6 @@ import static musin.socialstalker.instagram.relation.InstagramRelationType.FOLLO
 public class InstagramRelationListPuller extends RelationListPullerBase<
     InstagramID,
     InstagramRelationType,
-    InstagramUpdate,
     InstagramRelationList> {
   public InstagramRelationListPuller(InstagramRelationListFactory relationListFactory,
                                      InstagramUpdateFactory updateFactory,

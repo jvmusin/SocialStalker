@@ -28,7 +28,7 @@ public class GeneralMonitoringServiceImpl<
   private final MonitoringRepository monitoringRepository;
   private final NetworkProperties properties;
   private final IdFactory<ID> idFactory;
-  private final RelationListPuller<ID, TRelationList> relationListPuller;
+  private final RelationListPuller<ID, TRelationList, TRelationType> relationListPuller;
   private final GeneralUpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
   private final UpdateFactory<TRelationType, TUpdate> updateFactory;
 
@@ -50,7 +50,7 @@ public class GeneralMonitoringServiceImpl<
   @Transactional
   public boolean createMonitoring(Stalker stalker, ID targetId) {
     if (exists(stalker, targetId)) return false;
-    TRelationList list = relationListPuller.pull(targetId).join();
+    RelationList<TRelationType> list = relationListPuller.pull(targetId).join();
     monitoringRepository.save(new Monitoring(null, stalker, properties.getNetwork(), targetId.toString()));
     updateService.saveAll(stalker, list.asUpdates(updateFactory).collect(toList()), targetId);
     return true;

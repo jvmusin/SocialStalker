@@ -18,12 +18,11 @@ import static java.util.stream.Stream.empty;
 public abstract class RelationListPullerBase<
     ID,
     TRelationType,
-    TUpdate extends Update<TRelationType>,
     TRelationList extends RelationList<TRelationType>>
-    implements RelationListPuller<ID, TRelationList> {
+    implements RelationListPuller<ID, TRelationList, TRelationType> {
 
-  private final RelationListFactory<TRelationList> relationListFactory;
-  private final UpdateFactory<TRelationType, TUpdate> updateFactory;
+  private final RelationListFactory<? extends RelationList<TRelationType>> relationListFactory;
+  private final UpdateFactory<TRelationType, ? extends Update<? extends TRelationType>> updateFactory;
   private final RelationFactory<TRelationType> relationFactory;
   private final UserFactory<ID> userFactory;
   private final List<Query> queries = new ArrayList<>();
@@ -33,12 +32,12 @@ public abstract class RelationListPullerBase<
   }
 
   @Override
-  public CompletableFuture<TRelationList> pull(ID userId) {
+  public CompletableFuture<RelationList<TRelationType>> pull(ID userId) {
     return queries.stream()
         .map(q -> q.call(userId))
         .reduce(completedFuture(empty()), (a, b) -> a.thenCombine(b, Stream::concat))
         .thenApply(relations -> {
-          TRelationList list = relationListFactory.create();
+          RelationList<TRelationType> list = relationListFactory.create();
           relations.forEach(r -> list.apply(updateFactory.creating(r.getUser(), r.getType())));
           return list;
         });
