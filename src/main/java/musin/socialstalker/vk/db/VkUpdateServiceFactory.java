@@ -8,18 +8,19 @@ import musin.socialstalker.updater.UpdateServiceImpl;
 import musin.socialstalker.vk.api.VkID;
 import musin.socialstalker.vk.notifier.VkNotifiableUpdate;
 import musin.socialstalker.vk.relation.VkRelationList;
+import musin.socialstalker.vk.relation.VkRelationType;
 import musin.socialstalker.vk.relation.VkUpdate;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class VkUpdateServiceFactory
-    implements UpdateServiceFactory<VkID, VkUpdate, VkRelationList, VkNotifiableUpdate> {
+    implements UpdateServiceFactory<VkID, VkUpdate, VkRelationList, VkNotifiableUpdate, VkRelationType> {
 
   private final VkGeneralUpdateService generalUpdateService;
 
   @Override
-  public UpdateService<VkID, VkUpdate, VkRelationList, VkNotifiableUpdate> create(Stalker stalker) {
+  public UpdateService<VkID, VkUpdate, VkRelationList, VkNotifiableUpdate, VkRelationType> create(Stalker stalker) {
     return new UpdateServiceImpl<>(stalker, generalUpdateService);
   }
 }

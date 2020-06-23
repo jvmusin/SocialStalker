@@ -28,7 +28,7 @@ public class UpdaterImpl<
     implements Updater {
 
   private final MonitoringService<ID> monitoringService;
-  private final UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
+  private final UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate, TRelationType> updateService;
   private final RelationListPuller<ID, TRelationType> relationListPuller;
   private final List<? extends UpdateNotifier<? super TNotifiableUpdate>> notifiers;
   private final TaskExecutor taskExecutor;
@@ -40,7 +40,7 @@ public class UpdaterImpl<
   }
 
   private void run(ID target) {
-    CompletableFuture<TRelationList> was = updateService.buildList(target);
+    CompletableFuture<RelationList<TRelationType>> was = updateService.buildList(target);
 
     CompletableFuture<RelationList<TRelationType>> now = relationListPuller.pull(target);
 

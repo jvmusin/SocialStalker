@@ -10,16 +10,12 @@ import musin.socialstalker.vk.config.VkNetworkProperties;
 import musin.socialstalker.vk.notifier.VkNotifiableUpdate;
 import musin.socialstalker.vk.relation.VkRelationList;
 import musin.socialstalker.vk.relation.VkRelationType;
-import musin.socialstalker.vk.relation.VkUpdate;
-import musin.socialstalker.vk.relation.VkUser;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VkGeneralUpdateService extends GeneralUpdateServiceImpl<
     VkID,
-    VkUser,
     VkRelationType,
-    VkUpdate,
     VkRelationList,
     VkNotifiableUpdate> {
 

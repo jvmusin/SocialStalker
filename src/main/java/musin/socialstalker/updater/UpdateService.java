@@ -11,9 +11,10 @@ public interface UpdateService<
     ID,
     TUpdate,
     TRelationList,
-    TNotifiableUpdate> {
+    TNotifiableUpdate,
+    TRelationType> {
 
   List<TNotifiableUpdate> saveAll(List<? extends Update<?>> updates, ID target);
 
-  CompletableFuture<TRelationList> buildList(ID target);
+  CompletableFuture<RelationList<TRelationType>> buildList(ID target);
 }

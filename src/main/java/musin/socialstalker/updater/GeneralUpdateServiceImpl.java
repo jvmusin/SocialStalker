@@ -10,7 +10,6 @@ import musin.socialstalker.db.repository.RelationUpdateRepository;
 import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.notifier.NotifiableUpdateFactory;
 import musin.socialstalker.relation.Update;
-import musin.socialstalker.relation.User;
 import musin.socialstalker.relation.list.RelationList;
 import musin.socialstalker.relation.list.RelationListFactory;
 
@@ -27,12 +26,10 @@ import static java.util.stream.Collectors.toList;
 @Log4j2
 public class GeneralUpdateServiceImpl<
     ID,
-    TUser extends User<ID>,
     TRelationType,
-    TUpdate extends Update<TRelationType>,
     TRelationList extends RelationList<TRelationType>,
     TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
-    implements GeneralUpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> {
+    implements GeneralUpdateService<ID, TRelationList, TNotifiableUpdate, TRelationType> {
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;
@@ -80,7 +77,7 @@ public class GeneralUpdateServiceImpl<
 
   @Override
   @Transactional
-  public CompletableFuture<TRelationList> buildList(Stalker stalker, ID target) {
+  public CompletableFuture<RelationList<TRelationType>> buildList(Stalker stalker, ID target) {
     return relationUpdateRepository.findAllByStalkerAndNetworkAndTargetOrderById(stalker, networkProperties.getNetwork(), target.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);
