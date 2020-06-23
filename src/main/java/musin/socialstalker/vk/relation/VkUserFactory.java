@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class VkUserFactory implements UserFactory<VkID, VkUser> {
+public class VkUserFactory implements UserFactory<VkID> {
 
   private final VkApi vkApi;
 

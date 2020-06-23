@@ -3,7 +3,7 @@ package musin.socialstalker.relation;
 import lombok.Data;
 
 @Data
-public class TestRelation implements Relation<User<?>, TestRelationType> {
+public class TestRelation implements Relation<TestRelationType> {
   private final User<?> user;
   private final TestRelationType type;
 

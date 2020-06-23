@@ -13,7 +13,7 @@ public class VkRelationListFactory implements RelationListFactory<VkRelationList
   }
 
   private static class VkRelationListImpl
-      extends SingleHashMapRelationList<VkUser, VkRelationType>
+      extends SingleHashMapRelationList<VkRelationType>
       implements VkRelationList {
   }
 }

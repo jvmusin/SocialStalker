@@ -19,7 +19,7 @@ public abstract class NotifiableUpdateFactoryBase<
     TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
     implements NotifiableUpdateFactory<TUser, TRelationType, TNotifiableUpdate> {
 
-  private final UserFactory<ID, TUser> userFactory;
+  private final UserFactory<ID> userFactory;
   private final RelationTypeFactory<TRelationType> relationTypeFactory;
   private final NetworkProperties networkProperties;
   private final IdFactory<ID> idFactory;
@@ -28,8 +28,8 @@ public abstract class NotifiableUpdateFactoryBase<
   protected abstract class NotifiableUpdateBase implements NotifiableUpdate<TRelationType> {
     private final String network = networkProperties.getNetwork();
     private final Integer id;
-    private final TUser target;
-    private final TUser suspected;
+    private final User<?> target;
+    private final User<?> suspected;
     private final TRelationType was;
     private final TRelationType now;
     private final LocalDateTime time;

@@ -14,7 +14,7 @@ import java.util.function.Function;
 @Component
 @Profile("instagram")
 @RequiredArgsConstructor
-public class InstagramUserFactory implements UserFactory<InstagramID, InstagramUser> {
+public class InstagramUserFactory implements UserFactory<InstagramID> {
   private final InstagramApi instagramApi;
 
   @Override

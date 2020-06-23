@@ -13,7 +13,7 @@ public class InstagramRelationListFactory implements RelationListFactory<Instagr
   }
 
   private static class InstagramRelationListImpl
-      extends MultiHashMapRelationList<InstagramUser, InstagramRelationType>
+      extends MultiHashMapRelationList<InstagramRelationType>
       implements InstagramRelationList {
   }
 }

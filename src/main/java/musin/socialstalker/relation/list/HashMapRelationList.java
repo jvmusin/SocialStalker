@@ -13,8 +13,7 @@ import java.util.stream.Stream;
 import static java.util.Collections.emptySet;
 
 @RequiredArgsConstructor
-public abstract class HashMapRelationList<TUser, TRelationType>
-    implements RelationList<TRelationType> {
+public abstract class HashMapRelationList<TRelationType> implements RelationList<TRelationType> {
 
   protected final Map<User<?>, Set<TRelationType>> userRelations = new HashMap<>();
 

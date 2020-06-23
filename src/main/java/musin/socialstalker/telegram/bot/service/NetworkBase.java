@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 public class NetworkBase<ID, TUser extends User<ID>> implements Network {
   private final MonitoringService<ID> monitoringService;
   private final IdFactory<ID> idFactory;
-  private final UserFactory<ID, TUser> userFactory;
+  private final UserFactory<ID> userFactory;
   private final SocialApi<ID> api;
 
   @Override

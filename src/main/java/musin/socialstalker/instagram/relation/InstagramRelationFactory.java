@@ -2,20 +2,21 @@ package musin.socialstalker.instagram.relation;
 
 import lombok.Data;
 import musin.socialstalker.relation.RelationFactory;
+import musin.socialstalker.relation.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class InstagramRelationFactory
-    implements RelationFactory<InstagramUser, InstagramRelationType, InstagramRelation> {
+    implements RelationFactory<InstagramRelationType, InstagramRelation> {
 
   @Override
-  public InstagramRelation create(InstagramUser user, InstagramRelationType type) {
+  public InstagramRelation create(User<?> user, InstagramRelationType type) {
     return new InstagramRelationImpl(user, type);
   }
 
   @Data
   private static class InstagramRelationImpl implements InstagramRelation {
-    private final InstagramUser user;
+    private final User<?> user;
     private final InstagramRelationType type;
   }
 }

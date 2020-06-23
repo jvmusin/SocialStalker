@@ -9,8 +9,7 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Stream.concat;
 
-public abstract class MultiHashMapRelationList<TUser, TRelationType>
-    extends HashMapRelationList<TUser, TRelationType> {
+public abstract class MultiHashMapRelationList<TRelationType> extends HashMapRelationList<TRelationType> {
 
   @Override
   public void apply(Update<? extends TRelationType> update) {

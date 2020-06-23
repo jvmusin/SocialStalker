@@ -20,7 +20,7 @@ public class VkNetworkFactory implements NetworkFactory {
 
   private final MonitoringServiceFactory<VkID> monitoringServiceFactory;
   private final IdFactory<VkID> idFactory;
-  private final UserFactory<VkID, VkUser> userFactory;
+  private final UserFactory<VkID> userFactory;
   private final SocialApi<VkID> api;
 
   @Override

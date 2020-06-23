@@ -3,6 +3,6 @@ package musin.socialstalker.relation;
 import musin.socialstalker.relation.list.MultiHashMapRelationList;
 
 public class TestMultiHashMapRelationList
-    extends MultiHashMapRelationList<TestUser, TestRelationType>
+    extends MultiHashMapRelationList<TestRelationType>
     implements TestRelationList {
 }
