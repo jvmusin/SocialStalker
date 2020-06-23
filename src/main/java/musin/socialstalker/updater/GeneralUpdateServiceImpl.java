@@ -28,13 +28,13 @@ public class GeneralUpdateServiceImpl<ID, TRelationType> implements GeneralUpdat
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;
-  private final NotifiableUpdateFactory<TRelationType> notifiableUpdateFactory;
+  private final NotifiableUpdateFactory<? extends TRelationType> notifiableUpdateFactory;
   private final NetworkProperties networkProperties;
   private final RelationListFactory<TRelationType> relationListFactory;
 
   @Override
   @Transactional
-  public List<NotifiableUpdate<TRelationType>> saveAll(Stalker stalker, List<? extends Update<?>> updates, ID target) {
+  public List<? extends NotifiableUpdate<? extends TRelationType>> saveAll(Stalker stalker, List<? extends Update<?>> updates, ID target) {
     if (updates.isEmpty()) return emptyList();
     if (monitoringRepository.existsByStalkerAndNetworkAndTarget(stalker, networkProperties.getNetwork(), target.toString())) {
       List<RelationUpdate> relationUpdates = updates.stream()
