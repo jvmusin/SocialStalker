@@ -20,8 +20,6 @@ import static java.util.stream.Collectors.toList;
 public class UpdaterImpl<
     ID,
     TRelationType,
-    TUpdate extends Update<TRelationType>,
-    TRelationList extends RelationList<TRelationType>,
     TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
     implements Updater {
 
