@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class InstagramNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<
     InstagramID,
-    InstagramRelationType,
-    InstagramNotifiableUpdate> {
+    InstagramRelationType
+    > {
 
   public InstagramNotifiableUpdateFactory(InstagramUserFactory userFactory,
                                           InstagramRelationTypeFactory relationTypeFactory,

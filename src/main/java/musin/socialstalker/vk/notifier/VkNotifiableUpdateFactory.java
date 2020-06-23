@@ -11,10 +11,7 @@ import musin.socialstalker.vk.relation.VkUserFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VkNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<
-    VkID,
-    VkRelationType,
-    VkNotifiableUpdate> {
+public class VkNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<VkID, VkRelationType> {
 
   public VkNotifiableUpdateFactory(VkUserFactory userFactory,
                                    VkRelationTypeFactory relationTypeFactory,

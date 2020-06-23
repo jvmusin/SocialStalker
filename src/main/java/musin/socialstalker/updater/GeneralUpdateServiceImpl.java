@@ -27,13 +27,12 @@ import static java.util.stream.Collectors.toList;
 public class GeneralUpdateServiceImpl<
     ID,
     TRelationType,
-    TRelationList extends RelationList<TRelationType>,
-    TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
+    TRelationList extends RelationList<TRelationType>>
     implements GeneralUpdateService<ID, TRelationType> {
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;
-  private final NotifiableUpdateFactory<TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
+  private final NotifiableUpdateFactory<TRelationType> notifiableUpdateFactory;
   private final NetworkProperties networkProperties;
   private final RelationListFactory<TRelationList> relationListFactory;
 

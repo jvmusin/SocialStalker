@@ -7,7 +7,6 @@ import musin.socialstalker.relation.list.RelationListFactory;
 import musin.socialstalker.updater.GeneralUpdateServiceImpl;
 import musin.socialstalker.vk.api.VkID;
 import musin.socialstalker.vk.config.VkNetworkProperties;
-import musin.socialstalker.vk.notifier.VkNotifiableUpdate;
 import musin.socialstalker.vk.relation.VkRelationList;
 import musin.socialstalker.vk.relation.VkRelationType;
 import org.springframework.stereotype.Component;
@@ -16,13 +15,13 @@ import org.springframework.stereotype.Component;
 public class VkGeneralUpdateService extends GeneralUpdateServiceImpl<
     VkID,
     VkRelationType,
-    VkRelationList,
-    VkNotifiableUpdate> {
+    VkRelationList
+    > {
 
   public VkGeneralUpdateService(
       MonitoringRepository monitoringRepository,
       RelationUpdateRepository relationUpdateRepository,
-      NotifiableUpdateFactory<VkRelationType, VkNotifiableUpdate> notifiableUpdateFactory,
+      NotifiableUpdateFactory<VkRelationType> notifiableUpdateFactory,
       VkNetworkProperties networkProperties,
       RelationListFactory<VkRelationList> relationListFactory) {
     super(monitoringRepository, relationUpdateRepository, notifiableUpdateFactory, networkProperties, relationListFactory);
