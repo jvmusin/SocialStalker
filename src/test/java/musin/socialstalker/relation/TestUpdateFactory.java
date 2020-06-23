@@ -1,8 +1,8 @@
 package musin.socialstalker.relation;
 
-public class TestUpdateFactory implements UpdateFactory<TestRelationType> {
+public class TestUpdateFactory implements UpdateFactory<RelationType> {
   @Override
-  public TestUpdate updating(User<?> user, TestRelationType was, TestRelationType now) {
+  public TestUpdate updating(User<?> user, RelationType was, RelationType now) {
     return new TestUpdate(user, was, now);
   }
 }

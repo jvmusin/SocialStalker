@@ -1,5 +1,6 @@
 package musin.socialstalker.relation.list;
 
+import musin.socialstalker.relation.RelationType;
 import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.UpdateFactory;
 
@@ -9,10 +10,10 @@ import java.util.stream.Stream;
 import static java.util.Collections.singleton;
 import static java.util.stream.Stream.concat;
 
-public abstract class SingleHashMapRelationList<TRelationType> extends HashMapRelationList<TRelationType> {
+public abstract class SingleHashMapRelationList<TRelationType extends RelationType> extends HashMapRelationList<TRelationType> {
 
   @Override
-  public void apply(Update<TRelationType> update) {
+  public void apply(Update update) {
     validateUpdate(update);
 
     if (!Objects.equals(update.getWas(), getRelationType(update.getSuspected())))
@@ -23,8 +24,8 @@ public abstract class SingleHashMapRelationList<TRelationType> extends HashMapRe
   }
 
   @Override
-  public Stream<Update<TRelationType>> updates(RelationList<TRelationType> newer,
-                                               UpdateFactory<TRelationType> updateFactory) {
+  public Stream<Update> updates(RelationList<RelationType> newer,
+                                UpdateFactory<RelationType> updateFactory) {
     return concat(users(), newer.users()).distinct()
         .filter(u -> !Objects.equals(getRelationType(u), newer.getRelationType(u)))
         .map(u -> updateFactory.updating(u, getRelationType(u), newer.getRelationType(u)));

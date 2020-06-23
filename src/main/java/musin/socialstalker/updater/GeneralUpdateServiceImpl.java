@@ -9,6 +9,7 @@ import musin.socialstalker.db.repository.MonitoringRepository;
 import musin.socialstalker.db.repository.RelationUpdateRepository;
 import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.notifier.NotifiableUpdateFactory;
+import musin.socialstalker.relation.RelationType;
 import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.list.RelationList;
 import musin.socialstalker.relation.list.RelationListFactory;
@@ -24,7 +25,7 @@ import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Log4j2
-public class GeneralUpdateServiceImpl<ID, TRelationType> implements GeneralUpdateService<ID, TRelationType> {
+public class GeneralUpdateServiceImpl<ID, TRelationType extends RelationType> implements GeneralUpdateService<ID, TRelationType> {
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;
@@ -34,7 +35,7 @@ public class GeneralUpdateServiceImpl<ID, TRelationType> implements GeneralUpdat
 
   @Override
   @Transactional
-  public List<NotifiableUpdate<TRelationType>> saveAll(Stalker stalker, List<Update<TRelationType>> updates, ID target) {
+  public List<NotifiableUpdate<RelationType>> saveAll(Stalker stalker, List<Update> updates, ID target) {
     if (updates.isEmpty()) return emptyList();
     if (monitoringRepository.existsByStalkerAndNetworkAndTarget(stalker, networkProperties.getNetwork(), target.toString())) {
       List<RelationUpdate> relationUpdates = updates.stream()
@@ -52,7 +53,7 @@ public class GeneralUpdateServiceImpl<ID, TRelationType> implements GeneralUpdat
     }
   }
 
-  private RelationUpdate updateToRelationUpdate(Stalker stalker, Update<?> update, ID target) {
+  private RelationUpdate updateToRelationUpdate(Stalker stalker, Update update, ID target) {
     return RelationUpdate.builder()
         .stalker(stalker)
         .network(networkProperties.getNetwork())
@@ -72,14 +73,14 @@ public class GeneralUpdateServiceImpl<ID, TRelationType> implements GeneralUpdat
 
   @Override
   @Transactional
-  public CompletableFuture<RelationList<TRelationType>> buildList(Stalker stalker, ID target) {
+  public CompletableFuture<RelationList<RelationType>> buildList(Stalker stalker, ID target) {
     return relationUpdateRepository.findAllByStalkerAndNetworkAndTargetOrderById(stalker, networkProperties.getNetwork(), target.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);
   }
 
-  private RelationList<TRelationType> createList(Stream<NotifiableUpdate<TRelationType>> updates) {
-    RelationList<TRelationType> list = relationListFactory.create();
+  private RelationList<RelationType> createList(Stream<NotifiableUpdate<RelationType>> updates) {
+    RelationList<RelationType> list = relationListFactory.create();
     updates.forEach(list::apply);
     return list;
   }

@@ -3,12 +3,12 @@ package musin.socialstalker.relation;
 import lombok.Data;
 
 @Data
-public class TestUpdate implements Update<TestRelationType> {
+public class TestUpdate implements Update {
   private final User<?> suspected;
-  private final TestRelationType was;
-  private final TestRelationType now;
+  private final RelationType was;
+  private final RelationType now;
 
-  TestUpdate(User<?> suspected, TestRelationType was, TestRelationType now) {
+  TestUpdate(User<?> suspected, RelationType was, RelationType now) {
     this.suspected = suspected;
     this.was = was;
     this.now = now;

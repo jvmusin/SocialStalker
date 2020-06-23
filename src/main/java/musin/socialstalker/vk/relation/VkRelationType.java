@@ -1,6 +1,8 @@
 package musin.socialstalker.vk.relation;
 
-public enum VkRelationType {
+import musin.socialstalker.relation.RelationType;
+
+public enum VkRelationType implements RelationType {
   FRIEND,
   FOLLOWER
 }

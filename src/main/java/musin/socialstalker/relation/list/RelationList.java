@@ -1,5 +1,6 @@
 package musin.socialstalker.relation.list;
 
+import musin.socialstalker.relation.RelationType;
 import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.UpdateFactory;
 import musin.socialstalker.relation.User;
@@ -7,7 +8,7 @@ import musin.socialstalker.relation.User;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public interface RelationList<TRelationType> {
+public interface RelationList<TRelationType extends RelationType> {
 
   /**
    * @return all users in this list
@@ -18,7 +19,7 @@ public interface RelationList<TRelationType> {
    * @param user a user to get relations for
    * @return all relation types, associated with a given user
    */
-  Set<TRelationType> getAllRelationTypes(User<?> user);
+  Set<RelationType> getAllRelationTypes(User<?> user);
 
   /**
    * Returns a single relation for a given user.
@@ -29,24 +30,24 @@ public interface RelationList<TRelationType> {
    * @param user a user to get a relation for
    * @return a single relation, associated with a given user, or null
    */
-  TRelationType getRelationType(User<?> user);
+  RelationType getRelationType(User<?> user);
 
   /**
    * @param update an update to apply
    */
-  void apply(Update<TRelationType> update);
+  void apply(Update update);
 
   /**
    * @param newer         a newer list to build updates
    * @param updateFactory a factory to create updates with
    * @return updates between this and newer list
    */
-  Stream<Update<TRelationType>> updates(
-      RelationList<TRelationType> newer,
-      UpdateFactory<TRelationType> updateFactory
+  Stream<Update> updates(
+      RelationList<RelationType> newer,
+      UpdateFactory<RelationType> updateFactory
   );
 
-  default Stream<Update<TRelationType>> asUpdates(UpdateFactory<TRelationType> updateFactory) {
+  default Stream<Update> asUpdates(UpdateFactory<RelationType> updateFactory) {
     return users().flatMap(u -> getAllRelationTypes(u).stream().map(t -> updateFactory.creating(u, t)));
   }
 }

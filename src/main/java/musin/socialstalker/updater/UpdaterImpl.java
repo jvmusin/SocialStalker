@@ -3,6 +3,7 @@ package musin.socialstalker.updater;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import musin.socialstalker.notifier.UpdateNotifier;
+import musin.socialstalker.relation.RelationType;
 import musin.socialstalker.relation.UpdateFactory;
 import musin.socialstalker.relation.list.RelationList;
 import org.apache.logging.log4j.Level;
@@ -15,14 +16,14 @@ import static java.util.stream.Collectors.toList;
 
 @Log4j2
 @RequiredArgsConstructor
-public class UpdaterImpl<ID, TRelationType> implements Updater {
+public class UpdaterImpl<ID, TRelationType extends RelationType> implements Updater {
 
   private final MonitoringService<ID> monitoringService;
-  private final UpdateService<ID, TRelationType> updateService;
-  private final RelationListPuller<ID, TRelationType> relationListPuller;
-  private final List<UpdateNotifier<TRelationType>> notifiers;
+  private final UpdateService<ID, RelationType> updateService;
+  private final RelationListPuller<ID, RelationType> relationListPuller;
+  private final List<UpdateNotifier<RelationType>> notifiers;
   private final TaskExecutor taskExecutor;
-  private final UpdateFactory<TRelationType> updateFactory;
+  private final UpdateFactory<RelationType> updateFactory;
 
   @Override
   public void run() {
@@ -30,9 +31,9 @@ public class UpdaterImpl<ID, TRelationType> implements Updater {
   }
 
   private void run(ID target) {
-    CompletableFuture<RelationList<TRelationType>> was = updateService.buildList(target);
+    CompletableFuture<RelationList<RelationType>> was = updateService.buildList(target);
 
-    CompletableFuture<RelationList<TRelationType>> now = relationListPuller.pull(target);
+    CompletableFuture<RelationList<RelationType>> now = relationListPuller.pull(target);
 
     was.thenCombine(now, (a, b) -> a.updates(b, updateFactory))
         .thenApply(updates -> updates.collect(toList()))

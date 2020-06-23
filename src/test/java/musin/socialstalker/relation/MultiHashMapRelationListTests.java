@@ -67,7 +67,7 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
         new TestUpdate("user5", null, "nobody"),
         new TestUpdate("user5", null, "or not")
     };
-    List<Update<TestRelationType>> updates = list1.updates(list2).collect(toList());
+    List<Update> updates = list1.updates(list2).collect(toList());
     assertThat(updates, containsInAnyOrder(expected));
   }
 
@@ -75,7 +75,7 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
   void return_correct_updates_on_empty_list_when_has_elements() {
     TestMultiHashMapRelationList a = createList(someRelations());
     TestMultiHashMapRelationList b = createList();
-    List<Update<TestRelationType>> result = a.updates(b).collect(toList());
+    List<Update> result = a.updates(b).collect(toList());
     TestUpdate[] expected = someRelations().stream()
         .map(TestRelation::asRemove)
         .toArray(TestUpdate[]::new);
@@ -124,7 +124,7 @@ public class MultiHashMapRelationListTests implements EmptyRelationListTests<Tes
       TestMultiHashMapRelationList list = createList(someRelations());
       TestRelation relation = someRelations().get(0);
       String user = relation.getUser().getFullyQualifiedName();
-      String type = relation.getType().getName();
+      String type = relation.getType().toString();
       assertThrows(RuntimeException.class, () -> list.apply(new TestUpdate(user, type, type + "1")));
     }
 

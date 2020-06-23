@@ -1,5 +1,7 @@
 package musin.socialstalker.relation.list;
 
-public interface RelationListFactory<TRelationType> {
-  RelationList<TRelationType> create();
+import musin.socialstalker.relation.RelationType;
+
+public interface RelationListFactory<TRelationType extends RelationType> {
+  RelationList<RelationType> create();
 }

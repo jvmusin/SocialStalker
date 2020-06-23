@@ -1,6 +1,8 @@
 package musin.socialstalker.instagram.relation;
 
-public enum InstagramRelationType {
+import musin.socialstalker.relation.RelationType;
+
+public enum InstagramRelationType implements RelationType {
   FOLLOWER,
   FOLLOWING
 }

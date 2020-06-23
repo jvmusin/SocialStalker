@@ -1,5 +1,6 @@
 package musin.socialstalker.relation.list;
 
+import musin.socialstalker.relation.RelationType;
 import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.UpdateFactory;
 
@@ -9,16 +10,16 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Stream.concat;
 
-public abstract class MultiHashMapRelationList<TRelationType> extends HashMapRelationList<TRelationType> {
+public abstract class MultiHashMapRelationList<TRelationType extends RelationType> extends HashMapRelationList<TRelationType> {
 
   @Override
-  public void apply(Update<TRelationType> update) {
+  public void apply(Update update) {
     validateUpdate(update);
 
     if ((update.getWas() == null) == (update.getNow() == null))
       throw new IllegalArgumentException("An update should remove or add a relation, not update: " + update);
 
-    Set<TRelationType> types = userRelations.computeIfAbsent(update.getSuspected(), t -> new HashSet<>());
+    Set<RelationType> types = userRelations.computeIfAbsent(update.getSuspected(), t -> new HashSet<>());
 
     if (update.getWas() != null && !types.remove(update.getWas()))
       throw new RuntimeException("The relation is not presented in the list: " + update.getWas());
@@ -33,8 +34,8 @@ public abstract class MultiHashMapRelationList<TRelationType> extends HashMapRel
   }
 
   @Override
-  public Stream<Update<TRelationType>> updates(RelationList<TRelationType> newer,
-                                               UpdateFactory<TRelationType> updateFactory) {
+  public Stream<Update> updates(RelationList<RelationType> newer,
+                                UpdateFactory<RelationType> updateFactory) {
     return concat(users(), newer.users()).distinct().flatMap(user -> {
       var curTypes = getAllRelationTypes(user);
       var newerTypes = newer.getAllRelationTypes(user);

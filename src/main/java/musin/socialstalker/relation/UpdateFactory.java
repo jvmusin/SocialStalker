@@ -1,13 +1,13 @@
 package musin.socialstalker.relation;
 
-public interface UpdateFactory<TRelationType> {
-  Update<TRelationType> updating(User<?> user, TRelationType was, TRelationType now);
+public interface UpdateFactory<TRelationType extends RelationType> {
+  Update updating(User<?> user, RelationType was, RelationType now);
 
-  default Update<TRelationType> creating(User<?> user, TRelationType type) {
+  default Update creating(User<?> user, RelationType type) {
     return updating(user, null, type);
   }
 
-  default Update<TRelationType> removing(User<?> user, TRelationType type) {
+  default Update removing(User<?> user, RelationType type) {
     return updating(user, type, null);
   }
 }
