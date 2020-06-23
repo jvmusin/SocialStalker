@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public abstract class NotifiableUpdateFactoryBase<
     ID,
-    TUser extends User<ID>,
     TRelationType,
     TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
     implements NotifiableUpdateFactory<TRelationType, TNotifiableUpdate> {
