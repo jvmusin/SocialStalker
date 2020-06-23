@@ -14,5 +14,5 @@ public interface GeneralUpdateService<ID, TRelationType> {
 
   void removeAllByTarget(Stalker stalker, ID target);
 
-  CompletableFuture<RelationList<TRelationType>> buildList(Stalker stalker, ID target);
+  CompletableFuture<? extends RelationList<TRelationType>> buildList(Stalker stalker, ID target);
 }

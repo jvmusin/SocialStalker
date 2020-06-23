@@ -12,8 +12,7 @@ import musin.socialstalker.relation.UserFactory;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
-public abstract class NotifiableUpdateFactoryBase<ID, TRelationType>
-    implements NotifiableUpdateFactory<TRelationType> {
+public abstract class NotifiableUpdateFactoryBase<ID, TRelationType> implements NotifiableUpdateFactory<TRelationType> {
 
   private final UserFactory<ID> userFactory;
   private final RelationTypeFactory<TRelationType> relationTypeFactory;

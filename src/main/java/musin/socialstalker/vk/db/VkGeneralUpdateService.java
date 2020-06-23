@@ -12,17 +12,14 @@ import musin.socialstalker.vk.relation.VkRelationType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VkGeneralUpdateService extends GeneralUpdateServiceImpl<
-    VkID,
-    VkRelationType
-    > {
+public class VkGeneralUpdateService extends GeneralUpdateServiceImpl<VkID, VkRelationType> {
 
   public VkGeneralUpdateService(
       MonitoringRepository monitoringRepository,
       RelationUpdateRepository relationUpdateRepository,
       NotifiableUpdateFactory<VkRelationType> notifiableUpdateFactory,
       VkNetworkProperties networkProperties,
-      RelationListFactory<RelationList<VkRelationType>> relationListFactory) {
+      RelationListFactory<VkRelationType> relationListFactory) {
     super(monitoringRepository, relationUpdateRepository, notifiableUpdateFactory, networkProperties, relationListFactory);
   }
 }

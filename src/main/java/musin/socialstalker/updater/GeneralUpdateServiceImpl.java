@@ -30,7 +30,7 @@ public class GeneralUpdateServiceImpl<ID, TRelationType> implements GeneralUpdat
   private final RelationUpdateRepository relationUpdateRepository;
   private final NotifiableUpdateFactory<TRelationType> notifiableUpdateFactory;
   private final NetworkProperties networkProperties;
-  private final RelationListFactory<? extends RelationList<TRelationType>> relationListFactory;
+  private final RelationListFactory<TRelationType> relationListFactory;
 
   @Override
   @Transactional
@@ -72,7 +72,7 @@ public class GeneralUpdateServiceImpl<ID, TRelationType> implements GeneralUpdat
 
   @Override
   @Transactional
-  public CompletableFuture<RelationList<TRelationType>> buildList(Stalker stalker, ID target) {
+  public CompletableFuture<? extends RelationList<TRelationType>> buildList(Stalker stalker, ID target) {
     return relationUpdateRepository.findAllByStalkerAndNetworkAndTargetOrderById(stalker, networkProperties.getNetwork(), target.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);
