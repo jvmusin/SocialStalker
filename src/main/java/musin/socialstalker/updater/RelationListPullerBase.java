@@ -45,7 +45,7 @@ public abstract class RelationListPullerBase<ID, TRelationType>
     final Function<ID, CompletableFuture<List<ID>>> query;
     final TRelationType type;
 
-    CompletableFuture<Stream<Relation<TRelationType>>> call(ID userId) {
+    CompletableFuture<Stream<Relation<? extends TRelationType>>> call(ID userId) {
       return query.apply(userId).thenApply(
           list -> list.stream().map(
               id -> relationFactory.create(userFactory.create(id), type)
