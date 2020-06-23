@@ -6,8 +6,7 @@ import musin.socialstalker.relation.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InstagramUpdateFactory
-    implements UpdateFactory<InstagramRelationType> {
+public class InstagramUpdateFactory implements UpdateFactory<InstagramRelationType> {
 
   @Override
   public InstagramUpdate updating(User<?> user, InstagramRelationType was, InstagramRelationType now) {

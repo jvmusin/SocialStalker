@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class InstagramUpdateServiceFactory
-    implements UpdateServiceFactory<InstagramID, InstagramRelationType> {
+public class InstagramUpdateServiceFactory implements UpdateServiceFactory<InstagramID, InstagramRelationType> {
 
   private final GeneralUpdateService<InstagramID, InstagramRelationType> generalUpdateService;
 
