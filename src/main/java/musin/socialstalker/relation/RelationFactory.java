@@ -1,5 +1,5 @@
 package musin.socialstalker.relation;
 
-public interface RelationFactory<TRelationType, TRelation> {
-  TRelation create(User<?> user, TRelationType type);
+public interface RelationFactory<TRelationType> {
+  Relation<TRelationType> create(User<?> user, TRelationType type);
 }

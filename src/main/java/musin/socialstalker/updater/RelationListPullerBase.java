@@ -17,16 +17,14 @@ import static java.util.stream.Stream.empty;
 @RequiredArgsConstructor
 public abstract class RelationListPullerBase<
     ID,
-    TUser extends User<ID>,
     TRelationType,
-    TRelation extends Relation<TRelationType>,
     TUpdate extends Update<TRelationType>,
     TRelationList extends RelationList<TRelationType>>
     implements RelationListPuller<ID, TRelationList> {
 
   private final RelationListFactory<TRelationList> relationListFactory;
   private final UpdateFactory<TRelationType, TUpdate> updateFactory;
-  private final RelationFactory<TRelationType, TRelation> relationFactory;
+  private final RelationFactory<TRelationType> relationFactory;
   private final UserFactory<ID> userFactory;
   private final List<Query> queries = new ArrayList<>();
 
@@ -51,8 +49,12 @@ public abstract class RelationListPullerBase<
     final Function<ID, CompletableFuture<List<ID>>> query;
     final TRelationType type;
 
-    CompletableFuture<Stream<TRelation>> call(ID userId) {
-      return query.apply(userId).thenApply(list -> list.stream().map(id -> relationFactory.create(userFactory.create(id), type)));
+    CompletableFuture<Stream<Relation<TRelationType>>> call(ID userId) {
+      return query.apply(userId).thenApply(
+          list -> list.stream().map(
+              id -> relationFactory.create(userFactory.create(id), type)
+          )
+      );
     }
   }
 }

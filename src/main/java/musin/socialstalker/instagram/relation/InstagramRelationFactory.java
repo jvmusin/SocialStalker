@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class InstagramRelationFactory
-    implements RelationFactory<InstagramRelationType, InstagramRelation> {
+    implements RelationFactory<InstagramRelationType> {
 
   @Override
   public InstagramRelation create(User<?> user, InstagramRelationType type) {

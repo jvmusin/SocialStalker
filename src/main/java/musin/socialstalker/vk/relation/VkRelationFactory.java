@@ -6,7 +6,7 @@ import musin.socialstalker.relation.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VkRelationFactory implements RelationFactory<VkRelationType, VkRelation> {
+public class VkRelationFactory implements RelationFactory<VkRelationType> {
   @Override
   public VkRelation create(User<?> user, VkRelationType type) {
     return new VkRelationImpl(user, type);
