@@ -7,8 +7,6 @@ import musin.socialstalker.relation.list.RelationList;
 
 public interface UpdateServiceFactory<
     ID,
-    TUpdate extends Update<?>,
-    TRelationList extends RelationList<?>,
     TNotifiableUpdate extends NotifiableUpdate<?>,
     TRelationType> {
 

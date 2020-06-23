@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class InstagramTelegramUpdateNotifierFactory implements UpdateNotifierFactory<InstagramNotifiableUpdate, InstagramRelationType> {
+public class InstagramTelegramUpdateNotifierFactory implements UpdateNotifierFactory<InstagramRelationType> {
   private final TelegramUpdateNotifierFactory<InstagramNotifiableUpdate, InstagramRelationType> updateNotifierFactory;
 
   @Override
-  public UpdateNotifier<InstagramNotifiableUpdate, InstagramRelationType> create(Stalker stalker) {
+  public UpdateNotifier<InstagramRelationType> create(Stalker stalker) {
     return updateNotifierFactory.create(stalker);
   }
 }

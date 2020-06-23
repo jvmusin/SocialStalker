@@ -29,7 +29,7 @@ public class GeneralUpdateServiceImpl<
     TRelationType,
     TRelationList extends RelationList<TRelationType>,
     TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
-    implements GeneralUpdateService<ID, TNotifiableUpdate, TRelationType> {
+    implements GeneralUpdateService<ID, TRelationType> {
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;

@@ -8,9 +8,9 @@ import musin.socialstalker.vk.relation.VkRelationType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VkConsoleUpdateNotifierFactory implements UpdateNotifierFactory<VkNotifiableUpdate, VkRelationType> {
+public class VkConsoleUpdateNotifierFactory implements UpdateNotifierFactory<VkRelationType> {
   @Override
-  public UpdateNotifier<VkNotifiableUpdate, VkRelationType> create(Stalker stalker) {
+  public UpdateNotifier<VkRelationType> create(Stalker stalker) {
     //todo user stalker somehow maybe?
     return new ConsoleUpdateNotifier<>();
   }

@@ -8,9 +8,9 @@ import musin.socialstalker.notifier.UpdateNotifierFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InstagramConsoleUpdateNotifierFactory implements UpdateNotifierFactory<InstagramNotifiableUpdate, InstagramRelationType> {
+public class InstagramConsoleUpdateNotifierFactory implements UpdateNotifierFactory<InstagramRelationType> {
   @Override
-  public UpdateNotifier<InstagramNotifiableUpdate, InstagramRelationType> create(Stalker stalker) {
+  public UpdateNotifier<InstagramRelationType> create(Stalker stalker) {
     return new ConsoleUpdateNotifier<>();
   }
 }

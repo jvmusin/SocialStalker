@@ -26,7 +26,7 @@ public class InstagramGeneralMonitoringService extends GeneralMonitoringServiceI
       InstagramNetworkProperties properties,
       IdFactory<InstagramID> idFactory,
       RelationListPuller<InstagramID, InstagramRelationType> relationListPuller,
-      GeneralUpdateService<InstagramID, InstagramNotifiableUpdate, InstagramRelationType> updateService,
+      GeneralUpdateService<InstagramID, InstagramRelationType> updateService,
       UpdateFactory<InstagramRelationType, Update<InstagramRelationType>> updateFactory) {
     super(monitoringRepository, properties, idFactory, relationListPuller, updateService, updateFactory);
   }

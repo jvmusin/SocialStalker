@@ -19,7 +19,7 @@ public class UpdateServiceImpl<
     implements UpdateService<ID, TNotifiableUpdate, TRelationType> {
 
   private final Stalker stalker;
-  private final GeneralUpdateService<ID, TNotifiableUpdate, TRelationType> generalUpdateService;
+  private final GeneralUpdateService<ID, TRelationType> generalUpdateService;
 
   @Override
   public List<NotifiableUpdate<TRelationType>> saveAll(List<? extends Update<?>> updates, ID target) {

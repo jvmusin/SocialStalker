@@ -28,7 +28,7 @@ public class GeneralMonitoringServiceImpl<
   private final NetworkProperties properties;
   private final IdFactory<ID> idFactory;
   private final RelationListPuller<ID, TRelationType> relationListPuller;
-  private final GeneralUpdateService<ID, TNotifiableUpdate, TRelationType> updateService;
+  private final GeneralUpdateService<ID, TRelationType> updateService;
   private final UpdateFactory<TRelationType, Update<TRelationType>> updateFactory;
 
   @Override

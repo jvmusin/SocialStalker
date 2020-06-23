@@ -2,7 +2,7 @@ package musin.socialstalker.notifier;
 
 import java.util.List;
 
-public interface UpdateNotifier<TUpdate, TRelationType> {
+public interface UpdateNotifier<TRelationType> {
   void notify(NotifiableUpdate<TRelationType> update);
 
   default void notify(List<? extends NotifiableUpdate<TRelationType>> updates) {

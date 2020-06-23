@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class VkTelegramUpdateNotifierFactory implements UpdateNotifierFactory<VkNotifiableUpdate, VkRelationType> {
+public class VkTelegramUpdateNotifierFactory implements UpdateNotifierFactory<VkRelationType> {
   private final TelegramUpdateNotifierFactory<VkNotifiableUpdate, VkRelationType> updateNotifierFactory;
 
   @Override
-  public UpdateNotifier<VkNotifiableUpdate, VkRelationType> create(Stalker stalker) {
+  public UpdateNotifier<VkRelationType> create(Stalker stalker) {
     return updateNotifierFactory.create(stalker);
   }
 }
