@@ -32,7 +32,7 @@ public class UpdaterImpl<ID, TRelationType> implements Updater {
   private void run(ID target) {
     CompletableFuture<? extends RelationList<TRelationType>> was = updateService.buildList(target);
 
-    CompletableFuture<RelationList<TRelationType>> now = relationListPuller.pull(target);
+    CompletableFuture<? extends RelationList<TRelationType>> now = relationListPuller.pull(target);
 
     was.thenCombine(now, (a, b) -> a.updates(b, updateFactory))
         .thenApply(updates -> updates.collect(toList()))
