@@ -24,7 +24,7 @@ public class UpdaterImpl<
     implements Updater {
 
   private final MonitoringService<ID> monitoringService;
-  private final UpdateService<ID, TNotifiableUpdate, TRelationType> updateService;
+  private final UpdateService<ID, NotifiableUpdate<TRelationType>, TRelationType> updateService;
   private final RelationListPuller<ID, TRelationType> relationListPuller;
   private final List<? extends UpdateNotifier<TRelationType>> notifiers;
   private final TaskExecutor taskExecutor;
