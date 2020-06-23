@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-public interface TestRelationList extends RelationList<TestUser, TestRelationType> {
-  default @NotNull Stream<TestUpdate> updates(@NotNull RelationList<TestUser, ? extends TestRelationType> newer) {
+public interface TestRelationList extends RelationList<TestRelationType> {
+  default @NotNull Stream<Update<TestRelationType>> updates(@NotNull RelationList<TestRelationType> newer) {
     return updates(newer, new TestUpdateFactory());
   }
 

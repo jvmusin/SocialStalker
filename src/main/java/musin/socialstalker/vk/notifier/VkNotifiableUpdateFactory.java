@@ -7,16 +7,11 @@ import musin.socialstalker.vk.api.VkIdFactory;
 import musin.socialstalker.vk.config.VkNetworkProperties;
 import musin.socialstalker.vk.relation.VkRelationType;
 import musin.socialstalker.vk.relation.VkRelationTypeFactory;
-import musin.socialstalker.vk.relation.VkUser;
 import musin.socialstalker.vk.relation.VkUserFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VkNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<
-    VkID,
-    VkUser,
-    VkRelationType,
-    VkNotifiableUpdate> {
+public class VkNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<VkID, VkRelationType> {
 
   public VkNotifiableUpdateFactory(VkUserFactory userFactory,
                                    VkRelationTypeFactory relationTypeFactory,

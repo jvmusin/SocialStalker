@@ -2,11 +2,8 @@ package musin.socialstalker.updater;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.notifier.UpdateNotifier;
-import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.UpdateFactory;
-import musin.socialstalker.relation.User;
 import musin.socialstalker.relation.list.RelationList;
 import org.apache.logging.log4j.Level;
 import org.springframework.core.task.TaskExecutor;
@@ -18,21 +15,14 @@ import static java.util.stream.Collectors.toList;
 
 @Log4j2
 @RequiredArgsConstructor
-public class UpdaterImpl<
-    ID,
-    TUser extends User<ID>,
-    TRelationType,
-    TUpdate extends Update<TUser, TRelationType>,
-    TRelationList extends RelationList<TUser, TRelationType>,
-    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
-    implements Updater {
+public class UpdaterImpl<ID, TRelationType> implements Updater {
 
   private final MonitoringService<ID> monitoringService;
-  private final UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> updateService;
-  private final RelationListPuller<ID, TRelationList> relationListPuller;
-  private final List<? extends UpdateNotifier<? super TNotifiableUpdate>> notifiers;
+  private final UpdateService<ID, TRelationType> updateService;
+  private final RelationListPuller<ID, TRelationType> relationListPuller;
+  private final List<UpdateNotifier<TRelationType>> notifiers;
   private final TaskExecutor taskExecutor;
-  private final UpdateFactory<TUser, TRelationType, TUpdate> updateFactory;
+  private final UpdateFactory<TRelationType> updateFactory;
 
   @Override
   public void run() {
@@ -40,9 +30,9 @@ public class UpdaterImpl<
   }
 
   private void run(ID target) {
-    CompletableFuture<TRelationList> was = updateService.buildList(target);
+    CompletableFuture<RelationList<TRelationType>> was = updateService.buildList(target);
 
-    CompletableFuture<TRelationList> now = relationListPuller.pull(target);
+    CompletableFuture<RelationList<TRelationType>> now = relationListPuller.pull(target);
 
     was.thenCombine(now, (a, b) -> a.updates(b, updateFactory))
         .thenApply(updates -> updates.collect(toList()))

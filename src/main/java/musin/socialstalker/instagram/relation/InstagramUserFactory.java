@@ -6,15 +6,13 @@ import musin.socialstalker.instagram.api.InstagramApiUser;
 import musin.socialstalker.instagram.api.InstagramID;
 import musin.socialstalker.relation.LazyLoadingUser;
 import musin.socialstalker.relation.UserFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
 @Component
-@Profile("instagram")
 @RequiredArgsConstructor
-public class InstagramUserFactory implements UserFactory<InstagramID, InstagramUser> {
+public class InstagramUserFactory implements UserFactory<InstagramID> {
   private final InstagramApi instagramApi;
 
   @Override

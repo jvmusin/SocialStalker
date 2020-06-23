@@ -6,17 +6,12 @@ import musin.socialstalker.instagram.api.InstagramIdFactory;
 import musin.socialstalker.instagram.config.InstagramNetworkProperties;
 import musin.socialstalker.instagram.relation.InstagramRelationType;
 import musin.socialstalker.instagram.relation.InstagramRelationTypeFactory;
-import musin.socialstalker.instagram.relation.InstagramUser;
 import musin.socialstalker.instagram.relation.InstagramUserFactory;
 import musin.socialstalker.notifier.NotifiableUpdateFactoryBase;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InstagramNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<
-    InstagramID,
-    InstagramUser,
-    InstagramRelationType,
-    InstagramNotifiableUpdate> {
+public class InstagramNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<InstagramID, InstagramRelationType> {
 
   public InstagramNotifiableUpdateFactory(InstagramUserFactory userFactory,
                                           InstagramRelationTypeFactory relationTypeFactory,

@@ -1,39 +1,36 @@
 package musin.socialstalker.notifier;
 
 import lombok.RequiredArgsConstructor;
-import musin.socialstalker.relation.User;
 
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.StringJoiner;
 
 @RequiredArgsConstructor
-public class MarkdownUpdateNotifier<
-    TUpdate extends NotifiableUpdate<? extends User<?>, ?>>
-    implements UpdateNotifier<TUpdate> {
+public class MarkdownUpdateNotifier<TRelationType> implements UpdateNotifier<TRelationType> {
 
   private final MessageSender sender;
 
   @Override
-  public void notify(TUpdate update) {
+  public void notify(NotifiableUpdate<TRelationType> update) {
     sender.sendMessage(update.toMultilineMarkdownString());
   }
 
   @Override
-  public void notify(List<? extends TUpdate> updates) {
+  public void notify(List<NotifiableUpdate<TRelationType>> updates) {
     if (updates.size() >= getMinSizeForABunchOfChanges()) notifyABunchOfChanges(updates);
     else updates.forEach(this::notify);
   }
 
-  private void notifyABunchOfChanges(List<? extends TUpdate> updates) {
+  private void notifyABunchOfChanges(List<NotifiableUpdate<TRelationType>> updates) {
     sender.sendMessage(buildMessageForABunchOfUpdates(updates));
   }
 
-  private String buildMessageForABunchOfUpdates(List<? extends TUpdate> updates) {
+  private String buildMessageForABunchOfUpdates(List<NotifiableUpdate<TRelationType>> updates) {
     IntSummaryStatistics idStats = updates.stream()
         .mapToInt(NotifiableUpdate::getId)
         .summaryStatistics();
-    TUpdate someUpdate = updates.get(0);
+    NotifiableUpdate<TRelationType> someUpdate = updates.get(0);
     StringJoiner sj = new StringJoiner("\n");
     sj.add(String.format("Too many updates (%d) for user %s", updates.size(), someUpdate.getTarget()));
     sj.add(String.format("Network: %s", someUpdate.getNetwork()));

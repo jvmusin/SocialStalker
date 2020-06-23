@@ -12,24 +12,19 @@ import musin.socialstalker.relation.UserFactory;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
-public abstract class NotifiableUpdateFactoryBase<
-    ID,
-    TUser extends User<ID>,
-    TRelationType,
-    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
-    implements NotifiableUpdateFactory<TUser, TRelationType, TNotifiableUpdate> {
+public abstract class NotifiableUpdateFactoryBase<ID, TRelationType> implements NotifiableUpdateFactory<TRelationType> {
 
-  private final UserFactory<ID, TUser> userFactory;
+  private final UserFactory<ID> userFactory;
   private final RelationTypeFactory<TRelationType> relationTypeFactory;
   private final NetworkProperties networkProperties;
   private final IdFactory<ID> idFactory;
 
   @Data
-  protected abstract class NotifiableUpdateBase implements NotifiableUpdate<TUser, TRelationType> {
+  protected abstract class NotifiableUpdateBase implements NotifiableUpdate<TRelationType> {
     private final String network = networkProperties.getNetwork();
     private final Integer id;
-    private final TUser target;
-    private final TUser suspected;
+    private final User<?> target;
+    private final User<?> suspected;
     private final TRelationType was;
     private final TRelationType now;
     private final LocalDateTime time;

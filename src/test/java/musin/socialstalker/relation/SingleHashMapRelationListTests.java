@@ -60,7 +60,7 @@ public class SingleHashMapRelationListTests implements EmptyRelationListTests<Te
         new TestUpdate("user4", "follower", null),
         new TestUpdate("user5", null, "nobody")
     };
-    List<TestUpdate> updates = list1.updates(list2).collect(toList());
+    List<Update<TestRelationType>> updates = list1.updates(list2).collect(toList());
     assertThat(updates, containsInAnyOrder(expected));
   }
 
@@ -83,7 +83,7 @@ public class SingleHashMapRelationListTests implements EmptyRelationListTests<Te
   void return_correct_updates_on_empty_list_when_has_elements() {
     TestSingleHashMapRelationList a = createList(someRelations());
     TestSingleHashMapRelationList b = createList();
-    List<TestUpdate> result = a.updates(b).collect(toList());
+    List<Update<TestRelationType>> result = a.updates(b).collect(toList());
     TestUpdate[] expected = someRelations().stream()
         .map(TestRelation::asRemove)
         .toArray(TestUpdate[]::new);

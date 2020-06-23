@@ -5,7 +5,7 @@ import musin.socialstalker.relation.list.SingleHashMapRelationList;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VkRelationListFactory implements RelationListFactory<VkRelationList> {
+public class VkRelationListFactory implements RelationListFactory<VkRelationType> {
 
   @Override
   public VkRelationList create() {
@@ -13,7 +13,7 @@ public class VkRelationListFactory implements RelationListFactory<VkRelationList
   }
 
   private static class VkRelationListImpl
-      extends SingleHashMapRelationList<VkUser, VkRelationType>
+      extends SingleHashMapRelationList<VkRelationType>
       implements VkRelationList {
   }
 }

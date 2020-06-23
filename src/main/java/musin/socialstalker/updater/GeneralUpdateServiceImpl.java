@@ -10,7 +10,6 @@ import musin.socialstalker.db.repository.RelationUpdateRepository;
 import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.notifier.NotifiableUpdateFactory;
 import musin.socialstalker.relation.Update;
-import musin.socialstalker.relation.User;
 import musin.socialstalker.relation.list.RelationList;
 import musin.socialstalker.relation.list.RelationListFactory;
 
@@ -25,24 +24,17 @@ import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Log4j2
-public class GeneralUpdateServiceImpl<
-    ID,
-    TUser extends User<ID>,
-    TRelationType,
-    TUpdate extends Update<TUser, TRelationType>,
-    TRelationList extends RelationList<TUser, TRelationType>,
-    TNotifiableUpdate extends NotifiableUpdate<TUser, TRelationType>>
-    implements GeneralUpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate> {
+public class GeneralUpdateServiceImpl<ID, TRelationType> implements GeneralUpdateService<ID, TRelationType> {
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;
-  private final NotifiableUpdateFactory<TUser, TRelationType, TNotifiableUpdate> notifiableUpdateFactory;
+  private final NotifiableUpdateFactory<TRelationType> notifiableUpdateFactory;
   private final NetworkProperties networkProperties;
-  private final RelationListFactory<TRelationList> relationListFactory;
+  private final RelationListFactory<TRelationType> relationListFactory;
 
   @Override
   @Transactional
-  public List<TNotifiableUpdate> saveAll(Stalker stalker, List<? extends TUpdate> updates, ID target) {
+  public List<NotifiableUpdate<TRelationType>> saveAll(Stalker stalker, List<Update<TRelationType>> updates, ID target) {
     if (updates.isEmpty()) return emptyList();
     if (monitoringRepository.existsByStalkerAndNetworkAndTarget(stalker, networkProperties.getNetwork(), target.toString())) {
       List<RelationUpdate> relationUpdates = updates.stream()
@@ -60,7 +52,7 @@ public class GeneralUpdateServiceImpl<
     }
   }
 
-  private RelationUpdate updateToRelationUpdate(Stalker stalker, TUpdate update, ID target) {
+  private RelationUpdate updateToRelationUpdate(Stalker stalker, Update<?> update, ID target) {
     return RelationUpdate.builder()
         .stalker(stalker)
         .network(networkProperties.getNetwork())
@@ -80,14 +72,14 @@ public class GeneralUpdateServiceImpl<
 
   @Override
   @Transactional
-  public CompletableFuture<TRelationList> buildList(Stalker stalker, ID target) {
+  public CompletableFuture<RelationList<TRelationType>> buildList(Stalker stalker, ID target) {
     return relationUpdateRepository.findAllByStalkerAndNetworkAndTargetOrderById(stalker, networkProperties.getNetwork(), target.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);
   }
 
-  private TRelationList createList(Stream<? extends Update<? extends TUser, ? extends TRelationType>> updates) {
-    TRelationList list = relationListFactory.create();
+  private RelationList<TRelationType> createList(Stream<NotifiableUpdate<TRelationType>> updates) {
+    RelationList<TRelationType> list = relationListFactory.create();
     updates.forEach(list::apply);
     return list;
   }

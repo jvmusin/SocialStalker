@@ -2,18 +2,19 @@ package musin.socialstalker.vk.relation;
 
 import lombok.Data;
 import musin.socialstalker.relation.RelationFactory;
+import musin.socialstalker.relation.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VkRelationFactory implements RelationFactory<VkUser, VkRelationType, VkRelation> {
+public class VkRelationFactory implements RelationFactory<VkRelationType> {
   @Override
-  public VkRelation create(VkUser user, VkRelationType type) {
+  public VkRelation create(User<?> user, VkRelationType type) {
     return new VkRelationImpl(user, type);
   }
 
   @Data
   private static class VkRelationImpl implements VkRelation {
-    private final VkUser user;
+    private final User<?> user;
     private final VkRelationType type;
   }
 }

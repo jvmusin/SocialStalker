@@ -1,7 +1,7 @@
 package musin.socialstalker.relation;
 
-public interface Relation<TUser, TRelationType> {
-  TUser getUser();
+public interface Relation<TRelationType> {
+  User<?> getUser();
 
   TRelationType getType();
 }

@@ -5,7 +5,7 @@ import musin.socialstalker.relation.list.RelationListFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InstagramRelationListFactory implements RelationListFactory<InstagramRelationList> {
+public class InstagramRelationListFactory implements RelationListFactory<InstagramRelationType> {
 
   @Override
   public InstagramRelationList create() {
@@ -13,7 +13,7 @@ public class InstagramRelationListFactory implements RelationListFactory<Instagr
   }
 
   private static class InstagramRelationListImpl
-      extends MultiHashMapRelationList<InstagramUser, InstagramRelationType>
+      extends MultiHashMapRelationList<InstagramRelationType>
       implements InstagramRelationList {
   }
 }
