@@ -6,7 +6,6 @@ import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.notifier.UpdateNotifier;
 import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.UpdateFactory;
-import musin.socialstalker.relation.User;
 import musin.socialstalker.relation.list.RelationList;
 import org.apache.logging.log4j.Level;
 import org.springframework.core.task.TaskExecutor;
@@ -20,7 +19,6 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class UpdaterImpl<
     ID,
-    TUser extends User<ID>,
     TRelationType,
     TUpdate extends Update<TRelationType>,
     TRelationList extends RelationList<TRelationType>,
@@ -28,9 +26,9 @@ public class UpdaterImpl<
     implements Updater {
 
   private final MonitoringService<ID> monitoringService;
-  private final UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate, TRelationType> updateService;
+  private final UpdateService<ID, TNotifiableUpdate, TRelationType> updateService;
   private final RelationListPuller<ID, TRelationType> relationListPuller;
-  private final List<? extends UpdateNotifier<? super TNotifiableUpdate>> notifiers;
+  private final List<? extends UpdateNotifier<TUpdate, TRelationType>> notifiers;
   private final TaskExecutor taskExecutor;
   private final UpdateFactory<TRelationType, Update<TRelationType>> updateFactory;
 

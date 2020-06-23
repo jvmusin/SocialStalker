@@ -18,10 +18,10 @@ import org.springframework.stereotype.Component;
 public class InstagramUpdateServiceFactory
     implements UpdateServiceFactory<InstagramID, InstagramUpdate, InstagramRelationList, InstagramNotifiableUpdate, InstagramRelationType> {
 
-  private final GeneralUpdateService<InstagramID, InstagramRelationList, InstagramNotifiableUpdate, InstagramRelationType> generalUpdateService;
+  private final GeneralUpdateService<InstagramID, InstagramNotifiableUpdate, InstagramRelationType> generalUpdateService;
 
   @Override
-  public UpdateService<InstagramID, InstagramUpdate, InstagramRelationList, InstagramNotifiableUpdate, InstagramRelationType> create(Stalker stalker) {
+  public UpdateService<InstagramID, InstagramNotifiableUpdate, InstagramRelationType> create(Stalker stalker) {
     return new UpdateServiceImpl<>(stalker, generalUpdateService);
   }
 }

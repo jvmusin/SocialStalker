@@ -12,5 +12,5 @@ public interface UpdateServiceFactory<
     TNotifiableUpdate extends NotifiableUpdate<?>,
     TRelationType> {
 
-  UpdateService<ID, TUpdate, TRelationList, TNotifiableUpdate, TRelationType> create(Stalker stalker);
+  UpdateService<ID, TNotifiableUpdate, TRelationType> create(Stalker stalker);
 }

@@ -29,7 +29,7 @@ public class GeneralUpdateServiceImpl<
     TRelationType,
     TRelationList extends RelationList<TRelationType>,
     TNotifiableUpdate extends NotifiableUpdate<TRelationType>>
-    implements GeneralUpdateService<ID, TRelationList, TNotifiableUpdate, TRelationType> {
+    implements GeneralUpdateService<ID, TNotifiableUpdate, TRelationType> {
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;
@@ -39,7 +39,7 @@ public class GeneralUpdateServiceImpl<
 
   @Override
   @Transactional
-  public List<TNotifiableUpdate> saveAll(Stalker stalker, List<? extends Update<?>> updates, ID target) {
+  public List<NotifiableUpdate<TRelationType>> saveAll(Stalker stalker, List<? extends Update<?>> updates, ID target) {
     if (updates.isEmpty()) return emptyList();
     if (monitoringRepository.existsByStalkerAndNetworkAndTarget(stalker, networkProperties.getNetwork(), target.toString())) {
       List<RelationUpdate> relationUpdates = updates.stream()

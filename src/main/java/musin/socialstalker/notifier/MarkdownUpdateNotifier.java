@@ -7,31 +7,31 @@ import java.util.List;
 import java.util.StringJoiner;
 
 @RequiredArgsConstructor
-public class MarkdownUpdateNotifier<TUpdate extends NotifiableUpdate<?>>
-    implements UpdateNotifier<TUpdate> {
+public class MarkdownUpdateNotifier<TUpdate extends NotifiableUpdate<?>, TRelationType>
+    implements UpdateNotifier<TUpdate, TRelationType> {
 
   private final MessageSender sender;
 
   @Override
-  public void notify(TUpdate update) {
+  public void notify(NotifiableUpdate<TRelationType> update) {
     sender.sendMessage(update.toMultilineMarkdownString());
   }
 
   @Override
-  public void notify(List<? extends TUpdate> updates) {
+  public void notify(List<? extends NotifiableUpdate<TRelationType>> updates) {
     if (updates.size() >= getMinSizeForABunchOfChanges()) notifyABunchOfChanges(updates);
     else updates.forEach(this::notify);
   }
 
-  private void notifyABunchOfChanges(List<? extends TUpdate> updates) {
+  private void notifyABunchOfChanges(List<? extends NotifiableUpdate<TRelationType>> updates) {
     sender.sendMessage(buildMessageForABunchOfUpdates(updates));
   }
 
-  private String buildMessageForABunchOfUpdates(List<? extends TUpdate> updates) {
+  private String buildMessageForABunchOfUpdates(List<? extends NotifiableUpdate<TRelationType>> updates) {
     IntSummaryStatistics idStats = updates.stream()
         .mapToInt(NotifiableUpdate::getId)
         .summaryStatistics();
-    TUpdate someUpdate = updates.get(0);
+    NotifiableUpdate<TRelationType> someUpdate = updates.get(0);
     StringJoiner sj = new StringJoiner("\n");
     sj.add(String.format("Too many updates (%d) for user %s", updates.size(), someUpdate.getTarget()));
     sj.add(String.format("Network: %s", someUpdate.getNetwork()));

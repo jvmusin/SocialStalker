@@ -15,10 +15,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Stream.empty;
 
 @RequiredArgsConstructor
-public abstract class RelationListPullerBase<
-    ID,
-    TRelationType,
-    TRelationList extends RelationList<TRelationType>>
+public abstract class RelationListPullerBase<ID, TRelationType>
     implements RelationListPuller<ID, TRelationType> {
 
   private final RelationListFactory<? extends RelationList<TRelationType>> relationListFactory;

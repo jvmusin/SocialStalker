@@ -7,7 +7,6 @@ import musin.socialstalker.instagram.config.InstagramNetworkProperties;
 import musin.socialstalker.instagram.notifier.InstagramNotifiableUpdate;
 import musin.socialstalker.instagram.relation.InstagramRelationList;
 import musin.socialstalker.instagram.relation.InstagramRelationType;
-import musin.socialstalker.instagram.relation.InstagramUpdate;
 import musin.socialstalker.relation.Update;
 import musin.socialstalker.relation.UpdateFactory;
 import musin.socialstalker.updater.GeneralMonitoringServiceImpl;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Component;
 public class InstagramGeneralMonitoringService extends GeneralMonitoringServiceImpl<
     InstagramID,
     InstagramRelationType,
-    InstagramUpdate,
     InstagramRelationList,
     InstagramNotifiableUpdate> {
 
@@ -28,7 +26,7 @@ public class InstagramGeneralMonitoringService extends GeneralMonitoringServiceI
       InstagramNetworkProperties properties,
       IdFactory<InstagramID> idFactory,
       RelationListPuller<InstagramID, InstagramRelationType> relationListPuller,
-      GeneralUpdateService<InstagramID, InstagramRelationList, InstagramNotifiableUpdate, InstagramRelationType> updateService,
+      GeneralUpdateService<InstagramID, InstagramNotifiableUpdate, InstagramRelationType> updateService,
       UpdateFactory<InstagramRelationType, Update<InstagramRelationType>> updateFactory) {
     super(monitoringRepository, properties, idFactory, relationListPuller, updateService, updateFactory);
   }

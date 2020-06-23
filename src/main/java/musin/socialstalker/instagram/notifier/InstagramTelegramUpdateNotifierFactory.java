@@ -2,6 +2,7 @@ package musin.socialstalker.instagram.notifier;
 
 import lombok.RequiredArgsConstructor;
 import musin.socialstalker.db.model.Stalker;
+import musin.socialstalker.instagram.relation.InstagramRelationType;
 import musin.socialstalker.notifier.UpdateNotifier;
 import musin.socialstalker.notifier.UpdateNotifierFactory;
 import musin.socialstalker.telegram.notifier.TelegramUpdateNotifierFactory;
@@ -9,11 +10,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class InstagramTelegramUpdateNotifierFactory implements UpdateNotifierFactory<InstagramNotifiableUpdate> {
-  private final TelegramUpdateNotifierFactory<InstagramNotifiableUpdate> updateNotifierFactory;
+public class InstagramTelegramUpdateNotifierFactory implements UpdateNotifierFactory<InstagramNotifiableUpdate, InstagramRelationType> {
+  private final TelegramUpdateNotifierFactory<InstagramNotifiableUpdate, InstagramRelationType> updateNotifierFactory;
 
   @Override
-  public UpdateNotifier<InstagramNotifiableUpdate> create(Stalker stalker) {
+  public UpdateNotifier<InstagramNotifiableUpdate, InstagramRelationType> create(Stalker stalker) {
     return updateNotifierFactory.create(stalker);
   }
 }

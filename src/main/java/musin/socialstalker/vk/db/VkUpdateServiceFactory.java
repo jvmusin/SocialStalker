@@ -20,7 +20,7 @@ public class VkUpdateServiceFactory
   private final VkGeneralUpdateService generalUpdateService;
 
   @Override
-  public UpdateService<VkID, VkUpdate, VkRelationList, VkNotifiableUpdate, VkRelationType> create(Stalker stalker) {
+  public UpdateService<VkID, VkNotifiableUpdate, VkRelationType> create(Stalker stalker) {
     return new UpdateServiceImpl<>(stalker, generalUpdateService);
   }
 }

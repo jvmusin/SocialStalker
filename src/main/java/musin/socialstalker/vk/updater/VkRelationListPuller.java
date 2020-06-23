@@ -13,8 +13,8 @@ import static musin.socialstalker.vk.relation.VkRelationType.FRIEND;
 @Component
 public class VkRelationListPuller extends RelationListPullerBase<
     VkID,
-    VkRelationType,
-    VkRelationList> {
+    VkRelationType
+    > {
   public VkRelationListPuller(RelationListFactory<VkRelationList> relationListFactory,
                               VkUpdateFactory updateFactory,
                               VkRelationFactory relationFactory,

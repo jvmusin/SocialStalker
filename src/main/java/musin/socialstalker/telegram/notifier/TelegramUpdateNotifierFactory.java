@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class TelegramUpdateNotifierFactory<TNotifiableUpdate extends NotifiableUpdate<?>>
-    implements UpdateNotifierFactory<TNotifiableUpdate> {
+public class TelegramUpdateNotifierFactory<TNotifiableUpdate extends NotifiableUpdate<?>, TRelationType>
+    implements UpdateNotifierFactory<TNotifiableUpdate, TRelationType> {
 
   private final TelegramMessageSenderFactory messageSenderFactory;
 
   @Override
-  public UpdateNotifier<TNotifiableUpdate> create(Stalker stalker) {
+  public UpdateNotifier<TNotifiableUpdate, TRelationType> create(Stalker stalker) {
     return new MarkdownUpdateNotifier<>(messageSenderFactory.create(stalker));
   }
 }
