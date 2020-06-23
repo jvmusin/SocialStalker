@@ -12,13 +12,13 @@ public interface RelationList<TRelationType> {
   /**
    * @return all users in this list
    */
-  Stream<? extends User<?>> users();
+  Stream<User<?>> users();
 
   /**
    * @param user a user to get relations for
    * @return all relation types, associated with a given user
    */
-  Set<? extends TRelationType> getAllRelationTypes(User<?> user);
+  Set<TRelationType> getAllRelationTypes(User<?> user);
 
   /**
    * Returns a single relation for a given user.
@@ -34,18 +34,18 @@ public interface RelationList<TRelationType> {
   /**
    * @param update an update to apply
    */
-  void apply(Update<? extends TRelationType> update);
+  void apply(Update<TRelationType> update);
 
   /**
    * @param newer         a newer list to build updates
    * @param updateFactory a factory to create updates with
    * @return updates between this and newer list
    */
-  Stream<? extends Update<? extends TRelationType>> updates(
-      RelationList<? extends TRelationType> newer,
+  Stream<Update<TRelationType>> updates(
+      RelationList<TRelationType> newer,
       UpdateFactory<TRelationType> updateFactory);
 
-  default Stream<? extends Update<? extends TRelationType>> asUpdates(
+  default Stream<Update<TRelationType>> asUpdates(
       UpdateFactory<TRelationType> updateFactory) {
     return users().flatMap(u -> getAllRelationTypes(u).stream().map(t -> updateFactory.creating(u, t)));
   }

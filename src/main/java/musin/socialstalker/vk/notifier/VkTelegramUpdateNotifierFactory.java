@@ -14,7 +14,7 @@ public class VkTelegramUpdateNotifierFactory implements UpdateNotifierFactory<Vk
   private final TelegramUpdateNotifierFactory<VkRelationType> updateNotifierFactory;
 
   @Override
-  public UpdateNotifier<? super VkRelationType> create(Stalker stalker) {
+  public UpdateNotifier<VkRelationType> create(Stalker stalker) {
     return updateNotifierFactory.create(stalker);
   }
 }

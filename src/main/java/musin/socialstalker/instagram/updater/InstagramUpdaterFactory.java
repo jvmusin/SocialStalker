@@ -43,7 +43,7 @@ public class InstagramUpdaterFactory implements UpdaterFactory {
 
   @Override
   public Updater create(Stalker stalker) {
-    List<UpdateNotifier<? super InstagramRelationType>> notifiers = notifierFactories.stream()
+    List<UpdateNotifier<InstagramRelationType>> notifiers = notifierFactories.stream()
         .map(f -> f.create(stalker))
         .collect(toList());
     notifiers.add(getAdminMessageSender(stalker));

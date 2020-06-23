@@ -12,7 +12,7 @@ import static java.util.stream.Stream.concat;
 public abstract class MultiHashMapRelationList<TRelationType> extends HashMapRelationList<TRelationType> {
 
   @Override
-  public void apply(Update<? extends TRelationType> update) {
+  public void apply(Update<TRelationType> update) {
     validateUpdate(update);
 
     if ((update.getWas() == null) == (update.getNow() == null))
@@ -33,9 +33,8 @@ public abstract class MultiHashMapRelationList<TRelationType> extends HashMapRel
   }
 
   @Override
-  public Stream<? extends Update<? extends TRelationType>> updates(
-      RelationList<? extends TRelationType> newer,
-      UpdateFactory<TRelationType> updateFactory) {
+  public Stream<Update<TRelationType>> updates(RelationList<TRelationType> newer,
+                                               UpdateFactory<TRelationType> updateFactory) {
     return concat(users(), newer.users()).distinct().flatMap(user -> {
       var curTypes = getAllRelationTypes(user);
       var newerTypes = newer.getAllRelationTypes(user);

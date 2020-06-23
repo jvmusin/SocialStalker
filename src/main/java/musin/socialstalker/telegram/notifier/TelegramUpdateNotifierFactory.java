@@ -16,7 +16,7 @@ public class TelegramUpdateNotifierFactory<TRelationType> implements UpdateNotif
   private final TelegramMessageSenderFactory messageSenderFactory;
 
   @Override
-  public UpdateNotifier<? super TRelationType> create(Stalker stalker) {
+  public UpdateNotifier<TRelationType> create(Stalker stalker) {
     return new MarkdownUpdateNotifier<>(messageSenderFactory.create(stalker));
   }
 }

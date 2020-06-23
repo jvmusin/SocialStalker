@@ -14,7 +14,7 @@ public class InstagramTelegramUpdateNotifierFactory implements UpdateNotifierFac
   private final TelegramUpdateNotifierFactory<InstagramRelationType> updateNotifierFactory;
 
   @Override
-  public UpdateNotifier<? super InstagramRelationType> create(Stalker stalker) {
+  public UpdateNotifier<InstagramRelationType> create(Stalker stalker) {
     return updateNotifierFactory.create(stalker);
   }
 }

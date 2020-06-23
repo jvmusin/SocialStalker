@@ -43,7 +43,7 @@ public class VkUpdaterFactory implements UpdaterFactory {
 
   @Override
   public Updater create(Stalker stalker) {
-    List<UpdateNotifier<? super VkRelationType>> notifiers = notifierFactories.stream()
+    List<UpdateNotifier<VkRelationType>> notifiers = notifierFactories.stream()
         .map(f -> f.create(stalker))
         .collect(toList());
     notifiers.add(getAdminNotifier(stalker));

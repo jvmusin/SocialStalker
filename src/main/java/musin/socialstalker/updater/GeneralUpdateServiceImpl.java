@@ -28,13 +28,13 @@ public class GeneralUpdateServiceImpl<ID, TRelationType> implements GeneralUpdat
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;
-  private final NotifiableUpdateFactory<? extends TRelationType> notifiableUpdateFactory;
+  private final NotifiableUpdateFactory<TRelationType> notifiableUpdateFactory;
   private final NetworkProperties networkProperties;
   private final RelationListFactory<TRelationType> relationListFactory;
 
   @Override
   @Transactional
-  public List<? extends NotifiableUpdate<? extends TRelationType>> saveAll(Stalker stalker, List<? extends Update<?>> updates, ID target) {
+  public List<NotifiableUpdate<TRelationType>> saveAll(Stalker stalker, List<Update<TRelationType>> updates, ID target) {
     if (updates.isEmpty()) return emptyList();
     if (monitoringRepository.existsByStalkerAndNetworkAndTarget(stalker, networkProperties.getNetwork(), target.toString())) {
       List<RelationUpdate> relationUpdates = updates.stream()
@@ -72,13 +72,13 @@ public class GeneralUpdateServiceImpl<ID, TRelationType> implements GeneralUpdat
 
   @Override
   @Transactional
-  public CompletableFuture<? extends RelationList<TRelationType>> buildList(Stalker stalker, ID target) {
+  public CompletableFuture<RelationList<TRelationType>> buildList(Stalker stalker, ID target) {
     return relationUpdateRepository.findAllByStalkerAndNetworkAndTargetOrderById(stalker, networkProperties.getNetwork(), target.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);
   }
 
-  private RelationList<TRelationType> createList(Stream<? extends Update<? extends TRelationType>> updates) {
+  private RelationList<TRelationType> createList(Stream<NotifiableUpdate<TRelationType>> updates) {
     RelationList<TRelationType> list = relationListFactory.create();
     updates.forEach(list::apply);
     return list;

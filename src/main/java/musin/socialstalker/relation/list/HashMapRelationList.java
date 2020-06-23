@@ -18,16 +18,16 @@ public abstract class HashMapRelationList<TRelationType> implements RelationList
   protected final Map<User<?>, Set<TRelationType>> userRelations = new HashMap<>();
 
   @Override
-  public Stream<? extends User<?>> users() {
+  public Stream<User<?>> users() {
     return userRelations.keySet().stream();
   }
 
   @Override
-  public Set<? extends TRelationType> getAllRelationTypes(User<?> user) {
+  public Set<TRelationType> getAllRelationTypes(User<?> user) {
     return userRelations.getOrDefault(user, emptySet());
   }
 
-  protected void validateUpdate(Update<? extends TRelationType> update) {
+  protected void validateUpdate(Update<TRelationType> update) {
     if (update.getSuspected() == null) throw new IllegalArgumentException("Suspected is null: " + update);
     if (Objects.equals(update.getWas(), update.getNow()))
       throw new IllegalArgumentException("Was and now types are same: " + update);

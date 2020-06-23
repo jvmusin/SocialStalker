@@ -13,15 +13,15 @@ import java.util.concurrent.CompletableFuture;
 public class UpdateServiceImpl<ID, TRelationType> implements UpdateService<ID, TRelationType> {
 
   private final Stalker stalker;
-  private final GeneralUpdateService<? super ID, TRelationType> generalUpdateService;
+  private final GeneralUpdateService<ID, TRelationType> generalUpdateService;
 
   @Override
-  public List<? extends NotifiableUpdate<? extends TRelationType>> saveAll(List<? extends Update<?>> updates, ID target) {
+  public List<NotifiableUpdate<TRelationType>> saveAll(List<Update<TRelationType>> updates, ID target) {
     return generalUpdateService.saveAll(stalker, updates, target);
   }
 
   @Override
-  public CompletableFuture<? extends RelationList<TRelationType>> buildList(ID target) {
+  public CompletableFuture<RelationList<TRelationType>> buildList(ID target) {
     return generalUpdateService.buildList(stalker, target);
   }
 }

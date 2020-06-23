@@ -10,9 +10,9 @@ import java.util.concurrent.CompletableFuture;
 
 public interface GeneralUpdateService<ID, TRelationType> {
 
-  List<? extends NotifiableUpdate<? extends TRelationType>> saveAll(Stalker stalker, List<? extends Update<?>> updates, ID target);
+  List<NotifiableUpdate<TRelationType>> saveAll(Stalker stalker, List<Update<TRelationType>> updates, ID target);
 
   void removeAllByTarget(Stalker stalker, ID target);
 
-  CompletableFuture<? extends RelationList<TRelationType>> buildList(Stalker stalker, ID target);
+  CompletableFuture<RelationList<TRelationType>> buildList(Stalker stalker, ID target);
 }

@@ -12,25 +12,25 @@ public class MarkdownUpdateNotifier<TRelationType> implements UpdateNotifier<TRe
   private final MessageSender sender;
 
   @Override
-  public void notify(NotifiableUpdate<? extends TRelationType> update) {
+  public void notify(NotifiableUpdate<TRelationType> update) {
     sender.sendMessage(update.toMultilineMarkdownString());
   }
 
   @Override
-  public void notify(List<? extends NotifiableUpdate<? extends TRelationType>> updates) {
+  public void notify(List<NotifiableUpdate<TRelationType>> updates) {
     if (updates.size() >= getMinSizeForABunchOfChanges()) notifyABunchOfChanges(updates);
     else updates.forEach(this::notify);
   }
 
-  private void notifyABunchOfChanges(List<? extends NotifiableUpdate<? extends TRelationType>> updates) {
+  private void notifyABunchOfChanges(List<NotifiableUpdate<TRelationType>> updates) {
     sender.sendMessage(buildMessageForABunchOfUpdates(updates));
   }
 
-  private String buildMessageForABunchOfUpdates(List<? extends NotifiableUpdate< ? extends TRelationType>> updates) {
+  private String buildMessageForABunchOfUpdates(List<NotifiableUpdate<TRelationType>> updates) {
     IntSummaryStatistics idStats = updates.stream()
         .mapToInt(NotifiableUpdate::getId)
         .summaryStatistics();
-    NotifiableUpdate<? extends TRelationType> someUpdate = updates.get(0);
+    NotifiableUpdate<TRelationType> someUpdate = updates.get(0);
     StringJoiner sj = new StringJoiner("\n");
     sj.add(String.format("Too many updates (%d) for user %s", updates.size(), someUpdate.getTarget()));
     sj.add(String.format("Network: %s", someUpdate.getNetwork()));
