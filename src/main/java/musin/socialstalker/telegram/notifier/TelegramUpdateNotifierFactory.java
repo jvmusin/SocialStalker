@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class TelegramUpdateNotifierFactory implements UpdateNotifierFactory {
-
   private final TelegramMessageSenderFactory messageSenderFactory;
 
   @Override
