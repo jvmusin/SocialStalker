@@ -1,11 +1,11 @@
 package musin.socialstalker.vk.db;
 
 import musin.socialstalker.db.repository.MonitoringRepository;
+import musin.socialstalker.relation.UpdateFactory;
 import musin.socialstalker.updater.GeneralMonitoringServiceImpl;
 import musin.socialstalker.vk.api.VkID;
 import musin.socialstalker.vk.api.VkIdFactory;
 import musin.socialstalker.vk.config.VkNetworkProperties;
-import musin.socialstalker.vk.relation.VkUpdateFactory;
 import musin.socialstalker.vk.updater.VkRelationListPuller;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,14 @@ public class VkGeneralMonitoringService extends GeneralMonitoringServiceImpl<VkI
                                     VkIdFactory idFactory,
                                     VkRelationListPuller relationListPuller,
                                     VkGeneralUpdateService generalUpdateService,
-                                    VkUpdateFactory updateFactory) {
-    super(monitoringRepository, properties, idFactory, relationListPuller, generalUpdateService, updateFactory);
+                                    UpdateFactory updateFactory) {
+    super(
+        monitoringRepository,
+        properties,
+        idFactory,
+        relationListPuller,
+        generalUpdateService,
+        updateFactory
+    );
   }
 }

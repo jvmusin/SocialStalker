@@ -4,8 +4,8 @@ import musin.socialstalker.db.repository.MonitoringRepository;
 import musin.socialstalker.instagram.api.InstagramID;
 import musin.socialstalker.instagram.api.InstagramIdFactory;
 import musin.socialstalker.instagram.config.InstagramNetworkProperties;
-import musin.socialstalker.instagram.relation.InstagramUpdateFactory;
 import musin.socialstalker.instagram.updater.InstagramRelationListPuller;
+import musin.socialstalker.relation.UpdateFactory;
 import musin.socialstalker.updater.GeneralMonitoringServiceImpl;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class InstagramGeneralMonitoringService extends GeneralMonitoringServiceI
       InstagramIdFactory idFactory,
       InstagramRelationListPuller relationListPuller,
       InstagramGeneralUpdateService updateService,
-      InstagramUpdateFactory updateFactory) {
+      UpdateFactory updateFactory) {
     super(monitoringRepository, properties, idFactory, relationListPuller, updateService, updateFactory);
   }
 }

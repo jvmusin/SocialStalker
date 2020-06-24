@@ -11,13 +11,11 @@ import org.brunocvcunha.instagram4j.requests.payload.InstagramLoginResult;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramSelectVerifyMethodResult;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.util.Objects;
 import java.util.Scanner;
 
 @Configuration
-@Profile("instagram")
 public class InstagramConfig {
   // https://github.com/instagram4j/instagram4j/pull/358#issuecomment-552099530
   private static void checkInstagramLoginResult(Instagram4j instagram4j, InstagramLoginResult instagramLoginResult,
