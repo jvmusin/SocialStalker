@@ -25,7 +25,7 @@ import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Log4j2
-public class GeneralUpdateServiceImpl<ID extends Id> implements GeneralUpdateService<ID> {
+public class GeneralUpdateServiceImpl implements GeneralUpdateService {
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;
@@ -35,7 +35,7 @@ public class GeneralUpdateServiceImpl<ID extends Id> implements GeneralUpdateSer
 
   @Override
   @Transactional
-  public List<NotifiableUpdate> saveAll(Stalker stalker, List<Update> updates, ID target) {
+  public List<NotifiableUpdate> saveAll(Stalker stalker, List<Update> updates, Id target) {
     if (updates.isEmpty()) return emptyList();
     if (monitoringRepository.existsByStalkerAndNetworkAndTarget(stalker, networkProperties.getNetwork(), target.toString())) {
       List<RelationUpdate> relationUpdates = updates.stream()
@@ -53,7 +53,7 @@ public class GeneralUpdateServiceImpl<ID extends Id> implements GeneralUpdateSer
     }
   }
 
-  private RelationUpdate updateToRelationUpdate(Stalker stalker, Update update, ID target) {
+  private RelationUpdate updateToRelationUpdate(Stalker stalker, Update update, Id target) {
     return RelationUpdate.builder()
         .stalker(stalker)
         .network(networkProperties.getNetwork())
@@ -67,13 +67,13 @@ public class GeneralUpdateServiceImpl<ID extends Id> implements GeneralUpdateSer
 
   @Override
   @Transactional
-  public void removeAllByTarget(Stalker stalker, ID target) {
+  public void removeAllByTarget(Stalker stalker, Id target) {
     relationUpdateRepository.deleteAllByStalkerAndTarget(stalker, target.toString());
   }
 
   @Override
   @Transactional
-  public CompletableFuture<RelationList> buildList(Stalker stalker, ID target) {
+  public CompletableFuture<RelationList> buildList(Stalker stalker, Id target) {
     return relationUpdateRepository.findAllByStalkerAndNetworkAndTargetOrderById(stalker, networkProperties.getNetwork(), target.toString())
         .thenApply(r -> r.stream().map(notifiableUpdateFactory::create))
         .thenApply(this::createList);

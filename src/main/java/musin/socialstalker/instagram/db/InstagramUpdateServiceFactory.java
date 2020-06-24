@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class InstagramUpdateServiceFactory implements UpdateServiceFactory<InstagramID> {
 
-  private final GeneralUpdateService<InstagramID> generalUpdateService;
+  private final GeneralUpdateService generalUpdateService;
 
   @Override
   public UpdateService<InstagramID> create(Stalker stalker) {

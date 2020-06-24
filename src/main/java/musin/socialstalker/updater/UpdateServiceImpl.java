@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 public class UpdateServiceImpl<ID extends Id> implements UpdateService<ID> {
 
   private final Stalker stalker;
-  private final GeneralUpdateService<ID> generalUpdateService;
+  private final GeneralUpdateService generalUpdateService;
 
   @Override
   public List<NotifiableUpdate> saveAll(List<Update> updates, ID target) {

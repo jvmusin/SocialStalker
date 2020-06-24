@@ -22,7 +22,7 @@ public class GeneralMonitoringServiceImpl<ID extends Id> implements GeneralMonit
   private final NetworkProperties properties;
   private final IdFactory<ID> idFactory;
   private final RelationListPuller<ID> relationListPuller;
-  private final GeneralUpdateService<ID> updateService;
+  private final GeneralUpdateService updateService;
   private final UpdateFactory updateFactory;
 
   @Override
