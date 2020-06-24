@@ -2,6 +2,7 @@ package musin.socialstalker.updater;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import musin.socialstalker.api.Id;
 import musin.socialstalker.config.NetworkProperties;
 import musin.socialstalker.db.model.RelationUpdate;
 import musin.socialstalker.db.model.Stalker;
@@ -24,7 +25,7 @@ import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Log4j2
-public class GeneralUpdateServiceImpl<ID> implements GeneralUpdateService<ID> {
+public class GeneralUpdateServiceImpl<ID extends Id> implements GeneralUpdateService<ID> {
 
   private final MonitoringRepository monitoringRepository;
   private final RelationUpdateRepository relationUpdateRepository;

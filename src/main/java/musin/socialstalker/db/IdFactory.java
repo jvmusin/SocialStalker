@@ -1,11 +1,13 @@
 package musin.socialstalker.db;
 
+import musin.socialstalker.api.Id;
+
 import java.util.Optional;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
-public interface IdFactory<ID> {
+public interface IdFactory<ID extends Id> {
   ID parse(String id);
 
   default Optional<ID> tryParse(String id) {

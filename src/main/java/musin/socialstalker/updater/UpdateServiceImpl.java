@@ -1,6 +1,7 @@
 package musin.socialstalker.updater;
 
 import lombok.RequiredArgsConstructor;
+import musin.socialstalker.api.Id;
 import musin.socialstalker.db.model.Stalker;
 import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.relation.Update;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
-public class UpdateServiceImpl<ID> implements UpdateService<ID> {
+public class UpdateServiceImpl<ID extends Id> implements UpdateService<ID> {
 
   private final Stalker stalker;
   private final GeneralUpdateService<ID> generalUpdateService;

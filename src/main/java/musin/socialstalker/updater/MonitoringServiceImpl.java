@@ -1,12 +1,13 @@
 package musin.socialstalker.updater;
 
 import lombok.RequiredArgsConstructor;
+import musin.socialstalker.api.Id;
 import musin.socialstalker.db.model.Stalker;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class MonitoringServiceImpl<ID> implements MonitoringService<ID> {
+public class MonitoringServiceImpl<ID extends Id> implements MonitoringService<ID> {
 
   private final Stalker stalker;
   private final GeneralMonitoringService<ID> generalMonitoringService;
