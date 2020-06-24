@@ -6,6 +6,7 @@ import musin.socialstalker.instagram.api.InstagramApi;
 import musin.socialstalker.instagram.api.InstagramApiUser;
 import musin.socialstalker.instagram.api.InstagramID;
 import musin.socialstalker.relation.LazyLoadingUser;
+import musin.socialstalker.relation.User;
 import musin.socialstalker.relation.UserFactory;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +18,11 @@ public class InstagramUserFactory implements UserFactory<InstagramID> {
   private final InstagramApi instagramApi;
 
   @Override
-  public InstagramUser create(InstagramID id) {
+  public User create(InstagramID id) {
     return new InstagramUserImpl(id, () -> instagramApi.getUserInfo(id));
   }
 
-  private static class InstagramUserImpl extends LazyLoadingUser<InstagramApiUser> implements InstagramUser {
+  private static class InstagramUserImpl extends LazyLoadingUser<InstagramApiUser> {
     InstagramUserImpl(Id id, Supplier<InstagramApiUser> loadUser) {
       super(id, loadUser);
     }

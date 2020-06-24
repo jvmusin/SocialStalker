@@ -6,6 +6,7 @@ import musin.socialstalker.instagram.api.InstagramIdFactory;
 import musin.socialstalker.instagram.config.InstagramNetworkProperties;
 import musin.socialstalker.instagram.relation.InstagramRelationTypeFactory;
 import musin.socialstalker.instagram.relation.InstagramUserFactory;
+import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.notifier.NotifiableUpdateFactoryBase;
 import org.springframework.stereotype.Component;
 
@@ -20,13 +21,7 @@ public class InstagramNotifiableUpdateFactory extends NotifiableUpdateFactoryBas
   }
 
   @Override
-  public InstagramNotifiableUpdate create(RelationUpdate update) {
-    return new InstagramNotifiableUpdateImpl(update);
-  }
-
-  private class InstagramNotifiableUpdateImpl extends NotifiableUpdateImpl implements InstagramNotifiableUpdate {
-    protected InstagramNotifiableUpdateImpl(RelationUpdate update) {
-      super(update);
-    }
+  public NotifiableUpdate create(RelationUpdate update) {
+    return new NotifiableUpdateImpl(update);
   }
 }

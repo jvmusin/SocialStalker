@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Stream.concat;
 
-public abstract class MultiHashMapRelationList extends HashMapRelationList {
+public class MultiHashMapRelationList extends HashMapRelationList {
 
   @Override
   public void apply(Update update) {
