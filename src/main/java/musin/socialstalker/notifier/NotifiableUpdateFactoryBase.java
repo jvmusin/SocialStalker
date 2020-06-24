@@ -25,8 +25,8 @@ public abstract class NotifiableUpdateFactoryBase<ID extends Id> implements Noti
   protected abstract class NotifiableUpdateBase implements NotifiableUpdate {
     private final String network = networkProperties.getNetwork();
     private final Integer id;
-    private final User<?> target;
-    private final User<?> suspected;
+    private final User target;
+    private final User suspected;
     private final RelationType was;
     private final RelationType now;
     private final LocalDateTime time;

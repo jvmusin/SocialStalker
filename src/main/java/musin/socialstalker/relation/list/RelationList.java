@@ -13,13 +13,13 @@ public interface RelationList {
   /**
    * @return all users in this list
    */
-  Stream<User<?>> users();
+  Stream<User> users();
 
   /**
    * @param user a user to get relations for
    * @return all relation types, associated with a given user
    */
-  Set<RelationType> getAllRelationTypes(User<?> user);
+  Set<RelationType> getAllRelationTypes(User user);
 
   /**
    * Returns a single relation for a given user.
@@ -30,7 +30,7 @@ public interface RelationList {
    * @param user a user to get a relation for
    * @return a single relation, associated with a given user, or null
    */
-  RelationType getRelationType(User<?> user);
+  RelationType getRelationType(User user);
 
   /**
    * @param update an update to apply

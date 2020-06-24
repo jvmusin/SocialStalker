@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class TestRelation implements Relation {
-  private final User<?> user;
+  private final User user;
   private final RelationType type;
 
   TestRelation(String user, String type) {
@@ -12,7 +12,7 @@ public class TestRelation implements Relation {
     this.type = new TestRelationType(type);
   }
 
-  public TestRelation(User<?> user, RelationType type) {
+  public TestRelation(User user, RelationType type) {
     this.user = user;
     this.type = type;
   }

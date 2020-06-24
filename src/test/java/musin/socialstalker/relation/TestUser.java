@@ -3,7 +3,7 @@ package musin.socialstalker.relation;
 import lombok.Data;
 
 @Data
-public class TestUser implements User<TestId> {
+public class TestUser implements User {
   private final TestId id;
   private final String fullyQualifiedName;
 

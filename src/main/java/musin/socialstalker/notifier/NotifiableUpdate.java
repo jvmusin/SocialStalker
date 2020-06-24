@@ -13,7 +13,7 @@ public interface NotifiableUpdate extends Update {
 
   String getNetwork();
 
-  User<?> getTarget();
+  User getTarget();
 
   LocalDateTime getTime();
 

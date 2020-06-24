@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 public class InstagramUpdateFactory implements UpdateFactory {
 
   @Override
-  public Update updating(User<?> user, RelationType was, RelationType now) {
+  public Update updating(User user, RelationType was, RelationType now) {
     return new InstagramUpdateImpl(user, was, now);
   }
 
   @Data
   private static class InstagramUpdateImpl implements InstagramUpdate {
-    private final User<?> suspected;
+    private final User suspected;
     private final RelationType was;
     private final RelationType now;
   }

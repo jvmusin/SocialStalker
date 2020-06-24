@@ -1,7 +1,7 @@
 package musin.socialstalker.relation;
 
 public interface Update {
-  User<?> getSuspected();
+  User getSuspected();
 
   RelationType getWas();
 

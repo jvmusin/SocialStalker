@@ -16,15 +16,15 @@ import static java.util.Collections.emptySet;
 @RequiredArgsConstructor
 public abstract class HashMapRelationList implements RelationList {
 
-  protected final Map<User<?>, Set<RelationType>> userRelations = new HashMap<>();
+  protected final Map<User, Set<RelationType>> userRelations = new HashMap<>();
 
   @Override
-  public Stream<User<?>> users() {
+  public Stream<User> users() {
     return userRelations.keySet().stream();
   }
 
   @Override
-  public Set<RelationType> getAllRelationTypes(User<?> user) {
+  public Set<RelationType> getAllRelationTypes(User user) {
     return userRelations.getOrDefault(user, emptySet());
   }
 
@@ -35,7 +35,7 @@ public abstract class HashMapRelationList implements RelationList {
   }
 
   @Override
-  public RelationType getRelationType(User<?> user) {
+  public RelationType getRelationType(User user) {
     Set<RelationType> types = userRelations.getOrDefault(user, emptySet());
     if (types.isEmpty()) return null;
     if (types.size() == 1) return types.iterator().next();

@@ -37,7 +37,7 @@ public class FindCommand extends TypicalNetworkCommand {
   protected void handleFinish(Session session, Update update, AbsSender sender) {
     Network network = getNetwork(session.getService(), session.getStalker());
     String username = update.getMessage().getText();
-    Optional<User<?>> user = network.searchByUsername(username);
+    Optional<User> user = network.searchByUsername(username);
     session.setDone(true);
 
     String text = user.map(u -> "Found user " + u.getMarkdownLink())

@@ -38,7 +38,7 @@ public class AddCommand extends TypicalNetworkCommand {
   protected void handleFinish(Session session, Update update, AbsSender sender) {
     Network network = getNetwork(session.getService(), session.getStalker());
     String usernameOrId = update.getMessage().getText();
-    Optional<User<?>> user = network.searchByUsernameOrId(usernameOrId);
+    Optional<User> user = network.searchByUsernameOrId(usernameOrId);
     if (user.isPresent()) {
       if (network.addMonitoring(user.get().getId().toString())) {
         sender.execute(new MarkdownSendMessage(

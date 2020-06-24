@@ -5,11 +5,10 @@ import lombok.Getter;
 import musin.socialstalker.api.Id;
 import org.springframework.data.util.Lazy;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 @EqualsAndHashCode(of = "id")
-public abstract class LazyLoadingUser<ID extends Id, TUser> implements User<ID> {
+public abstract class LazyLoadingUser<ID extends Id, TUser> implements User {
   @Getter
   private final ID id;
   private final Lazy<TUser> loadUser;

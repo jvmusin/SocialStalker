@@ -76,7 +76,7 @@ public class DeleteCommand extends TypicalNetworkCommand {
   protected void handleFinish(Session session, Update update, AbsSender sender) {
     Network network = getNetwork(session.getService(), session.getStalker());
     String usernameOrId = update.getMessage().getText().split(":")[0];
-    Optional<User<?>> user = network.searchByUsernameOrId(usernameOrId);
+    Optional<User> user = network.searchByUsernameOrId(usernameOrId);
     if (user.isPresent()) {
       if (network.deleteMonitoring(user.get().getId().toString())) {
         sender.execute(new MarkdownSendMessage(

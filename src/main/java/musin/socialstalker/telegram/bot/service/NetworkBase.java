@@ -21,12 +21,12 @@ public class NetworkBase<ID extends Id> implements Network {
   private final SocialApi<ID> api;
 
   @Override
-  public Optional<User<?>> searchByUsername(String username) {
+  public Optional<User> searchByUsername(String username) {
     return api.searchByUsername(username).map(userFactory::create);
   }
 
   @Override
-  public Optional<User<?>> searchById(String id) {
+  public Optional<User> searchById(String id) {
     return idFactory.tryParse(id)
         .flatMap(api::searchById)
         .map(userFactory::create);
@@ -43,7 +43,7 @@ public class NetworkBase<ID extends Id> implements Network {
   }
 
   @Override
-  public List<User<?>> listTargets() {
+  public List<User> listTargets() {
     return monitoringService.findAllTargets().stream()
         .map(userFactory::create)
         .collect(toList());

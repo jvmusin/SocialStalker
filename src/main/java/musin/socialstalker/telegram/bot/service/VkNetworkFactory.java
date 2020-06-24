@@ -33,7 +33,7 @@ public class VkNetworkFactory implements NetworkFactory {
     }
 
     @Override
-    public Optional<User<?>> searchByUsernameOrId(String usernameOrId) {
+    public Optional<User> searchByUsernameOrId(String usernameOrId) {
       return searchByUsername(usernameOrId);
     }
   }

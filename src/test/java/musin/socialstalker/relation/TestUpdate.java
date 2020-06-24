@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class TestUpdate implements Update {
-  private final User<?> suspected;
+  private final User suspected;
   private final RelationType was;
   private final RelationType now;
 
-  TestUpdate(User<?> suspected, RelationType was, RelationType now) {
+  TestUpdate(User suspected, RelationType was, RelationType now) {
     this.suspected = suspected;
     this.was = was;
     this.now = now;
