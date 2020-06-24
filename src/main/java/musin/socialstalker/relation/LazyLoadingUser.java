@@ -2,19 +2,21 @@ package musin.socialstalker.relation;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import musin.socialstalker.api.Id;
 import org.springframework.data.util.Lazy;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @EqualsAndHashCode(of = "id")
-public abstract class LazyLoadingUser<ID, TUser> implements User<ID> {
+public abstract class LazyLoadingUser<ID extends Id, TUser> implements User<ID> {
   @Getter
   private final ID id;
   private final Lazy<TUser> loadUser;
 
-  public LazyLoadingUser(ID instagramID, Function<ID, TUser> loadUser) {
-    this.id = instagramID;
-    this.loadUser = Lazy.of(() -> loadUser.apply(this.id));
+  public LazyLoadingUser(ID userId, Supplier<TUser> loadUser) {
+    this.id = userId;
+    this.loadUser = Lazy.of(loadUser);
   }
 
   protected TUser user() {

@@ -1,9 +1,10 @@
 package musin.socialstalker.instagram.api;
 
 import lombok.Data;
+import musin.socialstalker.api.Id;
 
 @Data
-public class InstagramID {
+public class InstagramID implements Id {
   private final Long value;
 
   public InstagramID(Long value) {

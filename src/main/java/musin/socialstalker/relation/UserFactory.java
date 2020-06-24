@@ -1,5 +1,7 @@
 package musin.socialstalker.relation;
 
-public interface UserFactory<ID> {
+import musin.socialstalker.api.Id;
+
+public interface UserFactory<ID extends Id> {
   User<ID> create(ID id);
 }

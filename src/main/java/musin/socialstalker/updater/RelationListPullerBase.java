@@ -1,6 +1,7 @@
 package musin.socialstalker.updater;
 
 import lombok.RequiredArgsConstructor;
+import musin.socialstalker.api.Id;
 import musin.socialstalker.relation.*;
 import musin.socialstalker.relation.list.RelationList;
 import musin.socialstalker.relation.list.RelationListFactory;
@@ -15,7 +16,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.stream.Stream.empty;
 
 @RequiredArgsConstructor
-public abstract class RelationListPullerBase<ID> implements RelationListPuller<ID> {
+public abstract class RelationListPullerBase<ID extends Id> implements RelationListPuller<ID> {
 
   private final RelationListFactory relationListFactory;
   private final UpdateFactory updateFactory;

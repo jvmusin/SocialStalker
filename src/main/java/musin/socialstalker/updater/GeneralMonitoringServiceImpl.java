@@ -1,6 +1,7 @@
 package musin.socialstalker.updater;
 
 import lombok.RequiredArgsConstructor;
+import musin.socialstalker.api.Id;
 import musin.socialstalker.config.NetworkProperties;
 import musin.socialstalker.db.IdFactory;
 import musin.socialstalker.db.model.Monitoring;
@@ -15,7 +16,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-public class GeneralMonitoringServiceImpl<ID> implements GeneralMonitoringService<ID> {
+public class GeneralMonitoringServiceImpl<ID extends Id> implements GeneralMonitoringService<ID> {
 
   private final MonitoringRepository monitoringRepository;
   private final NetworkProperties properties;

@@ -1,6 +1,8 @@
 package musin.socialstalker.relation;
 
-public interface User<ID> {
+import musin.socialstalker.api.Id;
+
+public interface User<ID extends Id> {
   ID getId();
 
   //should start with "id:" (ex. "123: name (nickname)")

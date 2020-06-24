@@ -1,6 +1,7 @@
 package musin.socialstalker.telegram.bot.service;
 
 import lombok.RequiredArgsConstructor;
+import musin.socialstalker.api.Id;
 import musin.socialstalker.api.SocialApi;
 import musin.socialstalker.db.IdFactory;
 import musin.socialstalker.relation.User;
@@ -13,7 +14,7 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-public class NetworkBase<ID> implements Network {
+public class NetworkBase<ID extends Id> implements Network {
   private final MonitoringService<ID> monitoringService;
   private final IdFactory<ID> idFactory;
   private final UserFactory<ID> userFactory;

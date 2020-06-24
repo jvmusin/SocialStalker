@@ -2,6 +2,7 @@ package musin.socialstalker.notifier;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import musin.socialstalker.api.Id;
 import musin.socialstalker.config.NetworkProperties;
 import musin.socialstalker.db.IdFactory;
 import musin.socialstalker.db.model.RelationUpdate;
@@ -13,7 +14,7 @@ import musin.socialstalker.relation.UserFactory;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
-public abstract class NotifiableUpdateFactoryBase<ID> implements NotifiableUpdateFactory {
+public abstract class NotifiableUpdateFactoryBase<ID extends Id> implements NotifiableUpdateFactory {
 
   private final UserFactory<ID> userFactory;
   private final RelationTypeFactory relationTypeFactory;

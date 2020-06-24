@@ -9,6 +9,7 @@ import musin.socialstalker.vk.api.VkID;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Component
 @RequiredArgsConstructor
@@ -17,12 +18,12 @@ public class VkUserFactory implements UserFactory<VkID> {
   private final VkApi vkApi;
 
   public VkUser create(VkID id) {
-    return new VkUserImpl(id, uid -> vkApi.getUser(uid).orElseThrow(() -> new RuntimeException("User not found! (should never happen)")));
+    return new VkUserImpl(id, () -> vkApi.getUser(id).orElseThrow(() -> new RuntimeException("User not found! (should never happen)")));
   }
 
   private static class VkUserImpl extends LazyLoadingUser<VkID, VkApiUser> implements VkUser {
-    public VkUserImpl(VkID instagramID, Function<VkID, VkApiUser> loadUser) {
-      super(instagramID, loadUser);
+    public VkUserImpl(VkID id, Supplier<VkApiUser> loadUser) {
+      super(id, loadUser);
     }
 
     @Override

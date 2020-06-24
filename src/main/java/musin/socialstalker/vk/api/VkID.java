@@ -1,9 +1,10 @@
 package musin.socialstalker.vk.api;
 
 import lombok.Data;
+import musin.socialstalker.api.Id;
 
 @Data
-public class VkID {
+public class VkID implements Id {
   private final Integer value;
 
   public VkID(Integer value) {
