@@ -11,18 +11,18 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
-public class UpdateServiceImpl<ID extends Id> implements UpdateService<ID> {
+public class UpdateServiceImpl implements UpdateService {
 
   private final Stalker stalker;
   private final GeneralUpdateService generalUpdateService;
 
   @Override
-  public List<NotifiableUpdate> saveAll(List<Update> updates, ID target) {
+  public List<NotifiableUpdate> saveAll(List<Update> updates, Id target) {
     return generalUpdateService.saveAll(stalker, updates, target);
   }
 
   @Override
-  public CompletableFuture<RelationList> buildList(ID target) {
+  public CompletableFuture<RelationList> buildList(Id target) {
     return generalUpdateService.buildList(stalker, target);
   }
 }

@@ -88,6 +88,6 @@ public class Tebot extends TelegramLongPollingBot {
 
   @Override
   public String getBotUsername() {
-    return "Social Stalker";
+    return "Sostalker";
   }
 }

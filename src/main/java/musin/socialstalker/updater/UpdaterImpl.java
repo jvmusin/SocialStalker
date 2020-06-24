@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toList;
 public class UpdaterImpl<ID extends Id> implements Updater {
 
   private final MonitoringService<ID> monitoringService;
-  private final UpdateService<ID> updateService;
+  private final UpdateService updateService;
   private final RelationListPuller<ID> relationListPuller;
   private final List<UpdateNotifier> notifiers;
   private final TaskExecutor taskExecutor;

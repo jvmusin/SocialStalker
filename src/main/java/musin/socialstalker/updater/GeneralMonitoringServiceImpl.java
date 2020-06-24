@@ -29,7 +29,7 @@ public class GeneralMonitoringServiceImpl<ID extends Id> implements GeneralMonit
   @Transactional
   public List<ID> findAllTargets(Stalker stalker) {
     return monitoringRepository.findAllByStalkerAndNetwork(stalker, properties.getNetwork()).stream()
-        .map(seeker -> idFactory.parse(seeker.getTarget()))
+        .map(monitoring -> idFactory.parse(monitoring.getTarget()))
         .collect(toList());
   }
 

@@ -10,7 +10,6 @@ import org.brunocvcunha.instagram4j.requests.payload.InstagramGetUserFollowersRe
 import org.brunocvcunha.instagram4j.requests.payload.InstagramSearchUsernameResult;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramUser;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramUserSummary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +24,6 @@ import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
 
 @Component
-@Profile("instagram")
 public class InstagramApi implements SocialApi<InstagramID> {
 
   private final Instagram4j instagram;
