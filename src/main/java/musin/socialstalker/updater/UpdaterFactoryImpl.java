@@ -26,25 +26,16 @@ public class UpdaterFactoryImpl<ID extends Id> implements UpdaterFactory {
   private final TaskExecutor taskExecutor;
   private final UpdaterConfig config;
   private final UpdateFactory updateFactory;
-  private final AdminMessageSender adminMessageSender;
-
-  private UpdateNotifier getAdminNotifier(Stalker stalker) {
-    return update -> adminMessageSender.sendMessage(
-        "FOR ADMIN FROM " + stalker + lineSeparator() + update.toMultilineMarkdownString()
-    );
-  }
 
   @Override
   public Updater create(Stalker stalker) {
-    List<UpdateNotifier> notifiers = notifierFactories.stream()
-        .map(f -> f.create(stalker))
-        .collect(toList());
-    notifiers.add(getAdminNotifier(stalker));
     return new UpdaterImpl<>(
         monitoringServiceFactory.create(stalker),
         updateServiceFactory.create(stalker),
         relationListPuller,
-        notifiers,
+        notifierFactories.stream()
+            .map(f -> f.create(stalker))
+            .collect(toList()),
         taskExecutor,
         updateFactory
     );

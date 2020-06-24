@@ -2,7 +2,6 @@ package musin.socialstalker.vk.updater;
 
 import musin.socialstalker.notifier.UpdateNotifierFactory;
 import musin.socialstalker.relation.UpdateFactory;
-import musin.socialstalker.telegram.api.AdminMessageSender;
 import musin.socialstalker.updater.UpdaterFactoryImpl;
 import musin.socialstalker.vk.api.VkID;
 import musin.socialstalker.vk.config.VkConfigurationProperties;
@@ -22,8 +21,7 @@ public class VkUpdaterFactory extends UpdaterFactoryImpl<VkID> {
                           List<UpdateNotifierFactory> notifierFactories,
                           TaskExecutor taskExecutor,
                           VkConfigurationProperties config,
-                          UpdateFactory updateFactory,
-                          AdminMessageSender adminMessageSender) {
+                          UpdateFactory updateFactory) {
     super(
         monitoringServiceFactory,
         updateServiceFactory,
@@ -31,8 +29,7 @@ public class VkUpdaterFactory extends UpdaterFactoryImpl<VkID> {
         notifierFactories,
         taskExecutor,
         config,
-        updateFactory,
-        adminMessageSender
+        updateFactory
     );
   }
 }

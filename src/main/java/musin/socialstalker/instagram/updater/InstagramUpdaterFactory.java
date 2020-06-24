@@ -6,7 +6,6 @@ import musin.socialstalker.instagram.db.InstagramMonitoringServiceFactory;
 import musin.socialstalker.instagram.db.InstagramUpdateServiceFactory;
 import musin.socialstalker.notifier.UpdateNotifierFactory;
 import musin.socialstalker.relation.UpdateFactory;
-import musin.socialstalker.telegram.api.AdminMessageSender;
 import musin.socialstalker.updater.UpdaterFactoryImpl;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
@@ -22,8 +21,7 @@ public class InstagramUpdaterFactory extends UpdaterFactoryImpl<InstagramID> {
       List<UpdateNotifierFactory> notifierFactories,
       TaskExecutor taskExecutor,
       InstagramConfigurationProperties config,
-      UpdateFactory updateFactory,
-      AdminMessageSender adminMessageSender) {
+      UpdateFactory updateFactory) {
     super(
         monitoringServiceFactory,
         updateServiceFactory,
@@ -31,8 +29,7 @@ public class InstagramUpdaterFactory extends UpdaterFactoryImpl<InstagramID> {
         notifierFactories,
         taskExecutor,
         config,
-        updateFactory,
-        adminMessageSender
+        updateFactory
     );
   }
 }
