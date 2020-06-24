@@ -22,7 +22,7 @@ public abstract class NotifiableUpdateFactoryBase<ID extends Id> implements Noti
   private final IdFactory<ID> idFactory;
 
   @Data
-  protected abstract class NotifiableUpdateBase implements NotifiableUpdate {
+  protected class NotifiableUpdateImpl implements NotifiableUpdate {
     private final String network = networkProperties.getNetwork();
     private final Integer id;
     private final User target;
@@ -31,7 +31,7 @@ public abstract class NotifiableUpdateFactoryBase<ID extends Id> implements Noti
     private final RelationType now;
     private final LocalDateTime time;
 
-    protected NotifiableUpdateBase(RelationUpdate update) {
+    public NotifiableUpdateImpl(RelationUpdate update) {
       id = update.getId();
       target = userFactory.create(idFactory.parse(update.getTarget()));
       suspected = userFactory.create(idFactory.parse(update.getSuspected()));

@@ -1,6 +1,7 @@
 package musin.socialstalker.vk.notifier;
 
 import musin.socialstalker.db.model.RelationUpdate;
+import musin.socialstalker.notifier.NotifiableUpdate;
 import musin.socialstalker.notifier.NotifiableUpdateFactoryBase;
 import musin.socialstalker.vk.api.VkID;
 import musin.socialstalker.vk.api.VkIdFactory;
@@ -20,13 +21,7 @@ public class VkNotifiableUpdateFactory extends NotifiableUpdateFactoryBase<VkID>
   }
 
   @Override
-  public VkNotifiableUpdate create(RelationUpdate relationUpdate) {
-    return new VkNotifiableUpdateImpl(relationUpdate);
-  }
-
-  private class VkNotifiableUpdateImpl extends NotifiableUpdateBase implements VkNotifiableUpdate {
-    protected VkNotifiableUpdateImpl(RelationUpdate update) {
-      super(update);
-    }
+  public NotifiableUpdate create(RelationUpdate relationUpdate) {
+    return new NotifiableUpdateImpl(relationUpdate);
   }
 }

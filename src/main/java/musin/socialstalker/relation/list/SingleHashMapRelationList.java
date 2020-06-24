@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import static java.util.Collections.singleton;
 import static java.util.stream.Stream.concat;
 
-public abstract class SingleHashMapRelationList extends HashMapRelationList {
+public class SingleHashMapRelationList extends HashMapRelationList {
 
   @Override
   public void apply(Update update) {

@@ -24,7 +24,7 @@ public class InstagramNotifiableUpdateFactory extends NotifiableUpdateFactoryBas
     return new InstagramNotifiableUpdateImpl(update);
   }
 
-  private class InstagramNotifiableUpdateImpl extends NotifiableUpdateBase implements InstagramNotifiableUpdate {
+  private class InstagramNotifiableUpdateImpl extends NotifiableUpdateImpl implements InstagramNotifiableUpdate {
     protected InstagramNotifiableUpdateImpl(RelationUpdate update) {
       super(update);
     }
