@@ -4,3 +4,6 @@ dist: bionic
 jdk: openjdk14
 before_install:
   - chmod +x mvnw
+branches:
+  only:
+    - master
