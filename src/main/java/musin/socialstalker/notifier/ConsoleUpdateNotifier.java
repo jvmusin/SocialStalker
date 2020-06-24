@@ -1,8 +1,8 @@
 package musin.socialstalker.notifier;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
-@Log4j2
+@Slf4j
 public class ConsoleUpdateNotifier extends MarkdownUpdateNotifier {
   public ConsoleUpdateNotifier() {
     super(new ConsoleMessageSender());

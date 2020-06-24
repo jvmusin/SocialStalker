@@ -2,12 +2,11 @@ package musin.socialstalker.telegram.bot;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import musin.socialstalker.db.service.StalkerService;
 import musin.socialstalker.telegram.bot.command.Command;
 import musin.socialstalker.telegram.bot.command.HelpCommand;
 import musin.socialstalker.telegram.config.TelegramConfigurationProperties;
-import org.apache.logging.log4j.Level;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -17,7 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Log4j2
+@Slf4j
 @Component
 public class Tebot extends TelegramLongPollingBot {
 
@@ -70,7 +69,7 @@ public class Tebot extends TelegramLongPollingBot {
 
       handleHelp(update);
     } catch (Exception e) {
-      log.throwing(Level.WARN, e);
+      log.warn("Can't handle a telegram message", e);
       execute(new SendMessage(message.getChatId(), e.getMessage()));
       handleHelp(update);
       if (session != null) sessions.remove(userId);

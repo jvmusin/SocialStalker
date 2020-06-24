@@ -1,7 +1,7 @@
 package musin.socialstalker.updater;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import musin.socialstalker.api.Id;
 import musin.socialstalker.config.NetworkProperties;
 import musin.socialstalker.db.model.RelationUpdate;
@@ -24,7 +24,7 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class GeneralUpdateServiceImpl implements GeneralUpdateService {
 
   private final MonitoringRepository monitoringRepository;

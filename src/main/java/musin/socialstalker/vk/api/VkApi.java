@@ -6,7 +6,7 @@ import com.vk.api.sdk.objects.users.Fields;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import musin.socialstalker.api.SocialApi;
 import org.apache.logging.log4j.Level;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
@@ -25,7 +25,7 @@ import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 
 @Service
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 public class VkApi implements SocialApi<VkID> {
 
@@ -59,7 +59,7 @@ public class VkApi implements SocialApi<VkID> {
       return of(getUsers(singletonList(nicknameOrId)).get(0));
     } catch (Exception e) {
       if (!e.getMessage().contains("Invalid user id"))
-        log.throwing(Level.WARN, e);
+        log.warn("Vk api thrown an exception", e);
       return empty();
     }
   }
@@ -122,7 +122,7 @@ public class VkApi implements SocialApi<VkID> {
     try {
       return getUser(username).map(VkApiUser::getId);
     } catch (Exception e) {
-      log.throwing(Level.WARN, e);
+      log.warn("Vk api thrown an exception when trying to find a user by username " + username, e);
       return empty();
     }
   }

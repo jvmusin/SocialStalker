@@ -2,7 +2,7 @@ package musin.socialstalker.telegram.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 class TelegramMessageSenderImpl implements TelegramMessageSender {
 
@@ -47,13 +47,13 @@ class TelegramMessageSenderImpl implements TelegramMessageSender {
 
     @Override
     public void onError(BotApiMethod<Message> method, TelegramApiRequestException apiException) {
-      log.catching(apiException);
+      log.warn("Error occurred while sending a message " + method, apiException);
       lock.unlock();
     }
 
     @Override
     public void onException(BotApiMethod<Message> method, Exception exception) {
-      log.catching(exception);
+      log.warn("Exception occurred while sending a message " + method, exception);
       lock.unlock();
     }
 
