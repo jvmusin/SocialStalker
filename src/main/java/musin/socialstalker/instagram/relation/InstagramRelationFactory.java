@@ -1,12 +1,8 @@
 package musin.socialstalker.instagram.relation;
 
-import musin.socialstalker.relation.*;
+import musin.socialstalker.relation.RelationFactoryImpl;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InstagramRelationFactory implements RelationFactory {
-  @Override
-  public Relation create(User user, RelationType type) {
-    return new RelationImpl(user, type);
-  }
+public class InstagramRelationFactory extends RelationFactoryImpl {
 }
