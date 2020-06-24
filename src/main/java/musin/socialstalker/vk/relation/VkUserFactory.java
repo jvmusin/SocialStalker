@@ -1,6 +1,7 @@
 package musin.socialstalker.vk.relation;
 
 import lombok.RequiredArgsConstructor;
+import musin.socialstalker.api.Id;
 import musin.socialstalker.relation.LazyLoadingUser;
 import musin.socialstalker.relation.UserFactory;
 import musin.socialstalker.vk.api.VkApi;
@@ -8,7 +9,6 @@ import musin.socialstalker.vk.api.VkApiUser;
 import musin.socialstalker.vk.api.VkID;
 import org.springframework.stereotype.Component;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Component
@@ -21,8 +21,8 @@ public class VkUserFactory implements UserFactory<VkID> {
     return new VkUserImpl(id, () -> vkApi.getUser(id).orElseThrow(() -> new RuntimeException("User not found! (should never happen)")));
   }
 
-  private static class VkUserImpl extends LazyLoadingUser<VkID, VkApiUser> implements VkUser {
-    public VkUserImpl(VkID id, Supplier<VkApiUser> loadUser) {
+  private static class VkUserImpl extends LazyLoadingUser<VkApiUser> implements VkUser {
+    public VkUserImpl(Id id, Supplier<VkApiUser> loadUser) {
       super(id, loadUser);
     }
 

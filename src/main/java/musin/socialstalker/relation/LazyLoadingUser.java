@@ -8,12 +8,12 @@ import org.springframework.data.util.Lazy;
 import java.util.function.Supplier;
 
 @EqualsAndHashCode(of = "id")
-public abstract class LazyLoadingUser<ID extends Id, TUser> implements User {
+public abstract class LazyLoadingUser<TUser> implements User {
   @Getter
-  private final ID id;
+  private final Id id;
   private final Lazy<TUser> loadUser;
 
-  public LazyLoadingUser(ID userId, Supplier<TUser> loadUser) {
+  public LazyLoadingUser(Id userId, Supplier<TUser> loadUser) {
     this.id = userId;
     this.loadUser = Lazy.of(loadUser);
   }
