@@ -83,6 +83,12 @@
             <groupId>com.vk.api</groupId>
             <artifactId>sdk</artifactId>
             <version>1.0.6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j-impl</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Telegram API-->
@@ -113,7 +119,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>log4j-over-slf4j</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
