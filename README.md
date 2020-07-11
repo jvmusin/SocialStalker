@@ -1,1 +1,1 @@
-[![Build Status](https://travis-ci.com/JVMusin/seeker.svg?token=fTvooPss6TZPJ6vbp1r4&branch=master)](https://travis-ci.com/JVMusin/seeker)
+[![Build Status](https://travis-ci.com/jvmusin/stalker.svg?token=fTvooPss6TZPJ6vbp1r4&branch=master)](https://travis-ci.com/jvmusin/stalker)
