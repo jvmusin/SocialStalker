@@ -12,3 +12,4 @@ spring:
     web-application-type: none
 telegram:
   admin-uid: 124275139
+  bot-token: ${TELEGRAM_BOT_TOKEN}

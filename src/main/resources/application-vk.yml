@@ -2,4 +2,3 @@ vk:
   min-delay-between-requests: 1s
   requests-per-second: 3
   user-id: 39666902
-  user-access-token: 'd2faf27962d8e832c96c3ed1e0a67c209790931f4d3d7fc605a3487339045ab3c227ff19b07475dfd1eb2'

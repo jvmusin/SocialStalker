@@ -2,5 +2,3 @@ vk:
   period-between-updates: 30s
 instagram:
   period-between-updates: 1m
-telegram:
-  bot-token: '1070848126:AAEdzPFTXJl00yft__XznHl9xn-4z8BmIWc'
