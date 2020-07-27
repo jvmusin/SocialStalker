@@ -10,8 +10,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.CountDownLatch;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,31 +33,28 @@ class TelegramMessageSenderImpl implements TelegramMessageSender {
   }
 
   private static class SyncSentMessageCallback implements SentCallback<Message> {
-    final Lock lock = new ReentrantLock();
-
-    SyncSentMessageCallback() {
-      lock.lock();
-    }
+    final CountDownLatch latch = new CountDownLatch(1);
 
     @Override
     public void onResult(BotApiMethod<Message> method, Message response) {
-      lock.unlock();
+      latch.countDown();
     }
 
     @Override
     public void onError(BotApiMethod<Message> method, TelegramApiRequestException apiException) {
       log.warn("Error occurred while sending a message " + method, apiException);
-      lock.unlock();
+      latch.countDown();
     }
 
     @Override
     public void onException(BotApiMethod<Message> method, Exception exception) {
       log.warn("Exception occurred while sending a message " + method, exception);
-      lock.unlock();
+      latch.countDown();
     }
 
+    @SneakyThrows
     void waitForSending() {
-      lock.lock();
+      latch.await();
     }
   }
 }
