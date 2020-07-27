@@ -12,7 +12,7 @@
     <artifactId>socialstalker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>The Social Stalker Project</name>
-    <description>The Project helps to stalker for people subscriptions in instagram and vk</description>
+    <description>The Project helps to stalker for people subscriptions in Instagram and VK</description>
 
     <properties>
         <java.version>14</java.version>
