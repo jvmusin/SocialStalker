@@ -5,6 +5,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>core</module>
+        <module>telegram</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -19,6 +20,8 @@
     <description>The Project helps to watch for people subscriptions in Instagram and VK</description>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>14</java.version>
     </properties>
 
@@ -125,13 +128,13 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 
 </project>
