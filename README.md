@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/jvmusin/SocialStalker.svg?branch=master)](https://travis-ci.com/jvmusin/SocialStalker)
-# The Social Stalker Project
+# Social Stalker
 
 ## About
 
