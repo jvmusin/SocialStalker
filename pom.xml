@@ -8,11 +8,11 @@
         <version>2.3.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>musin</groupId>
-    <artifactId>socialstalker</artifactId>
+    <groupId>musin.stalker</groupId>
+    <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>The Social Stalker Project</name>
-    <description>The Project helps to stalker for people subscriptions in Instagram and VK</description>
+    <name>Social Stalker</name>
+    <description>The Project helps to watch for people subscriptions in Instagram and VK</description>
 
     <properties>
         <java.version>14</java.version>
