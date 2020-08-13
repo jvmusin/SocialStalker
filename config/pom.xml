@@ -11,5 +11,11 @@
 
     <artifactId>config</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>musin.stalker</groupId>
+            <artifactId>util</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

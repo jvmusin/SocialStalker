@@ -19,11 +19,6 @@
         </dependency>
         <dependency>
             <groupId>musin.stalker</groupId>
-            <artifactId>core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>musin.stalker</groupId>
             <artifactId>vk</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
