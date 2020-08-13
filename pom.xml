@@ -8,6 +8,7 @@
         <module>telegram</module>
         <module>db</module>
         <module>vk</module>
+        <module>instagram</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
