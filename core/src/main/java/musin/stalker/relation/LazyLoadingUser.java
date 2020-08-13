@@ -2,7 +2,7 @@ package musin.stalker.relation;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import musin.stalker.api.Id;
+import musin.stalker.db.Id;
 import org.springframework.data.util.Lazy;
 
 import java.util.function.Supplier;

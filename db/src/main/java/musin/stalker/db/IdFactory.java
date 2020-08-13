@@ -1,7 +1,5 @@
 package musin.stalker.db;
 
-import musin.stalker.api.Id;
-
 import java.util.Optional;
 
 import static java.util.Optional.empty;

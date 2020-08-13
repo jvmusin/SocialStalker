@@ -2,7 +2,7 @@ package musin.stalker.updater;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import musin.stalker.api.Id;
+import musin.stalker.db.Id;
 import musin.stalker.config.NetworkProperties;
 import musin.stalker.db.model.RelationUpdate;
 import musin.stalker.db.model.Stalker;

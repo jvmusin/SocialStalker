@@ -1,7 +1,7 @@
 package musin.stalker.telegram.bot.service;
 
 import lombok.RequiredArgsConstructor;
-import musin.stalker.api.Id;
+import musin.stalker.db.Id;
 import musin.stalker.api.SocialApi;
 import musin.stalker.db.IdFactory;
 import musin.stalker.relation.User;

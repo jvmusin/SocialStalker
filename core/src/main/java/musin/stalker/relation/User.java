@@ -1,6 +1,6 @@
 package musin.stalker.relation;
 
-import musin.stalker.api.Id;
+import musin.stalker.db.Id;
 
 public interface User {
   Id getId();
