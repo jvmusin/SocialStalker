@@ -29,7 +29,6 @@
 
     <properties>
         <java.version>14</java.version>
-        <kotlin.version>1.4.0-rc</kotlin.version>
     </properties>
 
     <dependencies>
@@ -41,16 +40,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-
-        <!-- Kotlin -->
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
 
         <dependency>
