@@ -6,7 +6,7 @@ import musin.stalker.instagram.api.InstagramApiUser;
 import musin.stalker.instagram.api.InstagramID;
 import musin.stalker.relation.User;
 import musin.stalker.relation.UserFactory;
-import musin.stalker.db.Id;
+import musin.stalker.api.Id;
 import musin.stalker.relation.LazyLoadingUser;
 import org.springframework.stereotype.Component;
 

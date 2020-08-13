@@ -1,6 +1,6 @@
 package musin.stalker.instagram.api;
 
-import musin.stalker.db.IdFactory;
+import musin.stalker.api.IdFactory;
 import org.springframework.stereotype.Component;
 
 @Component

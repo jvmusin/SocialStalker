@@ -1,7 +1,7 @@
 package musin.stalker.instagram.api;
 
 import lombok.Data;
-import musin.stalker.db.Id;
+import musin.stalker.api.Id;
 
 @Data
 public class InstagramID implements Id {

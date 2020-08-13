@@ -9,6 +9,12 @@
         <module>db</module>
         <module>vk</module>
         <module>instagram</module>
+        <module>api</module>
+        <module>config</module>
+        <module>relation</module>
+        <module>util</module>
+        <module>notifier</module>
+        <module>updater</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

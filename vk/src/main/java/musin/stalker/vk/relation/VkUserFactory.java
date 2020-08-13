@@ -7,7 +7,7 @@ import musin.stalker.relation.UserFactory;
 import musin.stalker.vk.api.VkApi;
 import musin.stalker.vk.api.VkApiUser;
 import musin.stalker.vk.api.VkID;
-import musin.stalker.db.Id;
+import musin.stalker.api.Id;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Supplier;

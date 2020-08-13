@@ -1,7 +1,7 @@
 package musin.stalker.vk.api;
 
 import lombok.Data;
-import musin.stalker.db.Id;
+import musin.stalker.api.Id;
 
 @Data
 public class VkID implements Id {
