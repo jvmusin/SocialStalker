@@ -1,15 +1,20 @@
 package musin.socialstalker.instagram.api;
 
+import com.github.instagram4j.instagram4j.IGClient;
+import com.github.instagram4j.instagram4j.actions.users.UserAction;
+import com.github.instagram4j.instagram4j.models.user.Profile;
+import com.github.instagram4j.instagram4j.models.user.User;
+import com.github.instagram4j.instagram4j.requests.IGGetRequest;
+import com.github.instagram4j.instagram4j.requests.IGRequest;
+import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest;
+import com.github.instagram4j.instagram4j.requests.users.UsersInfoRequest;
+import com.github.instagram4j.instagram4j.responses.IGResponse;
+import com.github.instagram4j.instagram4j.responses.feed.FeedUsersResponse;
+import com.github.instagram4j.instagram4j.responses.users.UserResponse;
 import lombok.SneakyThrows;
 import musin.socialstalker.api.SocialApi;
 import musin.socialstalker.util.TimedSemaphore;
 import musin.socialstalker.util.TimedSemaphoreFactory;
-import org.brunocvcunha.instagram4j.Instagram4j;
-import org.brunocvcunha.instagram4j.requests.*;
-import org.brunocvcunha.instagram4j.requests.payload.InstagramGetUserFollowersResult;
-import org.brunocvcunha.instagram4j.requests.payload.InstagramSearchUsernameResult;
-import org.brunocvcunha.instagram4j.requests.payload.InstagramUser;
-import org.brunocvcunha.instagram4j.requests.payload.InstagramUserSummary;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -19,20 +24,21 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 
+import static com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS;
+import static com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWING;
 import static java.util.stream.Collectors.toList;
 
 @Component
 public class InstagramApi implements SocialApi<InstagramID> {
 
-  private final Instagram4j instagram;
+  private final IGClient client;
   private final TimedSemaphore semaphore;
   private final Map<InstagramID, InstagramApiUser> users = new ConcurrentHashMap<>();
   private final AsyncListenableTaskExecutor taskExecutor;
 
-  public InstagramApi(Instagram4j instagram, TimedSemaphoreFactory timedSemaphoreFactory, AsyncListenableTaskExecutor taskExecutor) {
-    this.instagram = instagram;
+  public InstagramApi(IGClient client, TimedSemaphoreFactory timedSemaphoreFactory, AsyncListenableTaskExecutor taskExecutor) {
+    this.client = client;
     this.taskExecutor = taskExecutor;
 
     // make two queries per 10 seconds, probably it will work (nobody knows the real restrictions)
@@ -40,16 +46,16 @@ public class InstagramApi implements SocialApi<InstagramID> {
   }
 
   @SneakyThrows
-  private <T> CompletableFuture<T> makeRequest(InstagramRequest<T> request) {
-    return taskExecutor.submitListenable(() -> semaphore.execute(() -> instagram.sendRequest(request))).completable();
+  private <T extends IGResponse> CompletableFuture<T> makeRequest(IGRequest<T> request) {
+    return taskExecutor.submitListenable(() -> semaphore.execute(() -> client.sendRequest(request).join())).completable();
   }
 
-  private InstagramApiUser mapUser(InstagramUserSummary user) {
-    return new InstagramApiUser(new InstagramID(user.pk), user.username, user.full_name);
+  private InstagramApiUser mapUser(User u) {
+    return new InstagramApiUser(new InstagramID(u.getPk()), u.getUsername(), u.getFull_name());
   }
 
-  private InstagramApiUser mapUser(InstagramUser user) {
-    return new InstagramApiUser(new InstagramID(user.pk), user.username, user.full_name);
+  private InstagramApiUser mapUser(Profile u) {
+    return new InstagramApiUser(new InstagramID(u.getPk()), u.getUsername(), u.getFull_name());
   }
 
   private void saveUser(InstagramApiUser user) {
@@ -57,22 +63,24 @@ public class InstagramApi implements SocialApi<InstagramID> {
   }
 
   public InstagramApiUser getUserInfo(InstagramID userId) {
-    return users.computeIfAbsent(userId, id -> makeRequest(new InstagramGetUserInfoRequest(id.getValue()))
-        .thenApply(InstagramSearchUsernameResult::getUser)
-        .thenApply(this::mapUser)
-        .join());
+    return users.computeIfAbsent(userId, id ->
+        makeRequest(new UsersInfoRequest(id.getValue()))
+            .thenApply(UserResponse::getUser)
+            .thenApply(this::mapUser)
+            .join()
+    );
   }
 
   public CompletableFuture<InstagramApiUser> searchUsername(String username) {
-    return makeRequest(new InstagramSearchUsernameRequest(username))
-        .thenApply(InstagramSearchUsernameResult::getUser)
+    return client.actions().users().findByUsername(username)
+        .thenApply(UserAction::getUser)
         .thenApply(this::mapUser)
         .whenComplete((u, e) -> {
           if (u != null) saveUser(u);
         });
   }
 
-  private List<InstagramID> usersToIds(List<InstagramUserSummary> users) {
+  private List<InstagramID> usersToIds(List<Profile> users) {
     return users.stream()
         .map(this::mapUser)
         .peek(this::saveUser)
@@ -80,22 +88,20 @@ public class InstagramApi implements SocialApi<InstagramID> {
         .collect(toList());
   }
 
-  private CompletableFuture<List<InstagramID>> load(
-      Function<Long, InstagramGetRequest<InstagramGetUserFollowersResult>> query,
-      InstagramID userId) {
-    return makeRequest(query.apply(userId.getValue()))
-        .thenApply(InstagramGetUserFollowersResult::getUsers)
+  private CompletableFuture<List<InstagramID>> load(IGGetRequest<FeedUsersResponse> request) {
+    return makeRequest(request)
+        .thenApply(FeedUsersResponse::getUsers)
         .thenApply(this::usersToIds);
   }
 
   @SneakyThrows
   public CompletableFuture<List<InstagramID>> getFollowers(InstagramID userId) {
-    return load(InstagramGetUserFollowersRequest::new, userId);
+    return load(new FriendshipsFeedsRequest(userId.getValue(), FOLLOWERS));
   }
 
   @SneakyThrows
   public CompletableFuture<List<InstagramID>> getFollowing(InstagramID userId) {
-    return load(InstagramGetUserFollowingRequest::new, userId);
+    return load(new FriendshipsFeedsRequest(userId.getValue(), FOLLOWING));
   }
 
   @Override
